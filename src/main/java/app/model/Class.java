@@ -1,5 +1,6 @@
-package ms.model;
+package app.model;
 
+import app.course.Course;
 import lombok.Data;
 
 @Data

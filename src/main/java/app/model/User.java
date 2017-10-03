@@ -1,4 +1,4 @@
-package ms.model;
+package app.model;
 
 public class User {
   private String username;

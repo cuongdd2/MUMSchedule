@@ -1,5 +1,6 @@
-package ms.model;
+package app.course;
 
+import app.model.Level;
 import java.util.List;
 import lombok.Data;
 

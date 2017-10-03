@@ -1,4 +1,4 @@
-package ms.model;
+package app.model;
 
 import java.time.LocalDate;
 
