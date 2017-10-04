@@ -8,7 +8,7 @@ public @Data class Course {
   private String name;
   private String code;
   private Level level;
-  private String description;
+  private String desc;
   private List<Course> prerequisite;
-
+  private List<Course> fppPre;
 }

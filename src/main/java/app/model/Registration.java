@@ -1,5 +1,6 @@
 package app.model;
 
+import app.student.Student;
 import lombok.Data;
 
 @Data
