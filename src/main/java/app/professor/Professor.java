@@ -2,11 +2,14 @@ package app.professor;
 
 import app.util.Util;
 import app.course.Course;
-import app.model.Block;
+import app.block.Block;
 import java.util.List;
 import lombok.Data;
+import lombok.Getter;
 
-public @Data class Professor {
+@Data @Getter
+public class Professor {
+  private int id;
   final String name;
   private String title;
   final String email;

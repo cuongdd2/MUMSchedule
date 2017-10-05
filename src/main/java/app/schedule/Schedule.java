@@ -1,4 +1,4 @@
-package app.model;
+package app.schedule;
 
 
 public class Schedule {

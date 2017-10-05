@@ -1,14 +1,16 @@
 package app.course;
 
-import app.model.Level;
 import java.util.List;
 import lombok.Data;
+import lombok.Getter;
 
-public @Data class Course {
+@Data @Getter
+public class Course {
+  private int id;
   private String name;
   private String code;
   private Level level;
   private String desc;
+  private int preNo;
   private List<Course> prerequisite;
-  private List<Course> fppPre;
 }

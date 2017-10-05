@@ -2,9 +2,17 @@ package app;
 
 import static spark.Spark.*;
 
+import app.block.BlockController;
+import app.block.BlockDao;
+import app.course.CourseController;
 import app.course.CourseDao;
+import app.entry.EntryController;
+import app.entry.EntryDao;
 import app.professor.ProfController;
 import app.professor.ProfDao;
+import app.student.StudentController;
+import app.student.StudentDao;
+import app.user.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
@@ -14,29 +22,61 @@ public class Application {
   private static Logger log = LoggerFactory.getLogger("cs425");
   public static ProfDao profDao;
   public static CourseDao courseDao;
-
+  public static BlockDao blockDao;
+  public static StudentDao studentDao;
+  public static EntryDao entryDao;
   public static void main(String[] args) {
+
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
     staticFiles.location("/public");
     port(9860);
 
     Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425", "cs425", "mum");
-    profDao = new ProfDao(sql2o);
+    blockDao = new BlockDao(sql2o);
     courseDao = new CourseDao(sql2o);
+    entryDao = new EntryDao(sql2o);
+    profDao = new ProfDao(sql2o);
+    studentDao = new StudentDao(sql2o);
 
     path("/api", () -> {
-      before("/*", (q, a) -> log.info("Received api call" + q.url()));
-      path("/student", () -> {
-        post("/add",        ProfController.add);
-        put("/change",     (request, response) -> {return response;});
-        delete("/remove",  (request, response) -> {return response;});
+      before("/*", (q, a) -> System.out.println("Received api call" + q.url()));
+
+      path("/block", () -> {
+        get("/list", BlockController.list);
+        post("/add", BlockController.add);
+        put("/change", BlockController.change);
+        delete("/remove", BlockController.remove);
+      });
+      path("/course", () -> {
+        get("/list", CourseController.list);
+        post("/add", CourseController.add);
+        put("/change", CourseController.change);
+        delete("/remove", CourseController.remove);
+      });
+      path("/entry", () -> {
+        get("/list", EntryController.list);
+        post("/add", EntryController.add);
+        put("/change", EntryController.change);
+        delete("/remove", EntryController.remove);
       });
       path("/prof", () -> {
-        post("/add",       (request, response) -> {return response;});
-        put("/change",     (request, response) -> {return response;});
-        delete("/remove",  (request, response) -> {return response;});
+        get("/remove", ProfController.list);
+        post("/add", ProfController.add);
+        put("/change", ProfController.change);
+        delete("/remove", ProfController.remove);
+      });
+      path("/student", () -> {
+        get("/list", StudentController.list);
+        post("/add", StudentController.add);
+        put("/change", StudentController.change);
+        delete("/remove", StudentController.remove);
+      });
+      path("/user", () -> {
+        get("/remove", UserController.list);
+        post("/add", UserController.add);
+        put("/change", UserController.change);
+        delete("/remove", UserController.remove);
       });
     });
-    get("/hello", (req, res) -> "Hello World");
   }
 }

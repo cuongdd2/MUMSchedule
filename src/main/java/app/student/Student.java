@@ -1,7 +1,6 @@
 package app.student;
 
-import app.model.Entry;
-import app.model.Track;
+import app.entry.Entry;
 import java.time.LocalDate;
 import lombok.Data;
 

@@ -13,11 +13,18 @@ public class ProfController {
     int id = profDao.createProf(prof);
     return dataToJson(id);
   };
+  public static Route change = (request, response) -> {
+    Professor prof = new Professor(getName(request));
+    int id = profDao.createProf(prof);
+    return dataToJson(id);
+  };
+  public static Route remove = (request, response) -> {
+    Professor prof = new Professor(getName(request));
+    int id = profDao.createProf(prof);
+    return dataToJson(id);
+  };
 
-  public static Route update = (request, response) -> {
-    //TODO update professor info
-
-
+  public static Route list = (request, response) -> {
     return dataToJson(false);
   };
 }

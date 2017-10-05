@@ -1,5 +1,6 @@
-package app.model;
+package app.clazz;
 
+import app.block.Block;
 import app.course.Course;
 import app.professor.Professor;
 import lombok.Data;

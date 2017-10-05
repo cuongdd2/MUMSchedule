@@ -17,3 +17,10 @@
   
 ## Example, tutorial???
   + See https://github.com/tipsy/spark-basic-structure
+  
+## Implementation
+  + Create course first, it depends on itself only
+  + Create entry, block, they based on datetime only
+  + Create professor, them depends on course and block
+  + Create student, they depends on entry, track(FPP, MPP)
+  
