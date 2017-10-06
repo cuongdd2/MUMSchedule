@@ -3,11 +3,13 @@ package app.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
 
 public class RequestUtil {
+
   public static String getName(Request request) {
     return request.queryParams("name");
   }
@@ -29,5 +31,9 @@ public class RequestUtil {
       }
     }
     return data;
+  }
+
+  public static LocalDate parseDate(String str) {
+    return LocalDate.parse(str);
   }
 }

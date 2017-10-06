@@ -3,11 +3,12 @@ package app.block;
 import java.time.LocalDate;
 import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data @Getter
+@Data @Getter @RequiredArgsConstructor
 public class Block {
   private int id;
-  private String name;
-  private LocalDate startDate;
-  private LocalDate endDate;
+  final private String name;
+  final private LocalDate startDate;
+  final private LocalDate endDate;
 }

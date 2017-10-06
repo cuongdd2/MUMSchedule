@@ -11,23 +11,15 @@ import spark.Route;
 public class UserController {
 
   public static Route add = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
   public static Route list = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
   public static Route change = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
   public static Route remove = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
 }

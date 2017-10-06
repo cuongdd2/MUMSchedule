@@ -7,8 +7,8 @@ CREATE TABLE course (
   name   VARCHAR(100) UNIQUE,
   code   VARCHAR(10) UNIQUE,
   `desc` VARCHAR(5000),
-  level  ENUM('400', '500'),
-  no_pre INT
+  level  ENUM('L400', 'L500'),
+  no_pre INT DEFAULT 0
 );
 
 CREATE TABLE course_pre (

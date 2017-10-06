@@ -1,7 +1,6 @@
 package app.entry;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,10 +8,6 @@ import lombok.RequiredArgsConstructor;
 public class Entry {
   private int id;
   final private String name;
-  final private Date startDate;
+  final private LocalDate startDate;
   private int numOfStudent;
-
-  public Timestamp getTimestamp() {
-    return Timestamp.from(startDate.toInstant());
-  }
 }

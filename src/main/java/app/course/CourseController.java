@@ -1,33 +1,29 @@
 package app.course;
 
-import static app.Application.entryDao;
+import static app.Application.courseDao;
 import static app.util.JsonUtil.dataToJson;
-import static app.util.RequestUtil.getName;
-import static app.util.RequestUtil.getStartDate;
+import static app.util.RequestUtil.body;
 
-import app.entry.Entry;
+import java.util.List;
+import java.util.Map;
 import spark.Route;
 
 public class CourseController {
 
   public static Route add = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
+    Map<String, String> data = body(request);
+    Course c = new Course(data.get("name"), data.get("code"), Level.valueOf(data.get("level")));
+    int id = courseDao.create(c);
     return dataToJson(id);
   };
   public static Route list = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    List<Course> courses = courseDao.getAll();
+    return dataToJson(courses);
   };
   public static Route change = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
   public static Route remove = (request, response) -> {
-    Entry entry = new Entry(getName(request), getStartDate(request));
-    int id = entryDao.createEntry(entry);
-    return dataToJson(id);
+    return dataToJson(1);
   };
 }

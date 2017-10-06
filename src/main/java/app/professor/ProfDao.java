@@ -18,10 +18,11 @@ public class ProfDao {
   }
 
   public int createProf(Professor prof) {
-    int id = -1;
+    int id;
     try (Connection conn = sql2o.beginTransaction()) {
-      id = (int) conn.createQuery(INSERT, true).bind(prof)
-          .executeUpdate().getKey(Integer.class);
+      id = conn.createQuery(INSERT, true)
+            .bind(prof)
+            .executeUpdate().getKey(Integer.class);
       conn.commit();
     }
     return id;
