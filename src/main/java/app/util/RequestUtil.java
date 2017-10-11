@@ -10,6 +10,13 @@ import spark.Request;
 
 public class RequestUtil {
 
+  public static String getSessionLocale(Request request) {
+    return request.session().attribute("locale");
+  }
+  public static String getSessionCurrentUser(Request request) {
+    return request.session().attribute("currentUser");
+  }
+
   public static String getName(Request request) {
     return request.queryParams("name");
   }
