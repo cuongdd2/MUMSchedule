@@ -1,6 +1,7 @@
 package app;
 
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 import app.block.BlockController;
 import app.block.BlockDao;
@@ -78,5 +79,6 @@ public class Application {
         delete("/remove", UserController.remove);
       });
     });
+    enableDebugScreen();
   }
 }

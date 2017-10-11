@@ -8,11 +8,14 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 public class CourseDao {
-  private final static String INSERT = "INSERT INTO course(name, code, level, desc, no_pre) "
-      + "VALUES (:name, :code, :level, :desc, :noPre)";
+  private final static String INSERT = "INSERT INTO course(name, code, level, desc, preNo) "
+      + "VALUES(:name, :code, :level, :desc, :preNo)";
   private final static String SELECT_ALL = "SELECT * FROM course";
-  private final static String SELECT_BY_BLOCK = "SELECT * FROM course where block_id = :blockId";
-  private final static String SELECT_BY_PROF = "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
+  private final static String SELECT_BY_BLOCK = "SELECT * FROM course WHERE block_id = :blockId";
+  private final static String SELECT_BY_PROF =
+      "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
+  private final static String UPDATE =
+      "UPDATE course SET name = :name, code = :code, level = :level, desc = :desc, preNo = :preNo WHERE id = :id";
 
   private Sql2o sql2o;
 
@@ -28,7 +31,7 @@ public class CourseDao {
           .addParameter("code", c.getCode())
           .addParameter("level", c.getLevel().name())
           .addParameter("desc", c.getDesc())
-          .addParameter("noPre", c.getPreNo())
+          .addParameter("preNo", c.getPreNo())
           .executeUpdate().getKey(Integer.class);
       conn.commit();
     }
@@ -58,6 +61,21 @@ public class CourseDao {
           .executeAndFetch(Course.class);
       return courses;
     }
+  }
+
+  public int change(Course c) {
+    int result;
+    try (Connection conn = sql2o.open()) {
+      result = conn.createQuery(INSERT)
+          .addParameter("name", c.getName())
+          .addParameter("code", c.getCode())
+          .addParameter("level", c.getLevel().name())
+          .addParameter("desc", c.getDesc())
+          .addParameter("preNo", c.getPreNo())
+          .executeUpdate().getResult();
+      conn.commit();
+    }
+    return result;
   }
 
 
