@@ -22,4 +22,8 @@ public class StudentController {
   public static Route remove = (request, response) -> {
     return null;
   };
+
+  public static Route login = (request, response) -> {
+     return null;
+  };
 }

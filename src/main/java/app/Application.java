@@ -66,6 +66,7 @@ public class Application {
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
+        get("/login", StudentController.login);
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);
