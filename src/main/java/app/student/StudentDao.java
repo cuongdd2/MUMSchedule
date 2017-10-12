@@ -8,6 +8,7 @@ import org.sql2o.Sql2o;
 public class StudentDao {
 
   private final static String BLOCK_BY_DATE = "SELECT * FROM student WHERE entry_id = :entryId";
+  private final static String STUDENT_BY_MAIL = "SELECT * FROM student";
 
   private Sql2o sql2o;
 
@@ -24,4 +25,14 @@ public class StudentDao {
     }
     return blocks;
   }
+
+  public Student getUserByUsername(String username) {
+
+      List<Student> student;
+      try (Connection conn = sql2o.beginTransaction()) {
+          student = conn.createQuery(STUDENT_BY_MAIL).executeAndFetch(Student.class);
+      }
+
+      return student.size() !=0 ? student.get(0) : null;
+    }
 }
