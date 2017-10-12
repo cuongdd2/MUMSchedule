@@ -1,7 +1,12 @@
 package app.user;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter @RequiredArgsConstructor
 public class User {
-  private String username;
-  private String password;
-  private String email;
+  private int id;
+  final private String email;
+  final private String password;
 }
