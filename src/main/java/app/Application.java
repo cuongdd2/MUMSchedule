@@ -70,6 +70,10 @@ public class Application {
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
+        get("/login", StudentController.loginPage);
+        post("/login", StudentController.loginPost);
+
+
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);
@@ -81,6 +85,7 @@ public class Application {
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });
+
     });
     enableDebugScreen();
   }
