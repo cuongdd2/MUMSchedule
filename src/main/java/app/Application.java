@@ -87,6 +87,6 @@ public class Application {
       });
 
     });
-    enableDebugScreen();
+//    enableDebugScreen();
   }
 }
