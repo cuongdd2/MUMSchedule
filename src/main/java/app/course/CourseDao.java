@@ -6,16 +6,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 public class CourseDao {
-  private final static String INSERT = "INSERT INTO course(name, code, level, desc, preNo) "
+  private final static String INSERT = "INSERT INTO course(name, code, level, `desc`, preNo) "
       + "VALUES(:name, :code, :level, :desc, :preNo)";
   private final static String SELECT_ALL = "SELECT * FROM course";
   private final static String SELECT_BY_BLOCK = "SELECT * FROM course WHERE block_id = :blockId";
   private final static String SELECT_BY_PROF =
       "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
   private final static String UPDATE =
-      "UPDATE course SET name = :name, code = :code, level = :level, desc = :desc, preNo = :preNo WHERE id = :id";
+      "UPDATE course SET name = :name, code = :code, level = :level, `desc` = :desc, preNo = :preNo WHERE id = :id";
 
   private Sql2o sql2o;
 
@@ -23,16 +24,10 @@ public class CourseDao {
     this.sql2o = sql2o;
   }
 
-  public int create(Course c) {
+  public int create(Course c) throws Sql2oException {
     int id;
     try (Connection conn = sql2o.beginTransaction()) {
-      id = conn.createQuery(INSERT)
-          .addParameter("name", c.getName())
-          .addParameter("code", c.getCode())
-          .addParameter("level", c.getLevel().name())
-          .addParameter("desc", c.getDesc())
-          .addParameter("preNo", c.getPreNo())
-          .executeUpdate().getKey(Integer.class);
+      id = conn.createQuery(INSERT).bind(c).executeUpdate().getKey(Integer.class);
       conn.commit();
     }
     return id;
@@ -69,7 +64,7 @@ public class CourseDao {
       result = conn.createQuery(INSERT)
           .addParameter("name", c.getName())
           .addParameter("code", c.getCode())
-          .addParameter("level", c.getLevel().name())
+          .addParameter("level", c.getLevel())
           .addParameter("desc", c.getDesc())
           .addParameter("preNo", c.getPreNo())
           .executeUpdate().getResult();
