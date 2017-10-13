@@ -47,14 +47,14 @@ public class StudentController {
           return ViewUtil.render(request, model, Path.Template.LOGIN);
       }
 
-      model.put("authenticationSucceeded", true);
       request.session().attribute("currentUser", request.queryParams("username"));
 
       if(getQueryLoginRedirect(request) !=null) {
           response.redirect(getQueryLoginRedirect(request));
       }
 
-      return ViewUtil.render(request, model, Path.Template.WELCOME);
+      response.redirect("/api/welcome");
+      return null;
   };
 
 

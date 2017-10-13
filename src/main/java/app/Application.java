@@ -14,6 +14,7 @@ import app.professor.ProfDao;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
+import app.welcome.WelcomeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
@@ -70,7 +71,6 @@ public class Application {
         get("/login", StudentController.loginPage);
         post("/login", StudentController.loginPost);
 
-
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);
@@ -82,6 +82,7 @@ public class Application {
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });
+      get("/welcome", WelcomeController.welcomePage);
 
     });
     enableDebugScreen();
