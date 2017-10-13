@@ -14,7 +14,7 @@ import app.professor.ProfDao;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
-import app.welcome.WelcomeController;
+import app.user.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
@@ -27,6 +27,7 @@ public class Application {
   public static BlockDao blockDao;
   public static StudentDao studentDao;
   public static EntryDao entryDao;
+  public static UserDao userDao;
   public static void main(String[] args) {
 
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
@@ -39,6 +40,7 @@ public class Application {
     entryDao = new EntryDao(sql2o);
     profDao = new ProfDao(sql2o);
     studentDao = new StudentDao(sql2o);
+    userDao = new UserDao(sql2o);
 
     path("/api", () -> {
       before("/*", (q, a) -> System.out.println("Received api call" + q.url()));
@@ -71,6 +73,7 @@ public class Application {
         get("/login", StudentController.loginPage);
         post("/login", StudentController.loginPost);
 
+
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);
@@ -82,7 +85,6 @@ public class Application {
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });
-      get("/welcome", WelcomeController.welcomePage);
 
     });
     enableDebugScreen();
