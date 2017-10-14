@@ -1,14 +1,20 @@
 package app.user;
 
-import static app.Application.entryDao;
+import static app.Application.userDao;
 import static app.util.JsonUtil.dataToJson;
-import static app.util.RequestUtil.getName;
-import static app.util.RequestUtil.getStartDate;
+import static app.util.RequestUtil.body;
 
-import app.entry.Entry;
+import java.util.Map;
 import spark.Route;
 
 public class UserController {
+
+  public static Route login = (request, response) -> {
+    Map<String, String> data = body(request);
+    User user = new User(data.get("email"), data.get("pw"));
+    userDao.checkLogin(user);
+    return dataToJson(userDao.checkLogin(user));
+  };
 
   public static Route add = (request, response) -> {
     return dataToJson(1);

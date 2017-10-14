@@ -10,7 +10,7 @@ public class Course {
   private int id;
   final private String name;
   final private String code;
-  final private Level level;
+  final private String level;
   private String desc;
   private int preNo;
   private List<Course> prerequisite;
