@@ -20,4 +20,5 @@ public class Student {
     this.dob = dob;
     this.entry = entry;
   }
+
 }

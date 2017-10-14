@@ -45,4 +45,5 @@ public class CourseController {
   public static Route remove = (request, response) -> {
     return dataToJson(1);
   };
+
 }

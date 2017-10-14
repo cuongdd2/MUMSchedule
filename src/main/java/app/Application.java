@@ -11,6 +11,7 @@ import app.entry.EntryController;
 import app.entry.EntryDao;
 import app.professor.ProfController;
 import app.professor.ProfDao;
+import app.profile.ProfileController;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
@@ -73,6 +74,8 @@ public class Application {
         get("/login", StudentController.loginPage);
         post("/login", StudentController.loginPost);
 
+        get("/schedule", StudentController.schedulePage);
+
 
         get("/list", StudentController.list);
         post("/add", StudentController.add);
@@ -85,8 +88,11 @@ public class Application {
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });
+      path("/profile", () -> {
+          get("/profile", ProfileController.profilePage);
 
+      });
     });
-//    enableDebugScreen();
+    enableDebugScreen();
   }
 }

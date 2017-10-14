@@ -26,7 +26,7 @@ public class Path {
         public static final String BOOKS_ONE = "/velocity/book/one.vm";
         public static final String NOT_FOUND = "/velocity/notFound.vm";
         public static final String WELCOME = "/velocity/welcome.vm";
-
+        public static final String PROFILE = "/velocity/profile/profile.vm";
     }
 
 }

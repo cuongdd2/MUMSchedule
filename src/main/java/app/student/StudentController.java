@@ -1,18 +1,16 @@
 package app.student;
 
-import static app.Application.entryDao;
-import static app.Application.studentDao;
-import static app.util.JsonUtil.dataToJson;
-import static app.util.RequestUtil.getName;
-import static app.util.RequestUtil.getStartDate;
+import static app.util.JsonUtil.jsonData;
 
-import app.entry.Entry;
+import app.clazz.Class;
+
 import app.util.Path;
 import app.util.ViewUtil;
 import spark.Route;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static app.util.RequestUtil.*;
 
@@ -57,18 +55,27 @@ public class StudentController {
       return null;
   };
 
+  public static Route schedulePage = (request, response) -> {
+
+      List<Class> courses = null;
 
 
 
-    public static boolean authenticate(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()) {
-            return false;
-        }
-//        Student student = studentDao.getUserByUsername(username);
-//        if (student == null) {
-//            return false;
-//        }
+      return jsonData(true, courses);
+  };
+
+  public static boolean authenticate(String username, String password) {
+      if (username.isEmpty() || password.isEmpty()) {
+          return false;
+      }
+    //        Student student = studentDao.getUserByUsername(username);
+    //        if (student == null) {
+    //            return false;
+    //        }
         //String hashedPassword = BCrypt.hashpw(password, student.getSalt());
-        return true;//hashedPassword.equals(student.getHashedPassword());
+      return true;//hashedPassword.equals(student.getHashedPassword());
     }
+
+
+
 }
