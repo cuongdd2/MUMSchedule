@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Data @Getter @RequiredArgsConstructor
+@Data @RequiredArgsConstructor
 public class Course {
   private int id;
   final private String name;

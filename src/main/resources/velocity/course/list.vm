@@ -1,0 +1,13 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<h1>$msg.get("COURSES_HEADING_ALL")</h1>
+<div class="row row-3">
+    #foreach($course in $courses)
+        <div class="col">
+                <div class="bookCover">
+                    <h2>$course.getName()</h2>
+                </div>
+        </div>
+    #end
+</div>
+#end

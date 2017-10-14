@@ -50,6 +50,7 @@ public class Application {
       });
       path("/course", () -> {
         get("/list", CourseController.list);
+        get("/add",CourseController.addPage);
         post("/add", CourseController.add);
         put("/change", CourseController.change);
         delete("/remove", CourseController.remove);

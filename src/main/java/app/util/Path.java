@@ -22,10 +22,10 @@ public class Path {
     public static class Template {
         public final static String INDEX = "/velocity/index/index.vm";
         public final static String LOGIN = "/velocity/login/login.vm";
-        public final static String BOOKS_ALL = "/velocity/book/all.vm";
-        public static final String BOOKS_ONE = "/velocity/book/one.vm";
         public static final String NOT_FOUND = "/velocity/notFound.vm";
         public static final String WELCOME = "/velocity/welcome.vm";
+        public static final String ALL_COURSES = "/velocity/course/list.vm";
+        public static final String ADD_COURSES = "/velocity/course/add.vm";
 
     }
 
