@@ -1,0 +1,146 @@
+<script>
+
+
+  $( function() {
+    $( "#dialog" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+
+  } );
+
+
+   $( function() {
+      $( "#deletedialog" ).dialog({
+        autoOpen: false,
+        show: {
+          effect: "blind"
+        },
+        hide: {
+          effect: "explode",
+          duration: 1000
+        }
+      });
+
+    } );
+
+
+function cancel(){
+$( "#dialog" ).dialog( "close" );
+$( "#deletedialog" ).dialog( "close" );
+}
+
+function addcourse(){
+$( "#dialog" ).dialog( "open" );
+$("#course")[0].reset();;
+ $("#EditB").hide();
+ $("#AddB").show();
+}
+
+function addC(){
+ var form = $('#course');
+    $.ajax( {
+      type: "POST",
+      url: "http://localhost:$Port$WebPath.getADD()",
+      data: form.serialize(),
+      success: function( response ) {
+        $( "#dialog" ).dialog( "close" );
+         $("#message").html("<div class='alert alert-success'> <p> Course added successfully  </div> </p>");
+         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+
+      },error: function (request, status, error) {
+      $("#message").html("<div class='alert alert-danger'><p> Error in adding course </p></div>");
+                   }
+    } );
+}
+
+
+
+function getcourse(id){
+ $( "#dialog" ).dialog( "open" );
+ $("#EditB").show();
+ $("#AddB").hide();
+
+$.get("$WebPath.getCOURSE()"+id, function(data, status){
+        $.each(data, function( index, value ) {
+           $("#"+index).val(value);
+        });
+    });
+}
+
+
+function update(){
+ var form = $('#course');
+    $.ajax( {
+      type: "PUT",
+      url: "http://localhost:$Port$WebPath.getCHANGE()",
+      data: form.serialize(),
+      success: function( response ) {
+
+        $( "#dialog" ).dialog( "close" );
+         $("#message").html("<div class='alert alert-success'> <p> Course updated successfully  </div> </p>");
+         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+
+      }, error: function (request, status, error) {
+             $( "#dialog" ).dialog( "close" );
+             $("#message").html("<div class='alert alert-danger'><p> Error in updating </p></div>");
+           }
+    } );
+}
+
+
+function deletecourse(id){
+$( "#deletedialog" ).dialog( "open" );
+$.get("$WebPath.getCOURSE()"+id, function(data, status){
+        $.each(data, function( index, value ) {
+           $("#delete_"+index).val(value);
+        });
+    });
+}
+
+function deleteC(){
+    $.ajax( {
+      type: "delete",
+      url: "http://localhost:$Port$WebPath.getDELETECOURSE()",
+      data: form.serialize(),
+      success: function( response ) {
+
+        $( "#dialog" ).dialog( "close" );
+         $("#message").html("<div class='alert alert-success'> <p> Course deleted successfully  </div> </p>");
+         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+
+      }, error: function (request, status, error) {
+             $( "#dialog" ).dialog( "close" );
+             $("#message").html("<div class='alert alert-danger'><p> Error in course deleting </p></div>");
+           }
+    } );
+}
+
+
+</script>
+
+
+<div id="deletedialog" title="Delete Course" >
+      <form id="deletecourse" >
+    <label>$msg.get("COURSE_ADD_NAME")</label>
+    <input type="text" id="delete_name" name="name" placeholder="$msg.get("COURSE_ADD_NAME")" value="" required>
+
+    <label>$msg.get("COURSE_ADD_CODE")</label>
+    <input type="text" id="delete_code" name="code" placeholder="$msg.get("COURSE_ADD_CODE")" value="" required>
+
+   <input type="hidden" id="delete_id" name="id" value="N/A" required>
+       <br> <br>
+
+    <input type="button" class="btn btn-danger" value="$msg.get("COURSE_DELETE_BUTTON")" onclick="deleteC()" >
+
+
+     <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+     </form>
+</div>
