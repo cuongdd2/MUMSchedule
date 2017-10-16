@@ -72,6 +72,8 @@ public class StudentController {
 
       List<Integer> blocks = blockDao.getBlocksByStartdate(startdate);
 
+      System.out.println(blocks);
+
       for(int b : blocks) {
 
           List<Class> cls = classDao.getClassByBlock(b);
