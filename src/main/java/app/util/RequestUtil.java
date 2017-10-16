@@ -9,6 +9,7 @@ import java.util.Map;
 import spark.Request;
 
 public class RequestUtil {
+  private static Map<Request, Map<String, String>> cache = new HashMap<>();
 
   public static String getSessionLocale(Request request) {
     return request.session().attribute("locale");
@@ -16,9 +17,21 @@ public class RequestUtil {
   public static String getSessionCurrentUser(Request request) {
     return request.session().attribute("currentUser");
   }
-
-  public static String getName(Request request) {
-    return request.queryParams("name");
+  public static int getId(Request req) {
+    if (!cache.containsKey(req)) cache.put(req, body(req));
+    return Integer.parseInt(cache.get(req).get("id"));
+  }
+  public static String getName(Request req) {
+    if (!cache.containsKey(req)) cache.put(req, body(req));
+    return cache.get(req).get("id");
+  }
+  public static LocalDate getStartDate(Request req) {
+    if (!cache.containsKey(req)) cache.put(req, body(req));
+    return parseDate(cache.get(req).get("startDate"));
+  }
+  public static LocalDate getEndDate(Request req) {
+    if (!cache.containsKey(req)) cache.put(req, body(req));
+    return parseDate(cache.get(req).get("endDate"));
   }
 
   public static String getQueryUsername(Request request) {
@@ -30,10 +43,10 @@ public class RequestUtil {
     public static String getQueryLoginRedirect(Request request) {
         return request.queryParams("loginRedirect");
     }
-
-  public static Timestamp getStartDate(Request request) {
-    return Timestamp.valueOf(request.queryParams("startDate"));
-  }
+//
+//  public static Timestamp getStartDate(Request request) {
+//    return Timestamp.valueOf(request.queryParams("startDate"));
+//  }
 
   public static Map<String, String> body(Request request) {
     String bodyStr = request.body();
