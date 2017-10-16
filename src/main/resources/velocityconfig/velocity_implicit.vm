@@ -3,6 +3,7 @@
 #* @vtlvariable name="msg" type="app.util.MessageBundle" *#
 #* @vtlvariable name="books" type="java.lang.Iterable<app.book.Book>" *#
 #* @vtlvariable name="book" type="app.book.Book" *#
+#* @vtlvariable name="courses" type="java.lang.Iterable<app.course.Course>" *#
 #* @vtlvariable name="users" type="java.lang.Iterable<app.user.User>" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#

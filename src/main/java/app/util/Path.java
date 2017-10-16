@@ -2,6 +2,8 @@ package app.util;
 
 import lombok.Getter;
 
+import javax.annotation.PostConstruct;
+
 public class Path {
 
     // The @Getter methods are needed in order to access
@@ -15,18 +17,35 @@ public class Path {
         public static final String LOGOUT = "/logout/";
         @Getter
         public static final String BOOKS = "/books/";
+
         @Getter
+        public static final String COURSE = "/api/course/course?id=";
+
+        @Getter
+        public static final String CHANGE = "/api/course/change";
+
+        @Getter
+        public static final String LIST = "/api/course/list";
+
+        @Getter
+        public static final String ADD = "/api/course/add";
+
+        @Getter
+        public static final String DELETECOURSE = "/api/course/remove";
+
+       @Getter
         public static final String ONE_BOOK = "/books/:isbn/";
     }
 
     public static class Template {
         public final static String INDEX = "/velocity/index/index.vm";
         public final static String LOGIN = "/velocity/login/login.vm";
-        public final static String BOOKS_ALL = "/velocity/book/all.vm";
-        public static final String BOOKS_ONE = "/velocity/book/one.vm";
         public static final String NOT_FOUND = "/velocity/notFound.vm";
         public static final String WELCOME = "/velocity/welcome.vm";
         public static final String PROFILE = "/velocity/profile/profile.vm";
+        public static final String ALL_COURSES = "/velocity/course/list.vm";
+        public static final String ADD_COURSES = "/velocity/course/add.vm";
+
     }
 
 }

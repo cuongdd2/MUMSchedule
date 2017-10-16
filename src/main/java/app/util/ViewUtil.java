@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.velocity.app.*;
 import org.eclipse.jetty.http.HttpStatus;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import spark.*;
 import spark.template.velocity.*;
 
 public class ViewUtil {
@@ -22,6 +19,8 @@ public class ViewUtil {
         model.put("msg", new MessageBundle(getSessionLocale(request)));
         model.put("currentUser", getSessionCurrentUser(request));
         model.put("WebPath", Path.Web.class); // Access application URLs from templates
+        model.put("Port", Spark.port()); // Access application URLs from templates
+
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 

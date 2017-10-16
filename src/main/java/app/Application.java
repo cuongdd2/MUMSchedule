@@ -1,5 +1,6 @@
 package app;
 
+import static app.util.JsonUtil.dataToJson;
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
@@ -20,6 +21,7 @@ import app.user.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
+import spark.Route;
 
 public class Application {
 
@@ -58,6 +60,8 @@ public class Application {
       });
       path("/course", () -> {
         get("/list", CourseController.list);
+        get("/add",CourseController.addPage);
+        get("/course",CourseController.openCourse);
         post("/add", CourseController.add);
         put("/change", CourseController.change);
         delete("/remove", CourseController.remove);
