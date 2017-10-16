@@ -23,7 +23,7 @@ public class RequestUtil {
   }
   public static String getName(Request req) {
     if (!cache.containsKey(req)) cache.put(req, body(req));
-    return cache.get(req).get("id");
+    return cache.get(req).get("name");
   }
   public static LocalDate getStartDate(Request req) {
     if (!cache.containsKey(req)) cache.put(req, body(req));

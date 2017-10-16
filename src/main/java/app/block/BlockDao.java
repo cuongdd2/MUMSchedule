@@ -2,16 +2,19 @@ package app.block;
 
 import app.entry.Entry;
 import app.util.Dao;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import org.sql2o.Connection;
+import org.sql2o.ResultSetHandler;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 public class BlockDao implements Dao {
 
   private final static String INSERT = "INSERT INTO block(name, start_date, end_date) VALUES(:name, :startDate, :endDate)";
-  private final static String BLOCK_BY_DATE = "SELECT * FROM block WHERE start_date > :startDate";
-  private final static String LIST_ALL = "SELECT * FROM block";
+  private final static String BLOCK_BY_DATE = "SELECT id, name, start_date startDate, end_date enDate FROM block WHERE start_date > :startDate";
+  private final static String LIST_ALL = "SELECT id, name, start_date startDate, end_date endDate FROM block";
   private final static String DELETE = "DELETE FROM block WHERE id = :id";
   private final static String UPDATE = "UPDATE block SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
 
@@ -30,7 +33,7 @@ public class BlockDao implements Dao {
       conn.commit();
     }
     return id;
-}
+  }
 
   public int update(Block b) throws Sql2oException {
     try (Connection conn = sql2o.beginTransaction()) {
@@ -39,10 +42,11 @@ public class BlockDao implements Dao {
       return id;
     }
   }
+
   public List<Block> getAll() throws Sql2oException {
     List<Block> blocks;
     try (Connection conn = sql2o.beginTransaction()) {
-      blocks = conn.createQuery(LIST_ALL).executeAndFetch(Block.class);
+      blocks = conn.createQuery(LIST_ALL).executeAndFetch(new BlockDataTransfer());
     }
     return blocks;
   }
@@ -59,9 +63,19 @@ public class BlockDao implements Dao {
     try (Connection conn = sql2o.beginTransaction()) {
       blocks = conn.createQuery(BLOCK_BY_DATE)
           .addParameter("startDate", e.getStartDate())
-          .executeAndFetch(Block.class);
+          .executeAndFetch(new BlockDataTransfer());
     }
     return blocks;
   }
 
+}
+
+class BlockDataTransfer implements ResultSetHandler<Block> {
+
+  @Override
+  public Block handle(ResultSet rs) throws SQLException {
+    Block b = new Block(rs.getString(2), rs.getDate(3).toLocalDate(), rs.getDate(4).toLocalDate());
+    b.setId(rs.getInt(1));
+    return b;
+  }
 }
