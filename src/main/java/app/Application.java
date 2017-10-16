@@ -5,6 +5,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 import app.block.BlockController;
 import app.block.BlockDao;
+import app.clazz.ClassDao;
 import app.course.CourseController;
 import app.course.CourseDao;
 import app.entry.EntryController;
@@ -29,6 +30,8 @@ public class Application {
   public static StudentDao studentDao;
   public static EntryDao entryDao;
   public static UserDao userDao;
+  public static ClassDao classDao;
+
   public static void main(String[] args) {
 
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
@@ -42,6 +45,7 @@ public class Application {
     profDao = new ProfDao(sql2o);
     studentDao = new StudentDao(sql2o);
     userDao = new UserDao(sql2o);
+    classDao = new ClassDao(sql2o);
 
     path("/api", () -> {
       before("/*", (q, a) -> System.out.println("Received api call" + q.url()));

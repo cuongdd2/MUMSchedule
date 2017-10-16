@@ -1,17 +1,24 @@
 package app.student;
 
+import static app.Application.*;
 import static app.util.JsonUtil.jsonData;
 
-import app.clazz.Class;
-
-import app.util.Path;
-import app.util.ViewUtil;
+import app.block.Block;
+import app.entry.Entry;
 import spark.Route;
+import app.util.Path;
+import app.clazz.Class;
+import app.util.ViewUtil;
 
-
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import static app.util.RequestUtil.*;
 
 public class StudentController {
@@ -57,11 +64,23 @@ public class StudentController {
 
   public static Route schedulePage = (request, response) -> {
 
-      List<Class> courses = null;
+      HashMap<Integer, List<Class>> classes = new HashMap<>();
 
+      int studentid = 1;// get student id from login session that stores student id when student logged in.
+      int entryid = studentDao.getStudentById(studentid);
+      Date startdate = entryDao.getEntryById(entryid);
 
+      List<Integer> blocks = blockDao.getBlocksByStartdate(startdate);
 
-      return jsonData(true, courses);
+      for(int b : blocks) {
+
+          List<Class> cls = classDao.getClassByBlock(b);
+          if(cls.size() !=0) {
+              classes.put(b, cls);
+          }
+      }
+
+      return jsonData(true, classes);
   };
 
   public static boolean authenticate(String username, String password) {

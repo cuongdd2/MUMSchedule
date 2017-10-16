@@ -1,5 +1,6 @@
 package app.profile;
 
+import app.entry.Entry;
 import app.student.Student;
 import app.util.Path;
 import app.util.ViewUtil;
@@ -16,10 +17,10 @@ public class ProfileController {
         Map<String, Object> model = new HashMap<>();
 
         int userid = 1;//Integer.parseInt(request.session().attribute("currentUser"));
-        Student student = studentDao.getStudentById(userid);
+        studentDao.getStudentById(userid);
 
 
-        model.put("student", student);
+        model.put("student", userid);
 
 
         return ViewUtil.render(request, model, Path.Template.PROFILE);

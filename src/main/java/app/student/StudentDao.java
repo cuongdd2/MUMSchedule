@@ -7,9 +7,9 @@ import org.sql2o.Sql2o;
 
 public class StudentDao {
 
-  private final static String BLOCK_BY_DATE = "SELECT * FROM student WHERE entry_id = :entryId";
   private final static String STUDENT_BY_MAIL = "SELECT * FROM student";
-  private final static String STUDENT_BY_ID = "SELECT * FROM student WHERE `id`=:id";
+  private final static String BLOCK_BY_DATE = "SELECT * FROM student WHERE entry_id = :entryId";
+  private final static String STUDENT_BY_ID = "SELECT entry_id FROM student WHERE id = :id";
 
   private Sql2o sql2o;
 
@@ -36,14 +36,15 @@ public class StudentDao {
       return student.size() !=0 ? student.get(0) : null;
   }
 
-  public Student getStudentById(int id) {
-      Student student;
+  public int getStudentById(int id) {
+      int entry;
 
       try(Connection conn = sql2o.beginTransaction()) {
-          student = conn.createQuery(STUDENT_BY_ID)
-                  .addParameter("id", id)
-                  .executeAndFetchFirst(Student.class);
+          entry = conn.createQuery(STUDENT_BY_ID)
+                  .addParameter("id", id).throwOnMappingFailure(false)
+                  .executeAndFetchFirst(Integer.class);
+
       }
-      return student;
+      return entry;
   }
 }
