@@ -3,8 +3,48 @@
 <head>
     <title>$msg.get("COMMON_TITLE")</title>
     <link rel="stylesheet" href="/main.css">
+      <link rel="stylesheet" href="/css/bootstrap.css">
+      <link rel="stylesheet" href="/css/font.css">
+      <link rel="stylesheet" href="/css/font-awesome.min.css">
+      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
+      <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+      <link rel="stylesheet" href="/css/jquery-ui.css">
+
+
+
+    <script language="JavaScript" type="text/javascript" src="/js/jquery.min.js" ></script>
+    <script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script language="JavaScript" type="text/javascript" src="/js/jquery.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/js/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#datatable').DataTable();
+        });
+        </script>
     <link rel="icon" href="/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            body {
+                font-family: 'Lato';
+                background-image:url('{{ URL::asset('img/bg.jpg') }}');
+                background-size:     cover;
+
+            }
+
+            .fa-btn {
+                margin-right: 6px;
+            }
+            .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+              background-color: #ffd6d3;
+
+          }
+          .td {
+          text-align: center;
+          }
+
+      </style>
 </head>
 <body>
 <header>

@@ -2,6 +2,8 @@ package app.util;
 
 import lombok.Getter;
 
+import javax.annotation.PostConstruct;
+
 public class Path {
 
     // The @Getter methods are needed in order to access
@@ -15,7 +17,23 @@ public class Path {
         public static final String LOGOUT = "/logout/";
         @Getter
         public static final String BOOKS = "/books/";
+
         @Getter
+        public static final String COURSE = "/api/course/course?id=";
+
+        @Getter
+        public static final String CHANGE = "/api/course/change";
+
+        @Getter
+        public static final String LIST = "/api/course/list";
+
+        @Getter
+        public static final String ADD = "/api/course/add";
+
+        @Getter
+        public static final String DELETECOURSE = "/api/course/remove";
+
+       @Getter
         public static final String ONE_BOOK = "/books/:isbn/";
     }
 
