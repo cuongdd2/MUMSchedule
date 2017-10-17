@@ -4,18 +4,13 @@ import app.block.Block;
 import app.course.Course;
 import app.professor.Professor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Data @RequiredArgsConstructor
 public class Class {
-  final Course course;
-  final Professor professor;
+  final private Course course;
+  final private Professor professor;
+  final private Block block;
   private int capacity;
   private int enrolled;
-  final Block block;
-
-  public Class(Course course, Professor professor, Block block) {
-    this.course = course;
-    this.professor = professor;
-    this.block = block;
-  }
 }
