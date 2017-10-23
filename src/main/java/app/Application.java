@@ -83,7 +83,7 @@ public class Application {
         post("/login", StudentController.loginPost);
 
         get("/schedule", StudentController.schedulePage);
-
+        post("/schedule", StudentController.registerCourse);
 
         get("/list", StudentController.list);
         post("/add", StudentController.add);
