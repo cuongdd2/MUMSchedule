@@ -27,6 +27,10 @@ public class Path {
         public static final String BLOCK = "/block/";
         @Getter
         public static final String COURSES = "/course/";
+
+        @Getter
+        public static final String SECTION = "/section/";
+
         @Getter
         public static final String STUDENT = "/student/";
 
