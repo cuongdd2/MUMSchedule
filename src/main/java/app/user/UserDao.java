@@ -6,7 +6,7 @@ import org.sql2o.Sql2o;
 public class UserDao {
 
   private final static String CHECK_LOGIN =
-      "SELECT COUNT(*) FROM user WHERE email = :email AND password = :pw";
+      "SELECT * FROM user WHERE email = :email";
 
 
   private Sql2o sql2o;
@@ -15,13 +15,11 @@ public class UserDao {
     this.sql2o = sql2o;
   }
 
-  public boolean checkLogin(User user) {
+  public User getUserByEmail(String email) {
     try (Connection conn = sql2o.beginTransaction()) {
-      User u = conn.createQuery(CHECK_LOGIN)
-          .addParameter("email", user.getEmail())
-          .addParameter("pw", user.getPassword())
+      return conn.createQuery(CHECK_LOGIN)
+          .addParameter("email", email)
           .executeAndFetchFirst(User.class);
-      return u != null;
     }
   }
 }

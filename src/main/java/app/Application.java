@@ -45,7 +45,12 @@ public class Application {
     userDao = new UserDao(sql2o);
 
     path("/api", () -> {
-      before("/*", (q, a) -> System.out.println("Received api call" + q.url()));
+      before("/*", (req, res) -> {
+        System.out.println("Received api call" + req.url());
+        if (req.attribute("currentUser") == null) {
+          halt(401, "Un-authorized request");
+        }
+      });
 
       path("/block", () -> {
         get("/list", BlockController.list);
@@ -75,7 +80,6 @@ public class Application {
       });
       path("/student", () -> {
         get("/login", StudentController.loginPage);
-        post("/login", StudentController.loginPost);
 
 
         get("/list", StudentController.list);
@@ -84,6 +88,7 @@ public class Application {
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
+        post("/login", UserController.login);
         get("/remove", UserController.list);
         post("/add", UserController.add);
         put("/change", UserController.change);
