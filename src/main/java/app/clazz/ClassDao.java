@@ -12,7 +12,7 @@ public class ClassDao {
     private final static String CLASSES_BY_BLOCK = "SELECT * from class WHERE block_id = :blockId";
   private final static String INSERT = "INSERT INTO class(course_id, prof_id, block_id) VALUES(:cid, :pid, :bid)";
   private final static String BLOCK_BY_DATE = "SELECT id, name, start_date startDate, end_date enDate FROM class WHERE start_date > :startDate";
-  private final static String LIST_ALL = "SELECT id, name, start_date startDate, end_date endDate FROM class";
+  private final static String LIST_ALL = "SELECT * FROM class";
   private final static String DELETE = "DELETE FROM class WHERE id = :id";
   private final static String UPDATE = "UPDATE class SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
 
