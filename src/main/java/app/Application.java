@@ -55,7 +55,7 @@ public class Application {
 
     staticFiles.location("/public");
     staticFiles.expireTime(600L);
-    before("*",                  Filters.addTrailingSlashes);
+//    before("*",                  Filters.addTrailingSlashes);
     before("*",                  Filters.handleLocaleChange);
 
     get("/", IndexController.serveIndexPage);
@@ -78,7 +78,7 @@ public class Application {
 //        before("/*", UserController.isAdmin);
         get("/", CourseController.list);
         get("/add",CourseController.addPage);
-        get("/course",CourseController.openCourse);
+        get("/:id",CourseController.openCourse);
         post("/add", CourseController.add);
         put("/change", CourseController.change);
         delete("/remove", CourseController.remove);

@@ -35,22 +35,19 @@ public class Path {
         public static final String STUDENT = "/student/";
 
         @Getter
-        public static final String COURSE = "/api/course/course?id=";
+        public static final String COURSE = "/course/";
 
         @Getter
-        public static final String CHANGE = "/api/course/change";
+        public static final String CHANGE = "/course/change";
 
         @Getter
-        public static final String LIST = "/api/course/list";
+        public static final String LIST = "/course/list";
 
         @Getter
-        public static final String ADD = "/api/course/add";
+        public static final String ADD = "/course/add";
 
         @Getter
-        public static final String DELETECOURSE = "/api/course/remove";
-
-       @Getter
-        public static final String ONE_BOOK = "/books/:isbn/";
+        public static final String DELETECOURSE = "/course/remove";
 
 
     }

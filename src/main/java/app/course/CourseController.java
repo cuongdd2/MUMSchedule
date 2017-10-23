@@ -2,6 +2,7 @@ package app.course;
 
 import static app.Application.courseDao;
 import static app.util.JsonUtil.dataToJson;
+import static app.util.JsonUtil.jsonData;
 import static app.util.RequestUtil.body;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 import app.util.Path;
 import app.util.ViewUtil;
+import org.sql2o.Sql2oException;
 import spark.Route;
 
 public class CourseController {
@@ -21,12 +23,18 @@ public class CourseController {
 
     public static Route add = (request, response) -> {
     Map<String, String> data = body(request);
-    Course c =new Course(data.get("name") , data.get("code") , Level.valueOf(data.get("level")).toString());
+    Course c =new Course(data.get("name") , data.get("code") , data.get("level"));
     if (data.containsKey("desc")) c.setDesc(data.get("desc"));
     if (data.containsKey("noPre")) c.setPreNo(Integer.parseInt(data.get("noPre")));
     int id = courseDao.create(c);
-    response.status(201);
-    return dataToJson(request.params().toString());
+        try {
+            id = courseDao.create(c);
+            response.status(201);
+            return jsonData(true, id);
+        } catch (Sql2oException e) {
+            response.status(505);
+            return jsonData(false, e.getMessage());
+        }
   };
 
     public static Route list = (request, response) -> {
@@ -40,7 +48,7 @@ public class CourseController {
 
     public static  Route openCourse = (request , response)->{
         Map<String, Object> model = new HashMap<>();
-        Course c = courseDao.getCourse(Integer.parseInt(request.queryParams("id")));
+        Course c = courseDao.getCourse(Integer.parseInt(request.params(":id")));
         model.put("course" , c);
         response.status(200);
         response.type("application/json");
@@ -50,7 +58,7 @@ public class CourseController {
 
   public static Route change = (request, response) -> {
     Map<String, String> data = body(request);
-    Course c = new Course(data.get("name"), data.get("code"), Level.valueOf(data.get("level")).toString());
+    Course c = new Course(data.get("name"), data.get("code"), data.get("level"));
     if (data.containsKey("id")) c.setId(Integer.parseInt(data.get("id")));
     if (data.containsKey("desc")) c.setDesc(data.get("desc"));
     if (data.containsKey("noPre")) c.setPreNo(Integer.parseInt(data.get("noPre")));
