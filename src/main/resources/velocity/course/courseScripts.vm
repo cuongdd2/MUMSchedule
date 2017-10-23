@@ -13,11 +13,11 @@
       autoOpen: false,
       show: {
         effect: "blind",
-        duration: 100
+        duration: 500
       },
       hide: {
         effect: "explode",
-        duration: 100
+        duration: 500
       }
     });
 
@@ -31,7 +31,7 @@
       },
       hide: {
         effect: "explode",
-        duration: 100
+        duration: 500
       }
     });
 
@@ -63,7 +63,7 @@
         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
 
       }, error: function (request, status, error) {
-        $("#message").html(request.ResponseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
+        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
       }
     });
   }
@@ -72,7 +72,7 @@
     $("#dialog").dialog("open");
     $("#EditB").show();
     $("#AddB").hide();
-
+    console.log("http://localhost:$Port$WebPath.getCOURSE()" + id);
     $.get("$WebPath.getCOURSE()" + id, function (data, status) {
       $.each(data, function (index, value) {
         $("#" + index).val(value);
