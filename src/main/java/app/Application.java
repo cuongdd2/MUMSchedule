@@ -6,6 +6,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 import app.block.BlockController;
 import app.block.BlockDao;
+import app.clazz.ClassController;
 import app.clazz.ClassDao;
 import app.course.CourseController;
 import app.course.CourseDao;
@@ -80,6 +81,10 @@ public class Application {
         post("/add", CourseController.add);
         put("/change", CourseController.change);
         delete("/remove", CourseController.remove);
+      });
+      path("/section", () -> {
+        get("/", ClassController.list);
+
       });
       path("/entry", () -> {
         before("/*", LoginController.ensureUserIsLoggedIn);
