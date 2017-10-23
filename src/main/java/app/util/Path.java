@@ -60,6 +60,7 @@ public class Path {
         public static final String ALL_COURSES = "/velocity/course/list.vm";
         public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
+        public static final String ALL_SECTIONS = "/velocity/section/list.vm";
 
         public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";
     }
