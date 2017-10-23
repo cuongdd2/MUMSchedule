@@ -13,11 +13,11 @@
       autoOpen: false,
       show: {
         effect: "blind",
-        duration: 1000
+        duration: 100
       },
       hide: {
         effect: "explode",
-        duration: 1000
+        duration: 100
       }
     });
 
@@ -31,7 +31,7 @@
       },
       hide: {
         effect: "explode",
-        duration: 1000
+        duration: 100
       }
     });
 
@@ -63,7 +63,7 @@
         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
 
       }, error: function (request, status, error) {
-        $("#message").html("<div class='alert alert-danger'><p> Error in adding course </p></div>");
+        $("#message").html(request.ResponseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
       }
     });
   }
