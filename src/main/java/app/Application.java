@@ -68,13 +68,14 @@ public class Application {
       });
 
       path("/block", () -> {
-        before("/*", UserController.isAdmin);
+//        before("/*", UserController.isAdmin);
         get("/list", BlockController.list);
         post("/add", BlockController.add);
         put("/change", BlockController.change);
         delete("/remove", BlockController.remove);
       });
       path("/course", () -> {
+//        before("/*", UserController.isAdmin);
         get("/", CourseController.list);
         get("/add",CourseController.addPage);
         get("/course",CourseController.openCourse);
@@ -94,12 +95,14 @@ public class Application {
         delete("/remove", EntryController.remove);
       });
       path("/prof", () -> {
+        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/remove", ProfController.list);
         post("/add", ProfController.add);
         put("/change", ProfController.change);
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
+        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/schedule", StudentController.schedulePage);
         post("/schedule", StudentController.registerCourse);
         get("/list", StudentController.list);
@@ -109,7 +112,7 @@ public class Application {
       });
       path("/user", () -> {
         before("/*", UserController.isAdmin);
-        get("/remove", UserController.list);
+        get("/", UserController.list);
         post("/add", UserController.add);
         put("/change", UserController.change);
         delete("/remove", UserController.remove);

@@ -63,6 +63,9 @@ public class Path {
         public static final String ALL_SECTIONS = "/velocity/section/list.vm";
 
         public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";
+
+        public static final String ALL_USERS = "/velocity/user/list.vm";
+        public static final String ADD_USER = "/velocity/user/add.vm";
     }
 
 }
