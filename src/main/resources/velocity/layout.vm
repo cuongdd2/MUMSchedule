@@ -76,9 +76,6 @@
               #if($user.isAdmin())
                 <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>
               #end
-              #if($user.isStudent())
-                <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>
-              #end
               <li>
                   <form method="post" action="$WebPath.getLOGOUT()">
                       <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
