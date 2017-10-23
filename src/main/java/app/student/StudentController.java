@@ -11,7 +11,6 @@ import app.entry.Entry;
 import app.user.User;
 import app.util.Path;
 import app.util.ViewUtil;
-import org.mindrot.jbcrypt.BCrypt;
 import spark.Route;
 
 
@@ -32,13 +31,5 @@ public class StudentController {
   };
   public static Route remove = (request, response) -> {
     return null;
-  };
-
-  public static Route loginPage = (request, response) -> {
-      Map<String, Object> model = new HashMap<>();
-      model.put("logout", removeSessionAttrLoggedOut(request));
-      model.put("logindirect", removeSessionAttrLoginRedirect(request));
-
-      return ViewUtil.render(request, model, Path.Template.LOGIN);
   };
 }

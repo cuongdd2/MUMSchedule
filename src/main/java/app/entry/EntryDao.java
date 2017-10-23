@@ -1,8 +1,13 @@
 package app.entry;
 
+import app.block.Block;
 import app.util.Dao;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import org.sql2o.Connection;
+import org.sql2o.ResultSetHandler;
 import org.sql2o.Sql2o;
 
 public class EntryDao implements Dao {
@@ -25,5 +30,21 @@ public class EntryDao implements Dao {
       conn.commit();
       return id;
     }
+  }
+
+  public List<Entry> list() {
+    try (Connection conn = sql2o.beginTransaction()) {
+      return conn.createQuery("select * from entry").executeAndFetch(new EntryDataTransfer());
+    }
+  }
+}
+
+class EntryDataTransfer implements ResultSetHandler<Entry> {
+
+  @Override
+  public Entry handle(ResultSet rs) throws SQLException {
+    Entry entry = new Entry(rs.getString(2), rs.getDate(3).toLocalDate());
+//    entry.setId(rs.getInt(1));
+    return entry;
   }
 }

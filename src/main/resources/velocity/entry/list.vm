@@ -1,10 +1,10 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
   #parse("/velocity/course/courseScripts.vm")
-<h4>$msg.get("COURSES_HEADING_ALL")</h4>
+<h4>$msg.get("ENTRY_ALL")</h4>
 <br/>
 <a href='#' onclick="addcourse()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
-  Course </a>
+  Entry </a>
 <div class="col-md-15">
   <br>
   <div id="message"></div>
@@ -13,28 +13,28 @@
     <thead>
     <tr>
       <th class="td">ID</th>
-      <th class="td">Course Name</th>
-      <th class="td">Course Code</th>
-      <th class="td">Course PreNo</th>
-      <th class="td">Course Level</th>
+      <th class="td">Entry Name</th>
+      <th class="td">Entry Code</th>
+      <th class="td">Entry PreNo</th>
+      <th class="td">Entry Level</th>
       <th class="td"> --</th>
     </tr>
     </thead>
     <tbody>
-      #foreach($course in $courses)
+      #foreach($entry in $entries)
       <tr>
-        <td class="td"> $course.getId()</td>
+        <td class="td"> $entry.getId()</td>
         <td class="td">
-          $course.getName()
+          $entry.getName()
         </td>
-        <td class="td"> $course.getCode()</td>
-        <td class="td"> $course.getPreNo()</td>
-        <td class="td"> $course.getLevel()</td>
+        <td class="td"> $entry.getCode()</td>
+        <td class="td"> $entry.getPreNo()</td>
+        <td class="td"> $entry.getLevel()</td>
         <td class="td">
-          <a href="#" onclick="getcourse($course.getId())">
+          <a href="#" onclick="getcourse($entry.getId())">
             <i class="glyphicon glyphicon-edit"></i> </a>
 
-          <a href="#" onclick="deletecourse($course.getId())">
+          <a href="#" onclick="deletecourse($entry.getId())">
             <i class="glyphicon glyphicon-remove"></i> </a>
         </td>
 
@@ -43,7 +43,7 @@
     </tbody>
   </table>
 
-  <div id="dialog" title="Add/Update Course">
+  <div id="dialog" title="Add/Update Entry">
     <form id="course">
       <label>$msg.get("COURSE_ADD_NAME")</label>
       <input type="text" id="name" name="name" placeholder="$msg.get("COURSE_ADD_NAME")" value=""

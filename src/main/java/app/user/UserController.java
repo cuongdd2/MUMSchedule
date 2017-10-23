@@ -1,35 +1,13 @@
 package app.user;
 
-import static app.Application.userDao;
 import static app.util.JsonUtil.dataToJson;
-import static app.util.RequestUtil.getQueryLoginRedirect;
+import static spark.Spark.halt;
 
-import app.util.Path;
-import app.util.ViewUtil;
-import java.util.HashMap;
-import java.util.Map;
+import app.login.LoginController;
+import spark.Filter;
 import spark.Route;
 
 public class UserController {
-  public static HashMap<String, User> users = new HashMap<>();
-
-  public static Route login = (request, response) -> {
-    Map<String, Object> model = new HashMap<>();
-
-    if(!authenticate(request.queryParams("username"), request.queryParams("password")) ) {
-      model.put("authenticationFailed", true);
-      return ViewUtil.render(request, model, Path.Template.LOGIN);
-    }
-
-    model.put("authenticationSucceeded", true);
-    request.session().attribute("currentUser", request.queryParams("username"));
-
-    if(getQueryLoginRedirect(request) !=null) {
-      response.redirect(getQueryLoginRedirect(request));
-    }
-
-    return ViewUtil.render(request, model, Path.Template.WELCOME);
-  };
 
   public static Route add = (request, response) -> {
     return dataToJson(1);
@@ -45,15 +23,19 @@ public class UserController {
   };
 
 
-  public static boolean authenticate(String email, String password) {
-    if (email.isEmpty() || password.isEmpty()) {
-      return false;
-    }
-    if (!users.containsKey(email)) {
-      User user = userDao.getUserByEmail(email);
-      if (user == null) return false;
-      users.put(email, user);
-    }
-    return password.equals(users.get(email).getPassword());
-  }
+  public static Filter isAdmin = (req, res) -> {
+    if (req.attribute("currentUser") == null) halt(401, "Un-authorized request");
+    User u = LoginController.users.get(req.attribute("currentUser"));
+    if (!u.isAdmin()) halt(401, "Un-authorized request");
+  };
+  public static Filter isFaculty = (req, res) -> {
+    if (req.attribute("currentUser") == null) halt(401, "Un-authorized request");
+    User u = LoginController.users.get(req.attribute("currentUser"));
+    if (!u.isFaculty()) halt(401, "Un-authorized request");
+  };
+  public static Filter isStudent = (req, res) -> {
+    if (req.attribute("currentUser") == null) halt(401, "Un-authorized request");
+    User u = LoginController.users.get(req.attribute("currentUser"));
+    if (!u.isStudent()) halt(401, "Un-authorized request");
+  };
 }

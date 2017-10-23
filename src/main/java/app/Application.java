@@ -10,12 +10,16 @@ import app.course.CourseController;
 import app.course.CourseDao;
 import app.entry.EntryController;
 import app.entry.EntryDao;
+import app.index.IndexController;
+import app.login.LoginController;
 import app.professor.ProfController;
 import app.professor.ProfDao;
 import app.student.StudentController;
 import app.student.StudentDao;
+import app.user.User;
 import app.user.UserController;
 import app.user.UserDao;
+import app.util.Filters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
@@ -33,7 +37,6 @@ public class Application {
   public static void main(String[] args) {
 
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
-    staticFiles.location("/public");
     port(8080);
 
     Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425", "cs425", "mum");
@@ -44,22 +47,29 @@ public class Application {
     studentDao = new StudentDao(sql2o);
     userDao = new UserDao(sql2o);
 
-    path("/api", () -> {
+    staticFiles.location("/public");
+    staticFiles.expireTime(600L);
+    before("*",                  Filters.addTrailingSlashes);
+    before("*",                  Filters.handleLocaleChange);
+
+    get("/", IndexController.serveIndexPage);
+    get("/login/", LoginController.loginPage);
+    post("/login/", LoginController.login);
+
+    path("", () -> {
       before("/*", (req, res) -> {
         System.out.println("Received api call" + req.url());
-        if (req.attribute("currentUser") == null) {
-          halt(401, "Un-authorized request");
-        }
       });
 
       path("/block", () -> {
+        before("/*", UserController.isAdmin);
         get("/list", BlockController.list);
         post("/add", BlockController.add);
         put("/change", BlockController.change);
         delete("/remove", BlockController.remove);
       });
       path("/course", () -> {
-        get("/list", CourseController.list);
+        get("/", CourseController.list);
         get("/add",CourseController.addPage);
         get("/course",CourseController.openCourse);
         post("/add", CourseController.add);
@@ -67,7 +77,8 @@ public class Application {
         delete("/remove", CourseController.remove);
       });
       path("/entry", () -> {
-        get("/list", EntryController.list);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        get("/", EntryController.list);
         post("/add", EntryController.add);
         put("/change", EntryController.change);
         delete("/remove", EntryController.remove);
@@ -79,16 +90,13 @@ public class Application {
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
-        get("/login", StudentController.loginPage);
-
-
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
-        post("/login", UserController.login);
+        before("/*", UserController.isAdmin);
         get("/remove", UserController.list);
         post("/add", UserController.add);
         put("/change", UserController.change);
