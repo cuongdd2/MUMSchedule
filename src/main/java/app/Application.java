@@ -74,6 +74,7 @@ public class Application {
         delete("/remove", BlockController.remove);
       });
       path("/course", () -> {
+        before("/*", UserController.isAdmin);
         get("/", CourseController.list);
         get("/add",CourseController.addPage);
         get("/course",CourseController.openCourse);
@@ -89,12 +90,14 @@ public class Application {
         delete("/remove", EntryController.remove);
       });
       path("/prof", () -> {
+        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/remove", ProfController.list);
         post("/add", ProfController.add);
         put("/change", ProfController.change);
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
+        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/schedule", StudentController.schedulePage);
         post("/schedule", StudentController.registerCourse);
         get("/list", StudentController.list);
