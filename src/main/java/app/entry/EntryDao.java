@@ -12,7 +12,7 @@ import org.sql2o.Sql2o;
 public class EntryDao implements Dao {
 
   private static String INSERT = "INSERT INTO entry(name, start_date) VALUES (:name, :startDate)";
-  private final static String ENTRY_BY_ID = "SELECT start_date FROM entry WHERE id = :id";
+  private final static String ENTRY_BY_ID = "SELECT * FROM entry WHERE id = :id";
 
   private Sql2o sql2o;
 
@@ -24,20 +24,20 @@ public class EntryDao implements Dao {
     try (Connection conn = sql2o.beginTransaction()) {
       int id = conn.createQuery(INSERT, true)
           .addParameter("name", entry.getName())
-          .addParameter("startDate", entry.getStartDate())
+          .addParameter("startDate", entry.getStart_date())
           .executeUpdate().getKey(Integer.class);
       conn.commit();
       return id;
     }
   }
 
-  public Date getEntryById(int id) {
-      Date entry;
+  public Entry getEntryById(int id) {
+      Entry entry;
 
       try(Connection conn = sql2o.beginTransaction()) {
           entry = conn.createQuery(ENTRY_BY_ID)
                   .addParameter("id", id).throwOnMappingFailure(false)
-                  .executeAndFetchFirst(Date.class);
+                  .executeAndFetchFirst(Entry.class);
       }
       return entry;
   }

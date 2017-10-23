@@ -1,10 +1,14 @@
 package app.student;
 
 import static app.Application.*;
+import static app.util.JsonUtil.dataToJson;
 import static app.util.JsonUtil.jsonData;
 
 import app.block.Block;
+import app.clazz.Class2;
+import app.course.Course;
 import app.entry.Entry;
+import app.professor.Professor;
 import spark.Route;
 import app.util.Path;
 import app.clazz.Class;
@@ -64,39 +68,62 @@ public class StudentController {
 
   public static Route schedulePage = (request, response) -> {
 
-      HashMap<Integer, List<Class>> classes = new HashMap<>();
+      List<Class> classes = new ArrayList<>();
+      int stid = 1;// get student id from login session that stores student id when student logged in.
+      int eid = studentDao.getStudentEntry(stid);
 
-      int studentid = 1;// get student id from login session that stores student id when student logged in.
-      int entryid = studentDao.getStudentById(studentid);
-      Date startdate = entryDao.getEntryById(entryid);
+      // Student entry comes here
+      Entry entry = entryDao.getEntryById(eid);
 
-      List<Integer> blocks = blockDao.getBlocksByStartdate(startdate);
+      // List of block that belongs to the entry
+      List<Block> blocks = blockDao.getBlocksByEntry(entry);
 
-      System.out.println(blocks);
 
-      for(int b : blocks) {
+      // Get all available classes in the block
+      for(Block b : blocks) {
 
-          List<Class> cls = classDao.getClassByBlock(b);
-          if(cls.size() !=0) {
-              classes.put(b, cls);
+          List<Class2> cls = classDao.getClassByBlock(b.getId());
+
+          for(Class2 c : cls) {
+
+              Professor prof = profDao.getProfById(c.getProf_id());
+              Course course = courseDao.getcourse(c.getCourse_id());
+
+              Class newClass = new Class(course, prof, b);
+              newClass.setCapacity(c.getCapacity());
+              newClass.setEnrolled(c.getEnrolled());
+              newClass.setId(c.getId());
+
+              classes.add(newClass);
           }
       }
 
-      return jsonData(true, classes);
+      Map<String, Object> model = new HashMap<>();
+      model.put("classess",classes);
+      return ViewUtil.render(request, model, Path.Template.STUDENT_SCHEDULE);
   };
 
-  public static boolean authenticate(String username, String password) {
-      if (username.isEmpty() || password.isEmpty()) {
+  public static Route registerCourse = (request, response) -> {
+
+      int cid = Integer.parseInt(request.queryParams("courseid"));
+      int sid = Integer.parseInt(request.queryParams("studentid")); // get student id from session
+
+      studentDao.registerToCourse(cid, sid);
+
+      return dataToJson(cid+sid);
+  };
+
+  public static boolean authenticate(String email, String password) {
+      if (email.isEmpty() || password.isEmpty()) {
           return false;
       }
-    //        Student student = studentDao.getUserByUsername(username);
-    //        if (student == null) {
-    //            return false;
-    //        }
-        //String hashedPassword = BCrypt.hashpw(password, student.getSalt());
+      Student student = studentDao.getUserByUsername(email);
+      if (student == null) {
+          return false;
+      }
+
+      //String hashedPassword = BCrypt.hashpw(password, student.getSalt());
       return true;//hashedPassword.equals(student.getHashedPassword());
     }
-
-
 
 }

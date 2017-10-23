@@ -12,10 +12,16 @@ public class Class {
   private int capacity;
   private int enrolled;
   final Block block;
+  private int id;
 
   public Class(Course course, Professor professor, Block block) {
     this.course = course;
     this.professor = professor;
     this.block = block;
+  }
+
+
+  public int getAvailable(){
+      return getCapacity() - getEnrolled();
   }
 }

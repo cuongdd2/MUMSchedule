@@ -9,6 +9,6 @@ import lombok.RequiredArgsConstructor;
 public class Entry {
   private int id;
   final private String name;
-  final private LocalDate startDate;
+  final private LocalDate start_date;
   private int numOfStudent;
 }

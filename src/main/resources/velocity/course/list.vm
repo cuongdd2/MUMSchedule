@@ -19,7 +19,7 @@
           <th class="td"> -- </th>
         </tr>
       </thead>
-<tbody>
+    <tbody>
     #foreach($course in $courses)
         <tr>
             <td class="td"> $course.getId() </td>

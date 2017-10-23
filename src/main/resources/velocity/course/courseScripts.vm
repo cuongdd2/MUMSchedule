@@ -1,6 +1,7 @@
 <script>
 
 
+
   $( function() {
     $( "#dialog" ).dialog({
       autoOpen: false,
@@ -68,7 +69,7 @@ function getcourse(id){
  $("#EditB").show();
  $("#AddB").hide();
 
-$.get("$WebPath.getCOURSE()"+id, function(data, status){
+ $.get("$WebPath.getCOURSE()"+id, function(data, status){
         $.each(data, function( index, value ) {
            $("#"+index).val(value);
         });

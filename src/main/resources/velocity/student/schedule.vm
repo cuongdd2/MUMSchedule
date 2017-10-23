@@ -1,7 +1,55 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+#parse("/velocity/student/scheduleScripts.vm")
 
-    <h2>Class schedules system</h2>
+<table id="datatable" class=" table table-hover" style="width:100%">
 
-    
+    <thead>
+        <tr>
+          <th class="td">Block</th>
+          <th class="td">Course Number</th>
+          <th class="td">Course Name</th>
+          <th class="td">Professor</th>
+          <th class="td">Capacity</th>
+          <th class="td">Enrolled</th>
+          <th class="td">Seats Available</th>
+          <th class="td"> -- </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        #foreach($class in $classess) {
+
+            <tr>
+                <td>$class.getBlock().getName()</td>
+                <td>$class.getCourse().getCode()</td>
+                <td>$class.getCourse().getName()</td>
+                <td>$class.getProfessor().getName()</td>
+                <td>$class.getCapacity()</td>
+                <td>$class.getEnrolled()</td>
+                <td>$class.getAvailable()</td>
+                <td class="td">
+                    <a href="#" onclick="getcourse($class.getId())">
+                        <i class="glyphicon glyphicon-zoom-in"></i>
+                    </a>
+                </td>
+            </tr>
+
+            }
+        #end
+    </tbody>
+</table>
+
+
+<div id="dialog" title="Register Course" >
+      <form id="course" >
+
+         <input type="hidden" id="class_id" name="id" value="N/A" required>
+           <br> <br>
+
+         <input type="button" id="AddB" class="btn btn-primary" value="Register to course"" onclick="registerCourse()" >
+
+      </form>
+</div>
+
 #end

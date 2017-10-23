@@ -13,6 +13,10 @@ public class Path {
         public static final String INDEX = "/index/";
         @Getter
         public static final String LOGIN = "/api/student/login";
+
+        @Getter
+        public static final String STUDENTSCHEDULE = "/api/student/schedule";
+
         @Getter
         public static final String LOGOUT = "/logout/";
         @Getter
@@ -35,6 +39,8 @@ public class Path {
 
        @Getter
         public static final String ONE_BOOK = "/books/:isbn/";
+
+
     }
 
     public static class Template {
@@ -46,6 +52,7 @@ public class Path {
         public static final String ALL_COURSES = "/velocity/course/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
 
+        public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";
     }
 
 }

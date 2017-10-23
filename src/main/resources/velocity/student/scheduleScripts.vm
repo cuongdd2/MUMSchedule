@@ -1,0 +1,47 @@
+<script>
+
+$( function() {
+    $( "#dialog" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+} );
+
+
+function getcourse(classid){
+
+ $( "#dialog" ).dialog( "open" );
+ $("#AddB").show();
+
+ $("#class_id").val(classid);
+
+}
+
+function registerCourse(){
+
+ var classid = $("#class_id").val();
+
+ var form = $('#course');
+    $.ajax( {
+      type: "POST",
+      url: "http://localhost:$Port$WebPath.getSTUDENTSCHEDULE()",
+      data: "&studentid=1&courseid="+classid,
+      success: function( response ) {
+        $( "#dialog" ).dialog( "close");
+        $("#message").html("<div class='alert alert-success'> <p> Course added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+
+      },error: function (request, status, error) {
+      $("#message").html("<div class='alert alert-danger'><p> Error in adding course </p></div>");
+      }
+    } );
+}
+
+</script>

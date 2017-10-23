@@ -12,7 +12,7 @@ import org.sql2o.Sql2o;
 public class BlockDao implements Dao {
 
   private final static String INSERT = "insert into block(name, start_date, end_date) values(:name, :startDate, :endDate)";
-  private final static String BLOCK_BY_DATE = "SELECT id FROM block WHERE start_date > :startDate";
+  private final static String BLOCK_BY_DATE = "SELECT * FROM block WHERE start_date > :startDate";
   private final static String BLOCK_BY_ENTRY = "SELECT * FROM block WHERE entry_id = :entryId";
 
   private Sql2o sql2o;
