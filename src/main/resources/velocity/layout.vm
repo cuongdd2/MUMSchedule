@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
       <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
       <link rel="stylesheet" href="/css/jquery-ui.css">
+      <link rel="stylesheet" href="/css/multi-select.css">
 
 
 
@@ -17,6 +18,7 @@
     <script language="JavaScript" type="text/javascript" src="/js/jquery.js"></script>
     <script language="JavaScript" type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
     <script language="JavaScript" type="text/javascript" src="/js/jquery-ui.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/js/multi-select.js"></script>
     <script>
         $(document).ready(function(){
             $('#datatable').DataTable();

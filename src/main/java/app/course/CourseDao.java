@@ -18,6 +18,9 @@ public class CourseDao {
       "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
   private final static String UPDATE =
       "UPDATE course SET name = :name, code = :code, level = :level, `desc` = :desc, preNo = :preNo WHERE id = :id";
+  private final static String DELETE =
+          "delete from course where id = :id";
+
 
   private Sql2o sql2o;
 
@@ -25,11 +28,12 @@ public class CourseDao {
     this.sql2o = sql2o;
   }
 
-  public int create(Course c) throws Sql2oException {
+  public int create(Course c) throws Sql2oException  {
     int id;
     try (Connection conn = sql2o.beginTransaction()) {
       id = conn.createQuery(INSERT).bind(c).executeUpdate().getKey(Integer.class);
       conn.commit();
+
     }
     return id;
   }
@@ -75,6 +79,16 @@ public class CourseDao {
     return result;
   }
 
+public int delete(Course c) throws Sql2oException {
+  int result;
+  try (Connection conn = sql2o.open()) {
+    result = conn.createQuery(DELETE)
+            .addParameter("id", c.getId())
+            .executeUpdate().getResult();
+    //conn.commit();
+  }
+  return result;
+}
 
   public Course getcourse(int id){
      List<Course> course ;
