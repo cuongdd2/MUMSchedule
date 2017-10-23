@@ -14,6 +14,7 @@ public class CourseDao {
   private final static String SELECT_ALL = "SELECT * FROM course";
   private final static String SELECT_BY_BLOCK = "SELECT * FROM course WHERE block_id = :blockId";
   private final static String SELECT_BY_ID = "SELECT * FROM course WHERE id = :id";
+  private final static String SELECT_BY_NAME = "SELECT * FROM course WHERE code = :code";
   private final static String SELECT_BY_PROF =
       "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
   private final static String UPDATE =
@@ -76,14 +77,20 @@ public class CourseDao {
   }
 
 
-  public Course getcourse(int id){
-     List<Course> course ;
+  public Course getCourse(int id){
      try(Connection conn = sql2o.open()){
-       course = conn.createQuery(SELECT_BY_ID)
+       return conn.createQuery(SELECT_BY_ID)
                .addParameter("id" , id)
-               .executeAndFetch(Course.class);
+               .executeAndFetchFirst(Course.class);
      }
-     return course.stream().findFirst().get();
+  }
+
+  public Course getId(String code) {
+    try(Connection conn = sql2o.open()){
+      return conn.createQuery(SELECT_BY_NAME)
+          .addParameter("code", code)
+          .executeAndFetchFirst(Course.class);
+    }
   }
 
 }

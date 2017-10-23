@@ -1,7 +1,9 @@
 package app.util;
 
-import static app.util.RequestUtil.getSessionCurrentUser;
+import static app.util.RequestUtil.getRole;
+import static app.util.RequestUtil.getCurrentUser;
 import static app.util.RequestUtil.getSessionLocale;
+import static app.util.RequestUtil.getUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +17,11 @@ public class ViewUtil {
     // Renders a template given a model and a request
     // The request is needed to check the user session for language settings
     // and to see if the user is logged in
-    public static String render(Request request, Map<String, Object> model, String templatePath) {
-        model.put("msg", new MessageBundle(getSessionLocale(request)));
-        model.put("currentUser", getSessionCurrentUser(request));
+    public static String render(Request req, Map<String, Object> model, String templatePath) {
+        model.put("msg", new MessageBundle(getSessionLocale(req)));
+        model.put("currentUser", getCurrentUser(req));
+        model.put("user", getUser(req));
+        model.put("role", getRole(req));
         model.put("WebPath", Path.Web.class); // Access application URLs from templates
         model.put("Port", Spark.port()); // Access application URLs from templates
 

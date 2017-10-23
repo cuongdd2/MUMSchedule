@@ -87,7 +87,7 @@ public class StudentController {
           for(Class2 c : cls) {
 
               Professor prof = profDao.getProfById(c.getProf_id());
-              Course course = courseDao.getcourse(c.getCourse_id());
+              Course course = courseDao.getCourse(c.getCourse_id());
 
               Class newClass = new Class(course, prof, b);
               newClass.setCapacity(c.getCapacity());

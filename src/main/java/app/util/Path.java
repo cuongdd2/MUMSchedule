@@ -10,7 +10,7 @@ public class Path {
     // the variables from Velocity Templates
     public static class Web {
         @Getter
-        public static final String INDEX = "/index/";
+        public static final String INDEX = "/";
         @Getter
         public static final String LOGIN = "/api/student/login";
 
@@ -21,6 +21,14 @@ public class Path {
         public static final String LOGOUT = "/logout/";
         @Getter
         public static final String BOOKS = "/books/";
+        @Getter
+        public static final String ENTRY = "/entry/";
+        @Getter
+        public static final String BLOCK = "/block/";
+        @Getter
+        public static final String COURSES = "/course/";
+        @Getter
+        public static final String STUDENT = "/student/";
 
         @Getter
         public static final String COURSE = "/api/course/course?id=";
@@ -44,12 +52,13 @@ public class Path {
     }
 
     public static class Template {
-        public final static String INDEX = "/velocity/index/index.vm";
+        public final static String INDEX = "/velocity/index.vm";
         public final static String LOGIN = "/velocity/login/login.vm";
         public static final String NOT_FOUND = "/velocity/notFound.vm";
         public static final String WELCOME = "/velocity/welcome.vm";
         public static final String PROFILE = "/velocity/profile/profile.vm";
         public static final String ALL_COURSES = "/velocity/course/list.vm";
+        public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
 
         public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";

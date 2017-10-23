@@ -3,8 +3,6 @@ package app.course;
 import static app.Application.courseDao;
 import static app.util.JsonUtil.dataToJson;
 import static app.util.RequestUtil.body;
-import static app.util.RequestUtil.removeSessionAttrLoggedOut;
-import static app.util.RequestUtil.removeSessionAttrLoginRedirect;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,7 @@ public class CourseController {
 
     public static  Route openCourse = (request , response)->{
         Map<String, Object> model = new HashMap<>();
-        Course c = courseDao.getcourse(Integer.parseInt(request.queryParams("id")));
+        Course c = courseDao.getCourse(Integer.parseInt(request.queryParams("id")));
         model.put("course" , c);
         response.status(200);
         response.type("application/json");

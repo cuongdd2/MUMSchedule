@@ -1,8 +1,9 @@
 package app.util;
 
+import app.login.LoginController;
+import app.user.User;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +15,14 @@ public class RequestUtil {
   public static String getSessionLocale(Request request) {
     return request.session().attribute("locale");
   }
-  public static String getSessionCurrentUser(Request request) {
+  public static String getCurrentUser(Request request) {
     return request.session().attribute("currentUser");
+  }
+  public static User getUser(Request request) {
+    return LoginController.users.get(getCurrentUser(request));
+  }
+  public static String getRole(Request request) {
+    return request.session().attribute("role");
   }
   public static int getId(Request req) {
     if (!cache.containsKey(req)) cache.put(req, body(req));
@@ -23,7 +30,7 @@ public class RequestUtil {
   }
   public static String getName(Request req) {
     if (!cache.containsKey(req)) cache.put(req, body(req));
-    return cache.get(req).get("id");
+    return cache.get(req).get("name");
   }
   public static LocalDate getStartDate(Request req) {
     if (!cache.containsKey(req)) cache.put(req, body(req));

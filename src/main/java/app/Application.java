@@ -11,13 +11,17 @@ import app.course.CourseController;
 import app.course.CourseDao;
 import app.entry.EntryController;
 import app.entry.EntryDao;
+import app.index.IndexController;
+import app.login.LoginController;
 import app.professor.ProfController;
 import app.professor.ProfDao;
 import app.profile.ProfileController;
 import app.student.StudentController;
 import app.student.StudentDao;
+import app.user.User;
 import app.user.UserController;
 import app.user.UserDao;
+import app.util.Filters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
@@ -49,17 +53,29 @@ public class Application {
     userDao = new UserDao(sql2o);
     classDao = new ClassDao(sql2o);
 
-    path("/api", () -> {
-      before("/*", (q, a) -> System.out.println("Received api call" + q.url()));
+    staticFiles.location("/public");
+    staticFiles.expireTime(600L);
+    before("*",                  Filters.addTrailingSlashes);
+    before("*",                  Filters.handleLocaleChange);
+
+    get("/", IndexController.serveIndexPage);
+    get("/login/", LoginController.loginPage);
+    post("/login/", LoginController.login);
+
+    path("", () -> {
+      before("/*", (req, res) -> {
+        System.out.println("Received api call" + req.url());
+      });
 
       path("/block", () -> {
+        before("/*", UserController.isAdmin);
         get("/list", BlockController.list);
         post("/add", BlockController.add);
         put("/change", BlockController.change);
         delete("/remove", BlockController.remove);
       });
       path("/course", () -> {
-        get("/list", CourseController.list);
+        get("/", CourseController.list);
         get("/add",CourseController.addPage);
         get("/course",CourseController.openCourse);
         post("/add", CourseController.add);
@@ -67,7 +83,8 @@ public class Application {
         delete("/remove", CourseController.remove);
       });
       path("/entry", () -> {
-        get("/list", EntryController.list);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        get("/", EntryController.list);
         post("/add", EntryController.add);
         put("/change", EntryController.change);
         delete("/remove", EntryController.remove);
@@ -91,6 +108,7 @@ public class Application {
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
+        before("/*", UserController.isAdmin);
         get("/remove", UserController.list);
         post("/add", UserController.add);
         put("/change", UserController.change);
