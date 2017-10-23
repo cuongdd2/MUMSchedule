@@ -29,14 +29,11 @@ public class BlockDao implements Dao {
   }
 
 
-  public int create(Block b) {
+  public int create(Block b) throws Sql2oException {
     int id;
     try (Connection conn = sql2o.beginTransaction()) {
       id = conn.createQuery(INSERT)
-          .addParameter("name", b.getName())
-          .addParameter("startDate", b.getStartDate())
-          .addParameter("endDate", b.getEndDate())
-          .executeUpdate().getKey(Integer.class);
+          .bind(b).executeUpdate().getKey(Integer.class);
       conn.commit();
     }
     return id;
@@ -69,21 +66,11 @@ public class BlockDao implements Dao {
     List<Block> blocks;
     try (Connection conn = sql2o.beginTransaction()) {
       blocks = conn.createQuery(BLOCK_BY_DATE)
-          .addParameter("startDate", e.getStart_date()).throwOnMappingFailure(false)
-          .executeAndFetch(Block.class);
+          .addParameter("startDate", e.getStartDate())
+          .executeAndFetch(new BlockDataTransfer());
     }
     return blocks;
   }
-
-    public List<Integer> getBlocksByStartdate(Date e) {
-        List<Integer> blocks;
-        try (Connection conn = sql2o.beginTransaction()) {
-            blocks = conn.createQuery(BLOCK_BY_DATE)
-                    .addParameter("startDate", e).throwOnMappingFailure(false)
-                    .executeAndFetch(Integer.class);
-        }
-        return blocks;
-    }
 
 }
 

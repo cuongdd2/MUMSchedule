@@ -41,7 +41,7 @@ public class CourseDao {
 
   public List<Course> getAll() {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery(SELECT_ALL).throwOnMappingFailure(false).executeAndFetch(Course.class);
+      return conn.createQuery(SELECT_ALL).executeAndFetch(Course.class);
     }
   }
 

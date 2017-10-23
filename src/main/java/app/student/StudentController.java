@@ -2,28 +2,19 @@ package app.student;
 
 import static app.Application.*;
 import static app.util.JsonUtil.dataToJson;
-import static app.util.JsonUtil.jsonData;
 
 import app.block.Block;
-import app.clazz.Class2;
+import app.clazz.Class;
 import app.course.Course;
 import app.entry.Entry;
 import app.professor.Professor;
-import spark.Route;
 import app.util.Path;
-import app.clazz.Class;
 import app.util.ViewUtil;
-
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import static app.util.RequestUtil.*;
+import spark.Route;
 
 public class StudentController {
 
@@ -38,32 +29,6 @@ public class StudentController {
   };
   public static Route remove = (request, response) -> {
     return null;
-  };
-
-  public static Route loginPage = (request, response) -> {
-      Map<String, Object> model = new HashMap<>();
-      model.put("logout", removeSessionAttrLoggedOut(request));
-      model.put("logindirect", removeSessionAttrLoginRedirect(request));
-
-      return ViewUtil.render(request, model, Path.Template.LOGIN);
-  };
-
-  public static Route loginPost = (request, response) -> {
-      Map<String, Object> model = new HashMap<>();
-
-      if(!authenticate(request.queryParams("username"), request.queryParams("password")) ) {
-          model.put("authenticationFailed", true);
-          return ViewUtil.render(request, model, Path.Template.LOGIN);
-      }
-
-      request.session().attribute("currentUser", request.queryParams("username"));
-
-      if(getQueryLoginRedirect(request) !=null) {
-          response.redirect(getQueryLoginRedirect(request));
-      }
-
-      response.redirect("/api/welcome");
-      return null;
   };
 
   public static Route schedulePage = (request, response) -> {
@@ -82,12 +47,12 @@ public class StudentController {
       // Get all available classes in the block
       for(Block b : blocks) {
 
-          List<Class2> cls = classDao.getClassByBlock(b.getId());
+          List<Class> cls = classDao.getClassByBlock(b.getId());
 
-          for(Class2 c : cls) {
+          for(Class c : cls) {
 
-              Professor prof = profDao.getProfById(c.getProf_id());
-              Course course = courseDao.getCourse(c.getCourse_id());
+              Professor prof = profDao.getProfById(c.getProfessor().getId());
+              Course course = courseDao.getCourse(c.getCourse().getId());
 
               Class newClass = new Class(course, prof, b);
               newClass.setCapacity(c.getCapacity());
@@ -112,18 +77,5 @@ public class StudentController {
 
       return dataToJson(cid+sid);
   };
-
-  public static boolean authenticate(String email, String password) {
-      if (email.isEmpty() || password.isEmpty()) {
-          return false;
-      }
-      Student student = studentDao.getUserByUsername(email);
-      if (student == null) {
-          return false;
-      }
-
-      //String hashedPassword = BCrypt.hashpw(password, student.getSalt());
-      return true;//hashedPassword.equals(student.getHashedPassword());
-    }
 
 }

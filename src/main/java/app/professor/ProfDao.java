@@ -1,7 +1,6 @@
 package app.professor;
 
 import app.block.Block;
-import app.course.Course;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;

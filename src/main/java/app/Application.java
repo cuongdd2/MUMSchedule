@@ -41,8 +41,7 @@ public class Application {
   public static void main(String[] args) {
 
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
-    staticFiles.location("/public");
-    port(9860);
+    port(8080);
 
     Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425", "cs425", "mum");
     blockDao = new BlockDao(sql2o);
@@ -96,12 +95,8 @@ public class Application {
         delete("/remove", ProfController.remove);
       });
       path("/student", () -> {
-        get("/login", StudentController.loginPage);
-        post("/login", StudentController.loginPost);
-
         get("/schedule", StudentController.schedulePage);
         post("/schedule", StudentController.registerCourse);
-
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);

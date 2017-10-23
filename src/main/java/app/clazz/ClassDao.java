@@ -1,14 +1,6 @@
 package app.clazz;
 
-import app.block.Block;
-import app.course.Course;
-import app.professor.Professor;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -63,17 +55,14 @@ public class ClassDao {
   }
 
 
-    public List<Class2> getClassByBlock(int blockid) {
-        List<Class2> classes = new ArrayList<>();
+    public List<Class> getClassByBlock(int blockid) throws Exception {
+        List<Class> classes;
 
         try (Connection conn = sql2o.beginTransaction()) {
 
             classes = conn.createQuery(CLASSES_BY_BLOCK)
                     .addParameter("blockId", blockid)
-                    .throwOnMappingFailure(false).executeAndFetch(Class2.class);
-        }
-        catch(Exception e) {
-            System.out.println("Error: "+ e.getMessage() );
+                    .executeAndFetch(Class.class);
         }
         return classes;
 

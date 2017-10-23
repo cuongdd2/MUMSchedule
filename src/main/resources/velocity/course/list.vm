@@ -33,28 +33,6 @@
         <td class="td">
           <a href="#" onclick="getcourse($course.getId())">
             <i class="glyphicon glyphicon-edit"></i> </a>
-        <tr>
-          <th class="td">ID</th>
-          <th class="td">Course Name</th>
-          <th class="td">Course Code</th>
-          <th class="td">Course PreNo</th>
-          <th class="td" >Course Level </th>
-          <th class="td"> -- </th>
-        </tr>
-      </thead>
-    <tbody>
-    #foreach($course in $courses)
-        <tr>
-            <td class="td"> $course.getId() </td>
-           <td class="td">
-           $course.getName()
-           </td>
-           <td class="td"> $course.getCode()</td>
-           <td class="td"> $course.getPreNo()</td>
-           <td class="td"> $course.getLevel()</td>
-           <td class="td">
-           <a href="#" onclick="getcourse($course.getId())">
-            <i class="glyphicon glyphicon-edit"></i>  </a>
 
           <a href="#" onclick="deletecourse($course.getId())">
             <i class="glyphicon glyphicon-remove"></i> </a>

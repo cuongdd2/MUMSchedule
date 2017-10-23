@@ -12,7 +12,7 @@ public class Path {
         @Getter
         public static final String INDEX = "/";
         @Getter
-        public static final String LOGIN = "/api/student/login";
+        public static final String LOGIN = "/login/";
 
         @Getter
         public static final String STUDENTSCHEDULE = "/api/student/schedule";

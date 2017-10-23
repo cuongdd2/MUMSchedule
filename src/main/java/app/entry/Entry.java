@@ -1,6 +1,5 @@
 package app.entry;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +10,6 @@ import lombok.Setter;
 public class Entry {
   private int id;
   final private String name;
-  final private LocalDate start_date;
+  final private LocalDate startDate;
   private int numOfStudent;
 }

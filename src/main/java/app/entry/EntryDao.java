@@ -29,7 +29,7 @@ public class EntryDao implements Dao {
     try (Connection conn = sql2o.beginTransaction()) {
       int id = conn.createQuery(INSERT, true)
           .addParameter("name", entry.getName())
-          .addParameter("startDate", entry.getStart_date())
+          .addParameter("startDate", entry.getStartDate())
           .executeUpdate().getKey(Integer.class);
       conn.commit();
       return id;
@@ -41,8 +41,8 @@ public class EntryDao implements Dao {
 
       try(Connection conn = sql2o.beginTransaction()) {
           entry = conn.createQuery(ENTRY_BY_ID)
-                  .addParameter("id", id).throwOnMappingFailure(false)
-                  .executeAndFetchFirst(Entry.class);
+                  .addParameter("id", id)
+                  .executeAndFetchFirst(new EntryDataTransfer());
       }
       return entry;
   }
@@ -59,7 +59,7 @@ class EntryDataTransfer implements ResultSetHandler<Entry> {
   @Override
   public Entry handle(ResultSet rs) throws SQLException {
     Entry entry = new Entry(rs.getString(2), rs.getDate(3).toLocalDate());
-//    entry.setId(rs.getInt(1));
+    entry.setId(rs.getInt(1));
     return entry;
   }
 }
