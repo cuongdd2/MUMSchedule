@@ -1,0 +1,86 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/course/sectionScripts.vm")
+
+<h4>$msg.get("SECTION_HEADING_ALL")</h4>
+<br/>
+<a href='#' onclick="addcourse()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
+  Section </a>
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">ID</th>
+      <th class="td">Course</th>
+      <th class="td">Professor</th>
+      <th class="td">Block</th>
+      <th class="td">Capacity</th>
+      <th class="td">Enrolled</th>
+      <th class="td"> --</th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($section in $sections)
+      <tr>
+        <td class="td"> Id</td>
+        <td class="td"> Course</td>
+        <td class="td"> Professor</td>
+        <td class="td"> Block</td>
+        <td class="td"> Capacity</td>
+        <td class="td"> Enrolled</td>
+        <td class="td">
+          <a href="#" onclick="getcourse($course.getId())">
+            <i class="glyphicon glyphicon-edit"></i> </a>
+
+          <a href="#" onclick="deletecourse($course.getId())">
+            <i class="glyphicon glyphicon-remove"></i> </a>
+        </td>
+
+      </tr>
+      #end
+    </tbody>
+  </table>
+
+  <div id="dialog" title="Add/Update Section">
+    <form id="course">
+      <label>$msg.get("SECTION_COURSE")</label>
+      <select id="course" name="course" required>
+           <option>Course</option>
+      </select>
+
+      <label>$msg.get("SECTION_PROF")</label>
+      <select id="professor" name="professor" required>
+        <option>Professor</option>
+      </select>
+
+      <label>$msg.get("SECTION_BLOCK")</label>
+      <select id="block" name="block" required>
+        <option>Block</option>
+      </select>
+
+      <label>$msg.get("SECTION_CAPACITY")</label>
+      <input type="number" id="capacity" name="capacity" placeholder="$msg.get("SECTION_CAPACITY")" value=""
+             required>
+
+      <input type="hidden" id="id" name="id" value="N/A" required>
+      <br> <br>
+      <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("COURSE_EDIT_BUTTON")"
+             onclick="update()">
+
+      <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("SECTION_ADD_BUTTON")"
+             onclick="addC()">
+
+
+      <input type="button" class="btn btn-danger" value="$msg.get("CANCEL")" onclick="cancel()">
+    </form>
+  </div>
+</div>
+
+  </body>
+
+  </html>
+
+#end
