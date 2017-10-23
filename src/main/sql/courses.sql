@@ -1,0 +1,35 @@
+INSERT INTO course(name, code, level) VALUES('Fundamental Programming Practices', 'CS390', 'L300');
+
+INSERT INTO course(name, code, level) VALUES('Modern Programming Practices', 'CS401', 'L400');
+INSERT INTO course(name, code, level) VALUES('Database Systems', 'CS422', 'L400');
+INSERT INTO course(name, code, level) VALUES('Systems Analysis and Design', 'CS423', 'L400');
+INSERT INTO course(name, code, level) VALUES('Software Engineering', 'CS425', 'L400');
+INSERT INTO course(name, code, level) VALUES('Business Intelligence and Data Mining', 'CS430', 'L400');
+INSERT INTO course(name, code, level) VALUES('Algorithms', 'CS435', 'L400');
+INSERT INTO course(name, code, level) VALUES('Compiler Construction', 'CS440', 'L400');
+INSERT INTO course(name, code, level) VALUES('Computer Networks', 'CS450', 'L400');
+INSERT INTO course(name, code, level) VALUES('Software Testing', 'CS456', 'L400');
+INSERT INTO course(name, code, level) VALUES('Operating Systems', 'CS465', 'L400');
+INSERT INTO course(name, code, level) VALUES('Computer Security', 'CS466', 'L400');
+INSERT INTO course(name, code, level) VALUES('Secure Coding Practices', 'CS467', 'L400');
+INSERT INTO course(name, code, level) VALUES('Artificial Intelligence', 'CS470', 'L400');
+INSERT INTO course(name, code, level) VALUES('Parallel Programming', 'CS471', 'L400');
+INSERT INTO course(name, code, level) VALUES('Web Application Programming', 'CS472', 'L400');
+INSERT INTO course(name, code, level) VALUES('Mobile Device Programming', 'CS473', 'L400');
+INSERT INTO course(name, code, level) VALUES('Computer Graphics', 'CS475', 'L400');
+INSERT INTO course(name, code, level) VALUES('Image Processing', 'CS476', 'L400');
+INSERT INTO course(name, code, level) VALUES('Software Development with Fundamental Design Patterns', 'CS482', 'L400');
+INSERT INTO course(name, code, level) VALUES('Big Data Analytics', 'CS488', 'L400');
+
+INSERT INTO course(name, code, level) VALUES('Science of Creative Intelligence', 'FOR500', 'L500');
+INSERT INTO course(name, code, level) VALUES('Advanced Computer Architecture', 'CS501', 'L500');
+INSERT INTO course(name, code, level) VALUES('Advanced Programming Languages', 'CS 505', 'L500');
+INSERT INTO course(name, code, level) VALUES('Big Data', 'CS522', 'L500');
+INSERT INTO course(name, code, level) VALUES('Big Data Technologies', 'CS523', 'L500');
+INSERT INTO course(name, code, level) VALUES('Advanced Software Development', 'CS525', 'L500');
+INSERT INTO course(name, code, level) VALUES('Enterprise Architecture', 'CS544', 'L500');
+INSERT INTO course(name, code, level) VALUES('Web Application Architecture and Frameworks', 'CS545', 'L500');
+INSERT INTO course(name, code, level) VALUES('Distributed Architecture', 'CS547', 'L500');
+INSERT INTO course(name, code, level) VALUES('Modern Web Applications', 'CS572', 'L500');
+INSERT INTO course(name, code, level) VALUES('Practicum in Software Development', 'CS575', 'L500');
+INSERT INTO course(name, code, level) VALUES('Machine Learning', 'CS582', 'L500');

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 
 @Data @RequiredArgsConstructor
 public class Course {
+  public static final String FPP_CODE = "CS390";
+  public static final String MPP_CODE = "CS401";
   private int id;
   final private String name;
   final private String code;
