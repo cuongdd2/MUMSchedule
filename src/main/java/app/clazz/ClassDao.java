@@ -1,10 +1,17 @@
 package app.clazz;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.Connection;
+import org.sql2o.ResultSetHandler;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+
+import static app.Application.blockDao;
+import static app.Application.courseDao;
+import static app.Application.profDao;
 
 public class ClassDao {
 
@@ -42,7 +49,7 @@ public class ClassDao {
   public List<Class> getAll() throws Sql2oException {
     List<Class> classes;
     try (Connection conn = sql2o.beginTransaction()) {
-      classes = conn.createQuery(LIST_ALL).executeAndFetch(Class.class);
+      classes = conn.createQuery(LIST_ALL).executeAndFetch(new ClassDataTransfer());
     }
     return classes;
   }
@@ -66,5 +73,23 @@ public class ClassDao {
         }
         return classes;
 
+    }
+}
+
+class ClassDataTransfer implements ResultSetHandler<Class> {
+
+    @Override
+    public Class handle(ResultSet rs) throws SQLException {
+
+        Class c = new Class(
+                courseDao.getCourse(rs.getInt("course_id")),
+                profDao.getProfById(rs.getInt("prof_id")),
+                blockDao.getBlock(rs.getInt("block_id")));
+
+        c.setId(rs.getInt("id"));
+        c.setCapacity(rs.getInt("capacity"));
+        c.setEnrolled(rs.getInt("enrolled"));
+
+        return c;
     }
 }

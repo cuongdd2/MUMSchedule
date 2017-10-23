@@ -1,11 +1,10 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
-  #parse("/velocity/course/sectionScripts.vm")
+  #parse("/velocity/section/sectionScripts.vm")
 
 <h4>$msg.get("SECTION_HEADING_ALL")</h4>
 <br/>
-<a href='#' onclick="addcourse()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
-  Section </a>
+<a href='#' onclick="addcourse()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add Section </a>
 <div class="col-md-15">
   <br>
   <div id="message"></div>
@@ -25,17 +24,17 @@
     <tbody>
       #foreach($section in $sections)
       <tr>
-        <td class="td"> Id</td>
-        <td class="td"> Course</td>
-        <td class="td"> Professor</td>
-        <td class="td"> Block</td>
-        <td class="td"> Capacity</td>
-        <td class="td"> Enrolled</td>
+        <td class="td"> $section.getId()</td>
+        <td class="td"> $section.getCourse().getName()</td>
+        <td class="td"> $section.getProfessor().getName()</td>
+        <td class="td"> $section.getBlock().getName()</td>
+        <td class="td"> $section.getCapacity()</td>
+        <td class="td"> $section.getEnrolled()</td>
         <td class="td">
-          <a href="#" onclick="getcourse($course.getId())">
+          <a href="#" onclick="getcourse($section.getId())">
             <i class="glyphicon glyphicon-edit"></i> </a>
 
-          <a href="#" onclick="deletecourse($course.getId())">
+          <a href="#" onclick="deletecourse($section.getId())">
             <i class="glyphicon glyphicon-remove"></i> </a>
         </td>
 
