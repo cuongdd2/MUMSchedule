@@ -47,9 +47,12 @@ public class Path {
         public static final String ADD = "/course/add";
 
         @Getter
-        public static final String DELETECOURSE = "/course/remove";
+        public static final String ADDSECTION = "/section/add";
 
+        @Getter
+        public static final String DELETESECTION = "/section/remove";
 
+        
     }
 
     public static class Template {
@@ -61,6 +64,7 @@ public class Path {
         public static final String ALL_COURSES = "/velocity/course/list.vm";
         public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
+
         public static final String ALL_SECTIONS = "/velocity/section/list.vm";
 
         public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";

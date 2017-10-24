@@ -43,39 +43,6 @@
     </tbody>
   </table>
 
-  <div id="dialog" title="Add/Update Section">
-    <form id="course">
-      <label>$msg.get("SECTION_COURSE")</label>
-      <select id="course" name="course" required>
-           <option>Course</option>
-      </select>
-
-      <label>$msg.get("SECTION_PROF")</label>
-      <select id="professor" name="professor" required>
-        <option>Professor</option>
-      </select>
-
-      <label>$msg.get("SECTION_BLOCK")</label>
-      <select id="block" name="block" required>
-        <option>Block</option>
-      </select>
-
-      <label>$msg.get("SECTION_CAPACITY")</label>
-      <input type="number" id="capacity" name="capacity" placeholder="$msg.get("SECTION_CAPACITY")" value=""
-             required>
-
-      <input type="hidden" id="id" name="id" value="N/A" required>
-      <br> <br>
-      <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("COURSE_EDIT_BUTTON")"
-             onclick="update()">
-
-      <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("SECTION_ADD_BUTTON")"
-             onclick="addC()">
-
-
-      <input type="button" class="btn btn-danger" value="$msg.get("CANCEL")" onclick="cancel()">
-    </form>
-  </div>
 </div>
 
   </body>

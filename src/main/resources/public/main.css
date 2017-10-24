@@ -287,3 +287,6 @@ a .bookCover img {
 .bad.notification {
     background: #bb0000;
 }
+.label {
+    margin-top: 15px;
+}

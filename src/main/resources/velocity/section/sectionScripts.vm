@@ -45,22 +45,24 @@
   function addcourse() {
     $("#dialog").dialog("open");
     $("#course")[0].reset();
-    ;
+
     $("#EditB").hide();
     $("#AddB").show();
+
+
   }
 
   function addC() {
     var form = $('#course');
     $.ajax({
       type: "POST",
-      url: "http://localhost:$Port$WebPath.getADD()",
+      url: "http://localhost:$Port$WebPath.getADDSECTION()",
       data: form.serialize(),
       success: function (response) {
         $("#dialog").dialog("close");
         $("#message").html(
-            "<div class='alert alert-success'> <p> Course added successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+            "<div class='alert alert-success'> <p> Section added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
 
       }, error: function (request, status, error) {
         $("#message").html(request.ResponseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
@@ -102,9 +104,11 @@
 
   function deletecourse(id) {
     $("#deletedialog").dialog("open");
-    $.get("$WebPath.getCOURSE()" + id, function (data, status) {
+    $.get("$WebPath.getSECTION()" + id, function (data, status) {
       $.each(data, function (index, value) {
+
         $("#delete_" + index).val(value);
+
       });
     });
   }
@@ -114,20 +118,19 @@
 
     $.ajax({
       type: "delete",
-      url: "http://localhost:$Port$WebPath.getDELETECOURSE()",
+      url: "http://localhost:$Port$WebPath.getDELETESECTION()",
       data: form.serialize(),
       success: function (response) {
 
         $("#deletedialog").dialog("close");
         $("#message").html(
-            "<div class='alert alert-success'> <p> Course deleted successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+            "<div class='alert alert-success'> <p> Section deleted successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
 
       }, error: function (request, status, error) {
         $("#deletedialog").dialog("close");
         //request.responseText
-        $("#message").html(
-            "<div class='alert alert-danger'><p> Cannot delete this course </p></div>");
+        $("#message").html("<div class='alert alert-danger'><p> Cannot delete this course </p></div>");
       }
     });
   }
@@ -135,34 +138,47 @@
 </script>
 
 
-<div id="dialog" title="Add/Update Course" class="col-md-15">
+<div id="dialog" title="Add/Update Section" class="col-md-15">
   <form id="course">
-    <label>$msg.get("COURSE_ADD_NAME")</label>
-    <input type="text" id="name" name="name" placeholder="$msg.get("COURSE_ADD_NAME")" value=""
-           required>
 
-    <label>$msg.get("COURSE_ADD_CODE")</label>
-    <input type="text" id="code" name="code" placeholder="$msg.get("COURSE_ADD_CODE")" value=""
-           required>
+    <label>$msg.get("SECTION_CAPACITY")</label>
+    <input type="text" id="capacity" name="capacity" placeholder="$msg.get("SECTION_CAPACITY")" value="" required /><br/>
 
-    <label>$msg.get("COURSE_ADD_LEVEL")</label>
-    <input type="text" id="level" name="level" placeholder="$msg.get("COURSE_ADD_LEVEL")" value=""
-           required>
 
-    <label>$msg.get("COURSE_ADD_DESC")</label>
-    <input type="text" id="desc" name="desc" placeholder="$msg.get("COURSE_ADD_DESC")" value=""
-           required>
+    <label class="label">$msg.get("SECTION_COURSE")</label>
+    <select id="section" class="form-control" name="section" required>
+        <option>-</option>
+        #foreach($course in $courses)
+          <option value="$course.getId()">$course.getName()</option>
+        #end
+    </section>
+    <input type="hidden" name="hide1" />
 
-    <label>$msg.get("COURSE_ADD_preNo")</label>
-    <input type="text" id="preNo" name="noPre" placeholder="$msg.get("COURSE_ADD_preNo")" value=""
-           required>
+    <label class="label">$msg.get("SECTION_PROF")</label>
+    <select id="prof" class="form-control" name="prof" required>
+        <option>-</option>
+        #foreach($prof in $professors)
+          <option value="$prof.getId()">$prof.getName()</option>
+        #end
+    </section>
+    <input type="hidden" name="hide2" />
+
+    <label class="label">$msg.get("SECTION_BLOCK")</label>
+    <select id="block" class="form-control" name="block" required>
+        <option>-</option>
+        #foreach($block in $blocks)
+          <option value="$block.getId()">$block.getName()</option>
+        #end
+    </section>
+    <input type="hidden" name="hide3" />
+
 
     <input type="hidden" id="id" name="id" value="N/A" required>
     <br> <br>
     <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("COURSE_EDIT_BUTTON")"
            onclick="update()">
 
-    <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("COURSE_ADD_BUTTON")"
+    <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("SECTION_ADD_BUTTON")"
            onclick="addC()">
 
 
@@ -173,20 +189,26 @@
 
 <div id="deletedialog" title="Delete Section">
   <form id="deletecourse">
-    <label>$msg.get("COURSE_ADD_NAME")</label>
-    <input type="text" id="delete_name" disabled name="name"
-           placeholder="$msg.get("COURSE_ADD_NAME")" value="" required>
+    <label>$msg.get("SECTION_BLOCK")</label><br />
+    <input type="text" id="delete_block" disabled name="name"
+           placeholder="$msg.get("SECTION_BLOCK")" value="" required>
 
-    <label>$msg.get("COURSE_ADD_CODE")</label>
-    <input type="text" id="delete_code" disabled name="code"
-           placeholder="$msg.get("COURSE_ADD_CODE")" value="" required>
+    <label>$msg.get("SECTION_PROF")</label><br />
+    <input type="text" id="delete_professor" disabled name="code"
+           placeholder="$msg.get("SECTION_PROF")" value="" required>
+
+    <br/>
+    <label>$msg.get("SECTION_COURSE")</label><br />
+    <input type="text" id="delete_course" disabled name="code"
+           placeholder="$msg.get("SECTION_COURSE")" value="" required>
 
     <input type="hidden" id="delete_id" name="id" value="N/A" required>
     <br> <br>
 
-    <input type="button" class="btn btn-danger" value="$msg.get("COURSE_DELETE_BUTTON")"
+    <input type="button" class="btn btn-danger" value="$msg.get("SECTION_DELETE_BUTTON")"
            onclick="deleteC()">
 
     <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+
   </form>
 </div>

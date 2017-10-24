@@ -12,6 +12,8 @@ public class ProfDao {
 
     private static String SELECT_BY_ID = "select * from professor where id = :Id";
 
+    private static String SELECT_ALL = "select * from professor";
+
   private Sql2o sql2o;
 
   public ProfDao(Sql2o sql2o) {
@@ -45,5 +47,9 @@ public class ProfDao {
         }
     }
 
-
+    public List<Professor> getAll() {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery(SELECT_ALL).executeAndFetch(Professor.class);
+        }
+    }
 }

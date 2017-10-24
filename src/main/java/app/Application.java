@@ -1,9 +1,5 @@
 package app;
 
-import static app.util.JsonUtil.dataToJson;
-import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
-
 import app.block.BlockController;
 import app.block.BlockDao;
 import app.clazz.ClassController;
@@ -19,14 +15,15 @@ import app.professor.ProfDao;
 import app.profile.ProfileController;
 import app.student.StudentController;
 import app.student.StudentDao;
-import app.user.User;
 import app.user.UserController;
 import app.user.UserDao;
 import app.util.Filters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
-import spark.Route;
+
+import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Application {
 
@@ -85,6 +82,8 @@ public class Application {
       });
       path("/section", () -> {
         get("/", ClassController.list);
+        post("/add", ClassController.add);
+        get("/:id", ClassController.openCLass);
 
       });
       path("/entry", () -> {
