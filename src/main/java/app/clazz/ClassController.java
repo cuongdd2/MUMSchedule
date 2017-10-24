@@ -2,6 +2,7 @@ package app.clazz;
 
 import app.util.Path;
 import app.util.ViewUtil;
+import org.sql2o.Sql2oException;
 import spark.Route;
 
 import java.util.HashMap;
@@ -56,7 +57,37 @@ public class ClassController {
         //return ViewUtil.render(request, model, Path.Template.ALL_COURSES);
     };
 
+
+    public static Route change = (request, response) -> {
+
+        int clazz = Integer.parseInt(request.queryParams("id"));
+        int capacity = Integer.parseInt(request.queryParams("capacity"));
+        int course = Integer.parseInt(request.queryParams("section"));
+        int professor = Integer.parseInt(request.queryParams("prof"));
+        int block = Integer.parseInt(request.queryParams("block"));
+
+        try{
+            classDao.updateWithId(clazz, course, professor, block, capacity);
+            return dataToJson(1);
+        }
+        catch (Sql2oException se) {
+            return dataToJson(se.getMessage());
+        }
+
+
+    };
+
     public static Route remove = (request, response) -> {
-        return dataToJson(1);
+
+        int id = Integer.parseInt(request.queryParams("id"));
+
+        try{
+            classDao.remove(id);
+            return dataToJson(1);
+        }
+        catch (Sql2oException se) {
+            return dataToJson(se.getMessage());
+        }
+
     };
 }

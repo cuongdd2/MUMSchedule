@@ -31,7 +31,7 @@
         <td class="td"> $section.getCapacity()</td>
         <td class="td"> $section.getEnrolled()</td>
         <td class="td">
-          <a href="#" onclick="getcourse($section.getId())">
+          <a href="#" onclick="getcourse($section.getId(), $section.getCourse().getId(), $section.getProfessor().getId(), $section.getBlock().getId(), $section.getCapacity())">
             <i class="glyphicon glyphicon-edit"></i> </a>
 
           <a href="#" onclick="deletecourse($section.getId())">

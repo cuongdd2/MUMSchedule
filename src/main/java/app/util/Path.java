@@ -49,9 +49,10 @@ public class Path {
 
         @Getter
         public static final String ADDSECTION = "/section/add";
-
         @Getter
         public static final String DELETESECTION = "/section/remove";
+        @Getter
+        public static final String CHANGESECTION = "/section/change";
 
         //BLOCK
         @Getter

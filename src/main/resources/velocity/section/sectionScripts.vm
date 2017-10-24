@@ -70,30 +70,40 @@
     });
   }
 
-  function getcourse(id) {
+  function getcourse(id, course, prof, block, capacity) {
     $("#dialog").dialog("open");
     $("#EditB").show();
     $("#AddB").hide();
 
-    $.get("$WebPath.getCOURSE()" + id, function (data, status) {
-      $.each(data, function (index, value) {
-        $("#" + index).val(value);
-      });
-    });
+    var sections = document.getElementById ( "section" );
+    sections.value = course;
+
+    var profs = document.getElementById ( "prof" );
+    profs.value = prof;
+
+    var blocks = document.getElementById ( "block" );
+    blocks.value = block;
+
+    var cap = document.getElementById ( "capacity" );
+    cap.value = capacity;
+
+    var ids = document.getElementById ( "id" );
+    ids.value = id;
+
   }
 
   function update() {
     var form = $('#course');
     $.ajax({
       type: "PUT",
-      url: "http://localhost:$Port$WebPath.getCHANGE()",
+      url: "http://localhost:$Port$WebPath.getCHANGESECTION()",
       data: form.serialize(),
       success: function (response) {
 
         $("#dialog").dialog("close");
         $("#message").html(
-            "<div class='alert alert-success'> <p> Course updated successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+            "<div class='alert alert-success'> <p> Section updated successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
 
       }, error: function (request, status, error) {
         $("#dialog").dialog("close");
@@ -117,7 +127,7 @@
     var form = $('#deletecourse');
 
     $.ajax({
-      type: "delete",
+      type: "post",
       url: "http://localhost:$Port$WebPath.getDELETESECTION()",
       data: form.serialize(),
       success: function (response) {
@@ -125,7 +135,7 @@
         $("#deletedialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Section deleted successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
+            setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
 
       }, error: function (request, status, error) {
         $("#deletedialog").dialog("close");

@@ -2,6 +2,7 @@ package app;
 
 import app.block.BlockController;
 import app.block.BlockDao;
+import app.clazz.Class;
 import app.clazz.ClassController;
 import app.clazz.ClassDao;
 import app.course.CourseController;
@@ -85,6 +86,8 @@ public class Application {
         get("/", ClassController.list);
         post("/add", ClassController.add);
         get("/:id", ClassController.openCLass);
+        post("/remove", ClassController.remove);
+        put("/change", ClassController.change);
 
       });
       path("/entry", () -> {
