@@ -1,0 +1,202 @@
+<script>
+
+    $( function() {
+        $( ".date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    } );
+
+  $(function () {
+    $('#select').change(function () {
+      console.log($(this).val());
+    }).multipleSelect({
+      width: '100%'
+    });
+  });
+
+  $(function () {
+    $("#dialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 500
+      },
+      hide: {
+        effect: "explode",
+        duration: 500
+      }
+    });
+
+  });
+
+  $(function () {
+    $("#deletedialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind"
+      },
+      hide: {
+        effect: "explode",
+        duration: 500
+      }
+    });
+
+  });
+
+  function cancel() {
+    $("#dialog").dialog("close");
+    $("#deletedialog").dialog("close");
+  }
+
+  function addblock() {
+    $("#dialog").dialog("open");
+    $("#block")[0].reset();
+    ;
+    $("#EditB").hide();
+    $("#AddB").show();
+  }
+
+  function addC() {
+    var form = $('#block');
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:$Port$WebPath.getADDBLOCK()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> block added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getBLOCKLIST()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding block </p></div>");
+      }
+    });
+  }
+
+  function getblock(id) {
+    $("#dialog").dialog("open");
+    $("#EditB").show();
+    $("#AddB").hide();
+    console.log("http://localhost:$Port$WebPath.getBLOCK()" + id);
+    $.get("$WebPath.getBLOCK()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+         if(index != 'startDate' && index!='endDate'){
+             $("#" + index).val(value);
+         }else{
+             $("#" + index).val(value.month + "- " + value.dayOfMonth + "- " + value.year);
+         }
+
+      });
+    });
+  }
+
+  function update() {
+    var form = $('#block');
+    $.ajax({
+      type: "PUT",
+      url: "http://localhost:$Port$WebPath.getCHANGEBLOCK()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> block updated successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getBLOCKLIST()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#dialog").dialog("close");
+        $("#message").html("<div class='alert alert-danger'><p> Error in updating </p></div>");
+      }
+    });
+  }
+
+  function deleteblock(id) {
+    $("#deletedialog").dialog("open");
+    console.log("$WebPath.getBLOCK()" + id);
+    $.get("$WebPath.getBLOCK()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+        $("#delete_" + index).val(value);
+      });
+    });
+  }
+
+  function deleteC() {
+    var form = $('#deleteblock');
+
+    $.ajax({
+      type: "delete",
+      url: "http://localhost:$Port$WebPath.getDELETEBLOCK()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#deletedialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> block deleted successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getBLOCKLIST()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#deletedialog").dialog("close");
+        //request.responseText
+        $("#message").html(
+            request.responseText+"<div class='alert alert-danger'><p> Cannot delete this block </p></div>");
+      }
+    });
+  }
+
+</script>
+
+
+<div id="dialog" title="Add/Update block" class="col-md-15">
+  <form id="block">
+    <label>$msg.get("BLOCK_ADD_NAME")</label>
+    <input type="text" id="name" name="name" placeholder="$msg.get("BLOCK_ADD_NAME")" value=""
+           required>
+
+
+
+    <label>$msg.get("BLOCK_START_DATE")</label>
+    <input type="text" id="startDate" class="date" name="startDate" placeholder="$msg.get("BLOCK_START_DATE")" value=""
+           required>
+
+
+    <label>$msg.get("BLOCK_END_DATE")</label>
+      <input type="text" id="endDate" class="date" name="endDate" placeholder="$msg.get("BLOCK_START_DATE")" value=""
+             required>
+
+    <input type="hidden" id="id" name="id" value="N/A" required>
+    <br> <br>
+    <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("BLOCK_EDIT_BUTTON")"
+           onclick="update()">
+
+    <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("BLOCK_ADD_BUTTON")"
+           onclick="addC()">
+
+
+    <input type="button" class="btn btn-danger" value="$msg.get("CANCEL")" onclick="cancel()">
+  </form>
+</div>
+
+
+<div id="deletedialog" title="Delete block">
+  <form id="deleteblock">
+    <label>$msg.get("BLOCK_ADD_NAME")</label>
+    <input type="text" id="delete_name" disabled name="name"
+           placeholder="$msg.get("BLOCK_ADD_NAME")" value="" required>
+
+    <label>$msg.get("BLOCK_START_DATE")</label>
+    <input type="text" id="delete_start_date" disabled name="code"
+           placeholder="$msg.get("BLOCK_START_DATE")" value="" required>
+
+
+      <label>$msg.get("BLOCK_END_DATE")</label>
+      <input type="text" id="delete_end_date" disabled name="code"
+             placeholder="$msg.get("BLOCK_END_DATE")" value="" required>
+
+      <input type="hidden" id="delete_id" name="id" value="N/A" required>
+    <br> <br>
+
+    <input type="button" class="btn btn-danger" value="$msg.get("BLOCK_DELETE_BUTTON")"
+           onclick="deleteC()">
+
+    <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+  </form>
+</div>

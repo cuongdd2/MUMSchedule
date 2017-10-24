@@ -68,6 +68,7 @@ public class Application {
 //        before("/*", UserController.isAdmin);
         get("/list", BlockController.list);
         post("/add", BlockController.add);
+        get("/:id",BlockController.openBlock);
         put("/change", BlockController.change);
         delete("/remove", BlockController.remove);
       });

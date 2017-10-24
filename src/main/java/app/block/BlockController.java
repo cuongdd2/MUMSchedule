@@ -1,21 +1,18 @@
 package app.block;
 
-import static app.Application.blockDao;
-import static app.Application.courseDao;
-import static app.Application.entryDao;
-import static app.util.JsonUtil.dataToJson;
-import static app.util.JsonUtil.jsonData;
-import static app.util.RequestUtil.body;
-import static app.util.RequestUtil.getEndDate;
-import static app.util.RequestUtil.getId;
-import static app.util.RequestUtil.getName;
-import static app.util.RequestUtil.getStartDate;
-import static app.util.RequestUtil.parseDate;
-
-import app.entry.Entry;
-import java.util.Map;
+import app.util.Path;
+import app.util.ViewUtil;
 import org.sql2o.Sql2oException;
 import spark.Route;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static app.Application.blockDao;
+import static app.util.JsonUtil.dataToJson;
+import static app.util.JsonUtil.jsonData;
+import static app.util.RequestUtil.*;
 
 public class BlockController {
 
@@ -30,15 +27,20 @@ public class BlockController {
       return jsonData(false, e.getMessage());
     }
   };
+
   public static Route list = (req, res) -> {
     try {
       res.status(200);
-      return jsonData(true, blockDao.getAll());
-    } catch (Sql2oException e) {
+      List<Block> blocks = blockDao.getAll();
+      Map<String, Object> model = new HashMap<>();
+      model.put("blocks",blocks);
+      return ViewUtil.render(req, model, Path.Template.ALL_BLOCKS);
+  } catch (Sql2oException e) {
       res.status(400);
       return jsonData(false, e.getMessage());
     }
   };
+
   public static Route change = (req, res) -> {
     try {
       Block block = new Block(getName(req), getStartDate(req), getEndDate(req));
@@ -60,5 +62,15 @@ public class BlockController {
       res.status(500);
       return jsonData(false, e.getMessage());
     }
+  };
+
+  public static  Route openBlock = (request , response)->{
+    Map<String, Object> model = new HashMap<>();
+    Block block = blockDao.getblock(Integer.parseInt(request.params(":id")));
+    model.put("block" , block);
+    response.status(200);
+    response.type("application/json");
+    return dataToJson(block);
+    //return ViewUtil.render(request, model, Path.Template.ALL_COURSES);
   };
 }

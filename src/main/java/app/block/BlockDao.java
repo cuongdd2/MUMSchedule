@@ -21,7 +21,8 @@ public class BlockDao implements Dao {
   private final static String UPDATE = "UPDATE block SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
   private final static String BLOCK_BY_DATE = "SELECT * FROM block WHERE start_date > :startDate";
   private final static String BLOCK_BY_ENTRY = "SELECT * FROM block WHERE entry_id = :entryId";
-  private final static String BLOCK_BY_ID = "SELECT * FROM block WHERE id = :blockId";
+  private final static String BLOCK_BY_ID = "SELECT * FROM block WHERE id = :id";
+
 
   private Sql2o sql2o;
 
@@ -73,15 +74,14 @@ public class BlockDao implements Dao {
     return blocks;
   }
 
-  public Block getBlock(int id) {
-      Block block;
-      try (Connection conn = sql2o.beginTransaction()) {
-          block = conn.createQuery(BLOCK_BY_ID)
-                  .addParameter("blockId", id)
-                  .executeAndFetchFirst(new BlockDataTransfer());
-      }
-      return block;
+
+  public Block getBlock(int id) throws Sql2oException {
+    try (Connection conn = sql2o.beginTransaction()) {
+
+     return conn.createQuery(BLOCK_BY_ID).addParameter("id", id).executeAndFetchFirst(new BlockDataTransfer());
+    }
   }
+
 }
 
 class BlockDataTransfer implements ResultSetHandler<Block> {

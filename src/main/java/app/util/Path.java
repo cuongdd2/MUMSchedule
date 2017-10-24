@@ -24,8 +24,6 @@ public class Path {
         @Getter
         public static final String ENTRY = "/entry/";
         @Getter
-        public static final String BLOCK = "/block/";
-        @Getter
         public static final String COURSES = "/course/";
 
         @Getter
@@ -41,10 +39,13 @@ public class Path {
         public static final String CHANGE = "/course/change";
 
         @Getter
-        public static final String LIST = "/course/list";
+        public static final String LIST = "/course/";
 
         @Getter
         public static final String ADD = "/course/add";
+
+        @Getter
+        public static final String DELETECOURSE = "/course/remove";
 
         @Getter
         public static final String ADDSECTION = "/section/add";
@@ -52,7 +53,20 @@ public class Path {
         @Getter
         public static final String DELETESECTION = "/section/remove";
 
-        
+        //BLOCK
+        @Getter
+        public static final String BLOCK = "/block/";
+        @Getter
+        public static final String CHANGEBLOCK = "/block/change";
+        @Getter
+        public static final String BLOCKLIST = "/block/list";
+        @Getter
+        public static final String ADDBLOCK = "/block/add";
+        @Getter
+        public static final String DELETEBLOCK = "/block/remove";
+
+
+
     }
 
     public static class Template {
@@ -62,6 +76,7 @@ public class Path {
         public static final String WELCOME = "/velocity/welcome.vm";
         public static final String PROFILE = "/velocity/profile/profile.vm";
         public static final String ALL_COURSES = "/velocity/course/list.vm";
+        public static final String ALL_BLOCKS = "/velocity/block/list.vm";
         public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
 

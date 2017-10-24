@@ -1,0 +1,50 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/block/blockscripts.vm")
+<h4>$msg.get("BLOCK_HEADING_ALL")</h4>
+<br/>
+<a href='#' onclick="addblock()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
+  block </a>
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">ID</th>
+      <th class="td">Block Name</th>
+      <th class="td">BLock Start-date</th>
+      <th class="td">block End-date</th>
+      <th class="td"> --</th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($block in $blocks)
+      <tr>
+        <td class="td"> $block.getId()</td>
+        <td class="td">
+          $block.getName()
+        </td>
+        <td class="td"> $block.getStartDate()</td>
+        <td class="td"> $block.getEndDate()</td>
+
+        <td class="td">
+          <a href="#" onclick="getblock($block.getId())">
+            <i class="glyphicon glyphicon-edit"></i> </a>
+
+          <a href="#" onclick="deleteblock($block.getId())">
+            <i class="glyphicon glyphicon-remove"></i> </a>
+        </td>
+
+      </tr>
+      #end
+    </tbody>
+  </table>
+</div>
+
+  </body>
+
+  </html>
+
+#end

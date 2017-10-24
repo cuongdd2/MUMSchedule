@@ -60,10 +60,10 @@
         $("#dialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Course added successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getCOURSE()');", 1000);
 
       }, error: function (request, status, error) {
-        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
+        $("#message").html("<div class='alert alert-danger'><p> Error in adding course </p></div>");
       }
     });
   }
@@ -91,7 +91,7 @@
         $("#dialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Course updated successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getCOURSE()');", 1000);
 
       }, error: function (request, status, error) {
         $("#dialog").dialog("close");
@@ -121,7 +121,7 @@
         $("#deletedialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Course deleted successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getLIST()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getCOURSE()');", 1000);
 
       }, error: function (request, status, error) {
         $("#deletedialog").dialog("close");
