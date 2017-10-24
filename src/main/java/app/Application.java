@@ -115,9 +115,11 @@ public class Application {
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
-        before("/*", UserController.isAdmin);
+//        before("/*", UserController.isAdmin);
         get("/", UserController.list);
-        post("/add", UserController.add);
+        get("/:id", UserController.get);
+        get("/add", UserController.getAdd);
+        post("/add", UserController.postAdd);
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });

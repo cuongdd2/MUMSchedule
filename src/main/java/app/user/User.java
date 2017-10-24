@@ -1,14 +1,14 @@
 package app.user;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Getter @RequiredArgsConstructor
+@Data @RequiredArgsConstructor
 public class User {
   private int id;
   final private String email;
   final private String password;
-  private int role;
+  final private int role;
 
   public boolean isAdmin() {
     return (role / 100) == 1;

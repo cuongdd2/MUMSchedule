@@ -75,6 +75,11 @@ public class Path {
         public static final String DELETEBLOCK = "/block/remove";
 
 
+        @Getter public static final String USER_LIST = "/user/";
+        @Getter public static final String USER_ADD = "/user/add";
+        @Getter public static final String USER_CHANGE = "/user/change";
+        @Getter public static final String USER_REMOVE = "/user/remove";
+        @Getter public static final String USER = "/user/";
 
     }
 

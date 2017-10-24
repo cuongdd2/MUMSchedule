@@ -83,3 +83,11 @@ CREATE TABLE user (
   password VARCHAR(100),
   role INT
 );
+
+CREATE TABLE IF NOT EXISTS registration (
+  id  INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT,
+  class_id INT,
+  FOREIGN KEY (student_id) REFERENCES student (id),
+  FOREIGN KEY (class_id) REFERENCES class (id)
+);
