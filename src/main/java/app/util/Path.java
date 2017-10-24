@@ -67,7 +67,6 @@ public class Path {
         public static final String DELETEBLOCK = "/block/remove";
 
 
-
     }
 
     public static class Template {
