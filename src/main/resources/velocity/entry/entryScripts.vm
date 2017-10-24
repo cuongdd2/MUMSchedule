@@ -1,0 +1,192 @@
+<script>
+
+  $(function () {
+    $('#select').change(function () {
+      console.log($(this).val());
+    }).multipleSelect({
+      width: '100%'
+    });
+  });
+
+
+  $(function () {
+      $(".date").datepicker({dateFormat:'yy-mm-dd'});
+  });
+
+
+  $(function () {
+    $("#dialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+
+  });
+
+  $(function () {
+    $("#deletedialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind"
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+
+  });
+
+  function cancel() {
+    $("#dialog").dialog("close");
+    $("#deletedialog").dialog("close");
+  }
+
+  function addentry() {
+
+      $("#dialog").dialog("open");
+    $("#entry")[0].reset();
+    ;
+    $("#EditB").hide();
+    $("#AddB").show();
+  }
+
+  function addC() {
+    var form = $('#entry');
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:$Port$WebPath.getENTRY_ADD()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Entry added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 2000);
+
+      }, error: function (request, status, error) {
+        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding entry </p></div>");
+      }
+    });
+  }
+
+  function getentry(id) {
+    $("#dialog").dialog("open");
+    $("#EditB").show();
+    $("#AddB").hide();
+
+    $.get("$WebPath.getENTRY()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+          if(index != 'startDate'){
+              $("#" + index).val(value);
+          }else {
+              $("#" + index).val(value.month + "-" + value.dayOfMonth + "-" + value.year);
+          }
+
+      });
+    });
+  }
+
+  function update() {
+    var form = $('#entry');
+    $.ajax({
+      type: "PUT",
+      url: "http://localhost:$Port$WebPath.getENTRY_UPDATE()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Course updated successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY_UPDATE()');", 2000);
+
+      }, error: function (request, status, error) {
+        $("#dialog").dialog("close");
+        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in updating </p></div>");
+      }
+    });
+  }
+
+  function deleteentry(id) {
+    $("#deletedialog").dialog("open");
+    $.get("$WebPath.getENTRY()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+        $("#delete_" + index).val(value);
+      });
+    });
+  }
+
+  function deleteC() {
+    var form = $('#deleteentry');
+
+    $.ajax({
+      type: "delete",
+      url: "http://localhost:$Port$WebPath.getENTRY_DELETE()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#deletedialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Entry deleted successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 2000);
+
+      }, error: function (request, status, error) {
+        $("#deletedialog").dialog("close");
+        //request.responseText
+        $("#message").html(
+            request.responseText+ "<div class='alert alert-danger'><p> Cannot delete this entry </p></div>");
+      }
+    });
+  }
+
+</script>
+
+
+
+<div id="dialog" title="Add/Update Entry">
+    <form id="entry">
+        <label>$msg.get("ENTRY_ADD_NAME")</label>
+        <input type="text" id="name" name="name" placeholder="$msg.get("ENTRY_ADD_NAME")" value=""
+               required>
+              <label>$msg.get("ENTRY_ADD_START")</label>
+        <input type="text" id="startDate"  class="date" name="startDate" placeholder="$msg.get("ENTRY_ADD_START")" value=""
+               required>
+
+
+
+        <input type="hidden" id="id" name="id" value="N/A" required>
+        <br> <br>
+        <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("ENTRY_EDIT_BUTTON")"
+               onclick="update()">
+
+        <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("ENTRY_ADD_BUTTON")"
+               onclick="addC()">
+
+
+        <input type="button" class="btn btn-danger" value="$msg.get("CANCEL")" onclick="cancel()">
+    </form>
+</div>
+
+
+
+<div id="deletedialog" title="Delete Entry">
+  <form id="deleteentry">
+    <label>$msg.get("ENTRY_ADD_NAME")</label>
+    <input type="text" id="delete_name" disabled name="name"
+           placeholder="$msg.get("ENTRY_ADD_NAME")" value="" required>
+
+    <input type="hidden" id="delete_id" name="id" value="N/A" required>
+    <br> <br>
+
+    <input type="button" class="btn btn-danger" value="$msg.get("ENTRY_DELETE_BUTTON")"
+           onclick="deleteC()">
+
+    <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+  </form>
+</div>
