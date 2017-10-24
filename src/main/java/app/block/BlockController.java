@@ -66,7 +66,7 @@ public class BlockController {
 
   public static  Route openBlock = (request , response)->{
     Map<String, Object> model = new HashMap<>();
-    Block block = blockDao.getblock(Integer.parseInt(request.params(":id")));
+    Block block = blockDao.getBlock(Integer.parseInt(request.params(":id")));
     model.put("block" , block);
     response.status(200);
     response.type("application/json");
