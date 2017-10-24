@@ -54,7 +54,7 @@ public class Application {
     staticFiles.location("/public");
     staticFiles.expireTime(600L);
 //    before("*",                  Filters.addTrailingSlashes);
-    before("*",                  Filters.handleLocaleChange);
+//    before("*",                  Filters.handleLocaleChange);
 
     get("/", IndexController.serveIndexPage);
     get("/login/", LoginController.loginPage);
@@ -91,10 +91,11 @@ public class Application {
 
       });
       path("/entry", () -> {
-        before("/*", LoginController.ensureUserIsLoggedIn);
+//        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/", EntryController.list);
         post("/add", EntryController.add);
         put("/change", EntryController.change);
+        get("/:id",EntryController.opeEntry);
         delete("/remove", EntryController.remove);
       });
       path("/prof", () -> {
@@ -125,6 +126,6 @@ public class Application {
 
       });
     });
-    enableDebugScreen();
+//    enableDebugScreen();
   }
 }
