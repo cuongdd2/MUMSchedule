@@ -22,7 +22,7 @@
       #foreach($b in $s.getBlocks())
       <tr>
         <td class="td"> $b.getName()</td>
-        <td class="td"> $b.getStartDate() - $b.getEndDate()</td>
+        <td class="td"> $b.getStartDate() $b.getEndDate()</td>
         <td class="td">
           #foreach($c in $s.getClasses().get($b))
             <span>$c.getCourse().getName() $c.getCourse().getCode()</span>
