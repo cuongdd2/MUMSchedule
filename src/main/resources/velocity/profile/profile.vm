@@ -1,6 +1,28 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
 
-    <label>$student.getName()</label>
+    #if($user.isStudent())
 
+        <h3>Name: $student.getName()</h3>
+        <h3>Email: $student.getEmail()</h3>
+        <h3>Track: $student.getTrack()</h3>
+
+        <hr/>
+        <h2>Courses</h2>
+        <table class="table table-user-information">
+            <tbody>
+              #foreach($reg in $registers)
+                #if($reg)
+                    <tr>
+                        <td>$reg.getClazz().getCourse().getName()</td>
+                        <td>$reg.getClazz().getProfessor().getName()</td>
+                        <td>$reg.getClazz().getBlock().getName()</td>
+                    </tr>
+                #end
+              #end
+            </tbody>
+        </table>
+
+
+    #end
 #end

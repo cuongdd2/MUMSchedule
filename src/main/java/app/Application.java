@@ -14,6 +14,7 @@ import app.login.LoginController;
 import app.professor.ProfController;
 import app.professor.ProfDao;
 import app.profile.ProfileController;
+import app.register.RegistrationDao;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
@@ -36,6 +37,7 @@ public class Application {
   public static EntryDao entryDao;
   public static UserDao userDao;
   public static ClassDao classDao;
+  public static RegistrationDao registrationDao;
 
   public static void main(String[] args) {
 
@@ -50,6 +52,7 @@ public class Application {
     studentDao = new StudentDao(sql2o);
     userDao = new UserDao(sql2o);
     classDao = new ClassDao(sql2o);
+    registrationDao = new RegistrationDao(sql2o);
 
     staticFiles.location("/public");
     staticFiles.expireTime(600L);
@@ -59,6 +62,8 @@ public class Application {
     get("/", IndexController.serveIndexPage);
     get("/login/", LoginController.loginPage);
     post("/login/", LoginController.login);
+
+    get("/profile", UserController.profile);
 
     path("", () -> {
       before("/*", (req, res) -> {
@@ -108,7 +113,6 @@ public class Application {
       path("/student", () -> {
         before("/*", LoginController.ensureUserIsLoggedIn);
         get("/schedule", StudentController.schedulePage);
-        post("/schedule", StudentController.registerCourse);
         get("/list", StudentController.list);
         post("/add", StudentController.add);
         put("/change", StudentController.change);

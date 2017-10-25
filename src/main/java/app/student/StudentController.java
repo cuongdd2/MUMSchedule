@@ -68,14 +68,4 @@ public class StudentController {
       return ViewUtil.render(request, model, Path.Template.STUDENT_SCHEDULE);
   };
 
-  public static Route registerCourse = (request, response) -> {
-
-      int cid = Integer.parseInt(request.queryParams("courseid"));
-      int sid = Integer.parseInt(request.queryParams("studentid")); // get student id from session
-
-      studentDao.registerToCourse(cid, sid);
-
-      return dataToJson(cid+sid);
-  };
-
 }

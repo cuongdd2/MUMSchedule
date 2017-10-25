@@ -1,5 +1,7 @@
 package app.user;
 
+import static app.Application.registrationDao;
+import static app.Application.studentDao;
 import static app.Application.userDao;
 import static app.util.JsonUtil.dataToJson;
 import static app.util.JsonUtil.jsonData;
@@ -7,6 +9,7 @@ import static app.util.RequestUtil.body;
 import static spark.Spark.halt;
 
 import app.login.LoginController;
+import app.student.Student;
 import app.util.Path.Template;
 import app.util.ViewUtil;
 import java.util.HashMap;
@@ -28,6 +31,22 @@ public class UserController {
       return dataToJson(e.getMessage());
     }
   };
+    public static Route profile = (request, response) -> {
+        Map<String, Object> model = new HashMap<>();
+
+        String email = request.session().attribute("currentUser");
+        if (email == null) halt(401, "Un-authorized request");
+        User u = LoginController.users.get(email);
+
+        if (u.isStudent())
+        {
+            Student student = studentDao.getUserByUsername(u.getEmail());
+            model.put("registers", registrationDao.getRegisteration(student.getId()));
+            model.put("student", student);
+        }
+
+        return ViewUtil.render(request, model, Template.PROFILE);
+    };
   public static Route list = (request, response) -> {
     Map<String, Object> model = new HashMap<>();
     model.put("users", userDao.list());

@@ -81,6 +81,9 @@ public class Path {
         @Getter public static final String USER_REMOVE = "/user/remove";
         @Getter public static final String USER = "/user/";
 
+        // Profile
+        @Getter
+        public static final String PROFILE = "/profile";
     }
 
     public static class Template {

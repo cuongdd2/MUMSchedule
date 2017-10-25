@@ -19,8 +19,7 @@ public class CourseDao {
       "SELECT c.* FROM course c INNER JOIN prof_course p ON c.id = p.course_id WHERE p.prof_id IN :profIds";
   private final static String UPDATE =
       "UPDATE course SET name = :name, code = :code, level = :level, `desc` = :desc, preNo = :preNo WHERE id = :id";
-  private final static String DELETE =
-          "delete from course where id = :id";
+  private final static String DELETE = "delete from course where id = :id";
 
 
   private Sql2o sql2o;
