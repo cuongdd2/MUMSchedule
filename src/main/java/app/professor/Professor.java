@@ -15,12 +15,15 @@ public class Professor {
   final String email;
   private String phone;
   private String about;
-  private List<Course> preferCourses;
-  private List<Block> preferBlocks;
+  //private List<Course> preferCourses;
+  //private List<Block> preferBlocks;
 
 
-  public Professor(String name) {
+  public Professor(String name , String title , String phone , String about) {
     this.name = name;
-    this.email = Util.name2Email(name);;
+    this.title = title;
+    this.about = about;
+    this.phone = phone;
+    this.email = Util.name2Email(name);
   }
 }

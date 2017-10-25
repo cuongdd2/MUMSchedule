@@ -1,8 +1,14 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
 
-    <h2>Welcome to our MUM schedule system.</h2>
-    <div class="row row-2">
-          Row
-    </div>
+<h2 id="h2text">Welcome to MUM schedule system.</h2>
+<script>
+  function init() {
+    var role = $user.isAdmin() ? "Admin" : ($user.isFaculty() ? "Faculty" : "Student");
+    $('#h2text').text("Welcome " + role + " to MUM schedule system.");
+    console.log($('#h2text'));
+  }
+
+  init();
+</script>
 #end

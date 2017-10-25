@@ -34,7 +34,7 @@ CREATE TABLE block (
 
 CREATE TABLE student (
   id       INT AUTO_INCREMENT PRIMARY KEY,
-  name     VARCHAR(100),
+  name     VARCHAR(100) NOT NULL ,
   email    VARCHAR(100) UNIQUE,
   dob      DATE,
   entry_id INT,
@@ -43,7 +43,7 @@ CREATE TABLE student (
 
 CREATE TABLE professor (
   id    INT AUTO_INCREMENT PRIMARY KEY,
-  name  VARCHAR(100),
+  name  VARCHAR(100) NOT NULL ,
   title VARCHAR(100),
   email VARCHAR(100) UNIQUE,
   phone VARCHAR(20) UNIQUE,

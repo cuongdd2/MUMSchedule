@@ -1,11 +1,9 @@
 package app.student;
 
 import app.entry.Entry;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.ResultSetHandler;
@@ -71,81 +69,62 @@ public class StudentDao {
     public List<Student> getStudentsByEntry(Entry e) {
         List<Student> blocks;
         try (Connection conn = sql2o.beginTransaction()) {
-            blocks = conn.createQuery(BLOCK_BY_DATE)
+            blocks = conn.createQuery(STUDENT_BY_ENTRY)
                     .addParameter("entryId", e.getId())
-                    .executeAndFetch(Student.class);
+                    .executeAndFetch(new StudentTransfer(e));
         }
         return blocks;
     }
 
-    public Student getUserByUsername(String email) {
+  public Student getUserByUsername(String email) {
 
-        Student student;
-        try (Connection conn = sql2o.beginTransaction()) {
-            student = conn.createQuery(STUDENT_BY_MAIL)
-                    .addParameter("Email", email)
-                    .throwOnMappingFailure(false)
-                    .executeAndFetchFirst(Student.class);
-        }
-        return student;
+    Student student;
+    try (Connection conn = sql2o.beginTransaction()) {
+      student = conn.createQuery(STUDENT_BY_MAIL)
+          .addParameter("Email", email)
+          .throwOnMappingFailure(false)
+          .executeAndFetchFirst(Student.class);
     }
+    return student;
+  }
 
-    public int getStudentById(int id) {
-        int entry;
+  public int getStudentById(int id) {
+    int entry;
 
-        try (Connection conn = sql2o.beginTransaction()) {
-            entry = conn.createQuery(STUDENT_BY_ID)
-                    .addParameter("id", id).throwOnMappingFailure(false)
-                    .executeAndFetchFirst(Integer.class);
-        }
-        return entry;
+    try (Connection conn = sql2o.beginTransaction()) {
+      entry = conn.createQuery(STUDENT_BY_ID)
+          .addParameter("id", id).throwOnMappingFailure(false)
+          .executeAndFetchFirst(Integer.class);
     }
+    return entry;
+  }
 
-    public Student getStudent(int id) {
-        Student student;
+  public int getStudentEntry(int id) {
+    int entry;
 
-        try (Connection conn = sql2o.beginTransaction()) {
-            student = conn.createQuery(STUDENT_ID)
-                    .addParameter("id", id).throwOnMappingFailure(false)
-                    .executeAndFetchFirst(new StudentDataTransfer());
-        }
-        return student;
+    try (Connection conn = sql2o.beginTransaction()) {
+      entry = conn.createQuery(STUDENT_BY_ID)
+          .addParameter("id", id).throwOnMappingFailure(false)
+          .executeAndFetchFirst(Integer.class);
     }
-
-    public int getStudentEntry(int id) {
-        int entry;
-
-        try (Connection conn = sql2o.beginTransaction()) {
-            entry = conn.createQuery(STUDENT_BY_ID)
-                    .addParameter("id", id).throwOnMappingFailure(false)
-                    .executeAndFetchFirst(Integer.class);
-        }
-        return entry;
-    }
+    return entry;
+  }
 
 }
 
-class StudentDataTransfer implements ResultSetHandler<Student> {
+class StudentTransfer implements ResultSetHandler<Student> {
+  private Entry e;
+  public StudentTransfer(Entry e) {
+    this.e = e;
+  }
 
-    @Override
-    public Student handle(ResultSet rs) throws SQLException {
-
-
-        LocalDate dob = null;
-        if(rs.getDate("dob") != null) {
-            dob = rs.getDate("dob").toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        }
-
-        Track track = rs.getString("track") == "FPP" ? Track.FPP : Track.MPP;
-
-        Student c = new Student(rs.getString("name"),
-                rs.getInt("id"),
-                rs.getString("email"),
-                dob,
-                entryDao.getEntryById(rs.getInt("entry_id")));
-
-        c.setTrack(track);
-
-        return c;
-    }
+  @Override
+  public Student handle(ResultSet rs) throws SQLException {
+    LocalDate dob = rs.getDate("dob") != null ? rs.getDate("dob").toLocalDate() : null;
+    Student s = new Student(rs.getString("name"), dob, e);
+    s.setId(rs.getInt("id"));
+    s.setEmail(rs.getString("email"));
+    s.setTrack(rs.getString("track"));
+    return s;
+  }
 }

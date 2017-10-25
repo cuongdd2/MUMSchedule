@@ -23,7 +23,7 @@ INSERT INTO course(name, code, level) VALUES('Big Data Analytics', 'CS488', 'L40
 
 INSERT INTO course(name, code, level) VALUES('Science of Creative Intelligence', 'FOR500', 'L500');
 INSERT INTO course(name, code, level) VALUES('Advanced Computer Architecture', 'CS501', 'L500');
-INSERT INTO course(name, code, level) VALUES('Advanced Programming Languages', 'CS 505', 'L500');
+INSERT INTO course(name, code, level) VALUES('Advanced Programming Languages', 'CS505', 'L500');
 INSERT INTO course(name, code, level) VALUES('Big Data', 'CS522', 'L500');
 INSERT INTO course(name, code, level) VALUES('Big Data Technologies', 'CS523', 'L500');
 INSERT INTO course(name, code, level) VALUES('Advanced Software Development', 'CS525', 'L500');
