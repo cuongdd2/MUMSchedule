@@ -1,21 +1,24 @@
 package app.schedule;
 
+import static app.Application.blockDao;
+import static app.Application.classDao;
+import static app.Application.courseDao;
+import static app.Application.entryDao;
+import static app.Application.profDao;
+import static app.Application.studentDao;
+
 import app.block.Block;
 import app.clazz.Class;
 import app.course.Course;
 import app.entry.Entry;
 import app.professor.Professor;
 import app.student.Student;
-import app.student.Track;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static app.Application.*;
 
 public class ScheduleController {
 
@@ -101,14 +104,16 @@ public class ScheduleController {
     List<Map.Entry<Course, List<Professor>>> entries = map.entrySet().stream()
         .sorted(Comparator.comparingInt(o -> o.getValue().size())).collect(Collectors.toList());
     for (Map.Entry<Course, List<Professor>> entry : entries) {
+      if (no <= 0) break;
       Course c = entry.getKey();
       List<Professor> ps = entry.getValue().stream()
           .filter(p -> !profId.contains(p.getId()))
           .collect(Collectors.toList());
-      if (!ps.isEmpty() && no-- > 0) {
-        Professor p = ps.get(rnd(ps));
-        classDao.create(c.getId(), p.getId(), b.getId());
-        profId.add(p.getId());
+      if (!ps.isEmpty()) {
+        int pid = ps.get(rnd(ps)).getId();
+        profId.add(pid);
+        classDao.create(c.getId(), pid, b.getId());
+        no--;
       }
     }
   }
