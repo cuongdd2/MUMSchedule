@@ -1,102 +1,110 @@
 #macro(mainLayout)
 <html>
 <head>
-    <title>$msg.get("COMMON_TITLE")</title>
-    <link rel="stylesheet" href="/main.css">
-      <link rel="stylesheet" href="/css/bootstrap.css">
-      <link rel="stylesheet" href="/css/font.css">
-      <link rel="stylesheet" href="/css/font-awesome.min.css">
-      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
-      <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
-      <link rel="stylesheet" href="/css/jquery-ui.css">
-      <link rel="stylesheet" href="/css/multi-select.css">
+  <title>$msg.get("COMMON_TITLE")</title>
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/font.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet"
+        href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
+  <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="/css/jquery-ui.css">
+  <link rel="stylesheet" href="/css/multi-select.css">
 
+  <script language="JavaScript" type="text/javascript" src="/js/jquery.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/jquery.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/jquery-ui.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/js/multi-select.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#datatable').DataTable();
+    });
+  </script>
+  <link rel="icon" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    body {
+      font-family: 'Lato';
+      background-image: url('{{ URL::asset(' img/bg.jpg ') }}');
+      background-size: cover;
 
-    <script language="JavaScript" type="text/javascript" src="/js/jquery.min.js" ></script>
-    <script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js" ></script>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery-ui.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/js/multi-select.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#datatable').DataTable();
-        });
-        </script>
-    <link rel="icon" href="/favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    }
 
-        <style>
-            body {
-                font-family: 'Lato';
-                background-image:url('{{ URL::asset('img/bg.jpg') }}');
-                background-size:     cover;
+    .fa-btn {
+      margin-right: 6px;
+    }
 
-            }
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #ffd6d3;
 
-            .fa-btn {
-                margin-right: 6px;
-            }
-            .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-              background-color: #ffd6d3;
+    }
 
-          }
-          .td {
-          text-align: center;
-          }
+    .td {
+      text-align: center;
+    }
 
-      </style>
+  </style>
 </head>
 <body>
 <header>
-    <nav>
-        <a href="$WebPath.getINDEX()"><img id="logo" src="/img/logo.png" alt="MUM Schedule"></a>
-        <ul id="chooseLanguage">
-            <form>
-                <li>
-                    <button name="locale" value="de" style="background-image: url(/img/german.png);"></button>
-                </li>
-                <li>
-                    <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
-                </li>
-            </form>
-        </ul>
-        <ul id="menu">
-            #if($currentUser)
-              #if($user.isAdmin())
-                <li><a href="$WebPath.getENTRY()">$msg.get("MENU_ENTRY")</a></li>
-              #end
-              #if($user.isAdmin())
-                <li><a href="$WebPath.getCOURSES()">$msg.get("MENU_COURSE")</a></li>
-              #end
-              #if($user.isAdmin())
-                <li><a href="$WebPath.getBLOCK()">$msg.get("MENU_BLOCK")</a></li>
-              #end
-              #if($user.isAdmin())
-                <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>
-              #end
-              #if($user.isAdmin())
-                <li><a href="$WebPath.getSECTION()">$msg.get("MENU_SECTION")</a></li>
-              #end
-              <li>
-                  <form method="post" action="$WebPath.getLOGOUT()">
-                      <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
-                  </form>
-              </li>
-            #else
-                <li><a href="$WebPath.getLOGIN()"">$msg.get("COMMON_NAV_LOGIN")</a></li>
-            #end
-        </ul>
-    </nav>
+  <nav>
+    <a href="$WebPath.getINDEX()"><img id="logo" src="/img/logo.png" alt="MUM Schedule"></a>
+    <ul id="chooseLanguage">
+      <form>
+        <li>
+          <button name="locale" value="de" style="background-image: url(/img/german.png);"></button>
+        </li>
+        <li>
+          <button name="locale" value="en"
+                  style="background-image: url(/img/english.png);"></button>
+        </li>
+      </form>
+    </ul>
+    <ul id="menu">
+      #if($currentUser)
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getENTRY()">$msg.get("MENU_ENTRY")</a></li>
+        #end
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getCOURSES()">$msg.get("MENU_COURSE")</a></li>
+        #end
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getBLOCK()">$msg.get("MENU_BLOCK")</a></li>
+        #end
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>
+        #end
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getSECTION()">$msg.get("MENU_SECTION")</a></li>
+        #end
+        #if($user.isStudent() || $user.isAdmin())
+          <li><a href="$WebPath.getREGISTER()">$msg.get("MENU_REGISTER")</a></li>
+        #end
+        #if($user.isAdmin())
+          <li><a href="$WebPath.getUSER()">$msg.get("MENU_USER")</a></li>
+        #end
+        <li>
+          <form method="post" action="$WebPath.getLOGOUT()">
+            <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+          </form>
+        </li>
+      #else
+        <li><a href="$WebPath.getLOGIN()"">$msg.get("COMMON_NAV_LOGIN")</a></li>
+      #end
+    </ul>
+  </nav>
 </header>
 <main>
-    <div id="content">
-        $bodyContent
-    </div>
+  <div id="content">
+    $bodyContent
+  </div>
 </main>
 <footer>
-    $msg.get("COMMON_FOOTER_TEXT")
+  $msg.get("COMMON_FOOTER_TEXT")
 </footer>
 </body>
 </html>

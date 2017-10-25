@@ -1,8 +1,17 @@
 package app;
 
+import static spark.Spark.before;
+import static spark.Spark.delete;
+import static spark.Spark.exception;
+import static spark.Spark.get;
+import static spark.Spark.path;
+import static spark.Spark.port;
+import static spark.Spark.post;
+import static spark.Spark.put;
+import static spark.Spark.staticFiles;
+
 import app.block.BlockController;
 import app.block.BlockDao;
-import app.clazz.Class;
 import app.clazz.ClassController;
 import app.clazz.ClassDao;
 import app.course.CourseController;
@@ -18,13 +27,9 @@ import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
 import app.user.UserDao;
-import app.util.Filters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
-
-import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Application {
 
@@ -59,6 +64,7 @@ public class Application {
     get("/", IndexController.serveIndexPage);
     get("/login/", LoginController.loginPage);
     post("/login/", LoginController.login);
+    post("/logout/", LoginController.logout);
 
     path("", () -> {
       before("/*", (req, res) -> {
@@ -128,6 +134,5 @@ public class Application {
 
       });
     });
-//    enableDebugScreen();
   }
 }

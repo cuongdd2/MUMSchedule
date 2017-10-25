@@ -46,7 +46,7 @@ public class LoginController {
   };
 
 
-  public static Route handleLogoutPost = (Request request, Response response) -> {
+  public static Route logout = (Request request, Response response) -> {
     request.session().removeAttribute("currentUser");
     request.session().attribute("loggedOut", true);
     response.redirect(Path.Web.LOGIN);
