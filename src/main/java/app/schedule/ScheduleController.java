@@ -13,6 +13,8 @@ import app.course.Course;
 import app.entry.Entry;
 import app.professor.Professor;
 import app.student.Student;
+import app.util.Path;
+import app.util.ViewUtil;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -38,7 +40,7 @@ public class ScheduleController {
     return dataToJson(true);
   };
 
-  public static Route list = (request, response) -> {
+  public static Route list = (req, res) -> {
     List<Entry> entries = entryDao.list();
     List<Schedule> schedules = new ArrayList<>();
     for (Entry e : entries) {
@@ -52,10 +54,13 @@ public class ScheduleController {
       }
       schedules.add(s);
     }
-    return dataToJson(schedules);
+    res.status(200);
+    Map<String, Object> model = new HashMap<>();
+    model.put("schedules", schedules);
+    return ViewUtil.render(req, model, Path.Template.ALL_SCHEDULES);
   };
 
-  static private void generateSchedule() {
+  static public void generateSchedule() {
 
     List<Entry> entries = entryDao.list();
     fppCourse = courseDao.getId("CS390");

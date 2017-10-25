@@ -146,8 +146,7 @@ public class Application {
       });
 
       path("/schedule", () -> {
-        before("/*", LoginController.ensureUserIsLoggedIn);
-        before("/*", UserController.isAdmin);
+//        before("/*", UserController.isAdmin);
         get("/", ScheduleController.list);
         delete("/reset", ScheduleController.reset);
         post("/generate", ScheduleController.generate);

@@ -97,16 +97,12 @@ public class ClassDao {
     }
   }
 
-  public List<Class> getClassByBlock(int blockid) throws Exception {
-      List<Class> classes;
-
+  public List<Class> getClassByBlock(int id) throws Exception {
       try (Connection conn = sql2o.beginTransaction()) {
-
-          classes = conn.createQuery(CLASSES_BY_BLOCK)
-                  .addParameter("blockId", blockid)
-                  .executeAndFetch(Class.class);
+          return conn.createQuery(CLASSES_BY_BLOCK)
+                  .addParameter("blockId", id)
+                  .executeAndFetch(new ClassDataTransfer());
       }
-      return classes;
   }
 
     public Class getClazz(int id){

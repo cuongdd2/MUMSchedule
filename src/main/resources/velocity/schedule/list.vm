@@ -8,6 +8,8 @@
 <div class="col-md-15">
   <br>
   <div id="message"></div>
+  #foreach($s in $schedules)
+  <label>$s.getEntry().getName()</label>
   <table id="datatable" class=" table table-hover" style="width:100%">
     <thead>
     <tr>
@@ -17,26 +19,19 @@
     </tr>
     </thead>
     <tbody>
-      #foreach($block in $blocks)
+      #foreach($b in $s.getBlocks())
       <tr>
-        <td class="td"> $block.getId()</td>
+        <td class="td"> $b.getName()</td>
+        <td class="td"> $b.getStartDate() - $b.getEndDate()</td>
         <td class="td">
-          $block.getName()
+          #foreach($c in $s.getClasses().get($b))
+            <span>$c.getCourse().getName() $c.getCourse().getCode()</span>
+          #end
         </td>
-        <td class="td"> $block.getStartDate()</td>
-        <td class="td"> $block.getEndDate()</td>
-
-        <td class="td">
-          <a href="#" onclick="getblock($block.getId())">
-            <i class="glyphicon glyphicon-edit"></i> </a>
-
-          <a href="#" onclick="deleteblock($block.getId())">
-            <i class="glyphicon glyphicon-remove"></i> </a>
-        </td>
-
       </tr>
       #end
     </tbody>
   </table>
+  #end
 </div>
 #end
