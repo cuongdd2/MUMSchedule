@@ -20,9 +20,11 @@ public class CourseDao {
   private final static String UPDATE =
       "UPDATE course SET name = :name, code = :code, level = :level, `desc` = :desc, preNo = :preNo WHERE id = :id";
   private final static String DELETE =
-          "delete FROM course WHERE id = :id";
-
-
+          "delete from course where id = :id";
+  private final static String INSERT_PRE = "INSERT INTO course_pre ( course_id , course_pre ) values ( :course_id , :course_pre)";
+  private final static String PRE_UPDATE = "update course set preNo = 1 where id=:id";
+  private final static String SELECT_PRE = "SELECT c.* FROM course c INNER JOIN course_pre p ON c.id = p.course_pre WHERE p.course_id = :id";
+  private final static String DELETE_PRE = "delete from course_pre where course_id = :id";
   private Sql2o sql2o;
 
   public CourseDao(Sql2o sql2o) {
@@ -47,9 +49,9 @@ public class CourseDao {
 
   public List<Course> getPre(Block b) {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery("SELECT * FROM course WHERE id IN " 
-          + "(SELECT DISTINCT course_pre FROM course_pre WHERE course_pre IN " 
-          + "(SELECT course_id FROM prof_course WHERE prof_id IN " 
+      return conn.createQuery("SELECT * FROM course WHERE id IN "
+          + "(SELECT DISTINCT course_pre FROM course_pre WHERE course_pre IN "
+          + "(SELECT course_id FROM prof_course WHERE prof_id IN "
           + "(SELECT prof_id FROM prof_block WHERE block_id = :bid))) ORDER BY level")
           .addParameter("bid", b.getId())
           .executeAndFetch(Course.class);
@@ -57,7 +59,7 @@ public class CourseDao {
   }
   public List<Course> getRandom(Block b) {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery("SELECT * FROM course WHERE code <> 'CS401' AND id IN" 
+      return conn.createQuery("SELECT * FROM course WHERE code <> 'CS401' AND id IN"
           + "(SELECT course_id FROM prof_course WHERE prof_id IN "
           + "(SELECT prof_id FROM prof_block WHERE block_id = :bid))")
           .addParameter("bid", b.getId())
@@ -134,5 +136,43 @@ public int delete(Course c) throws Sql2oException {
           .executeAndFetchFirst(Course.class);
     }
   }
+
+  public int insertPre(int courseId , int PreId){
+    try(Connection conn = sql2o.open()){
+      return conn.createQuery(INSERT_PRE)
+              .addParameter("course_id" , courseId)
+              .addParameter("course_pre" , PreId)
+              .executeUpdate().getResult();
+    }
+  }
+
+  public int updatepreno(int PreId){
+    try(Connection conn = sql2o.open()){
+      return conn.createQuery(PRE_UPDATE)
+              .addParameter("id",PreId)
+              .executeUpdate().getResult();
+    }
+  }
+
+
+  public List<Course> getPre(int course_id) {
+    try(Connection conn = sql2o.open()){
+      return conn.createQuery(SELECT_PRE)
+              .addParameter("id", course_id)
+              .executeAndFetch(Course.class);
+    }
+  }
+
+  public int deletePre(Course c) throws Sql2oException {
+    int result;
+    try (Connection conn = sql2o.open()) {
+      result = conn.createQuery(DELETE_PRE)
+              .addParameter("id", c.getId())
+              .executeUpdate().getResult();
+      //conn.commit();
+    }
+    return result;
+  }
+
 
 }

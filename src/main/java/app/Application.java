@@ -104,10 +104,11 @@ public class Application {
         get("/:id",EntryController.opeEntry);
         delete("/remove", EntryController.remove);
       });
-      path("/prof", () -> {
-        before("/*", LoginController.ensureUserIsLoggedIn);
-        get("/remove", ProfController.list);
+      path("/professor", () -> {
+      //  before("/*", LoginController.ensureUserIsLoggedIn);
+        get("/list", ProfController.list);
         post("/add", ProfController.add);
+        get("/:id",ProfController.openProfessor);
         put("/change", ProfController.change);
         delete("/remove", ProfController.remove);
       });
