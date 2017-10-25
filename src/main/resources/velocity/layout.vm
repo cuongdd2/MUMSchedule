@@ -52,45 +52,24 @@
 <header>
     <nav>
         <a href="$WebPath.getINDEX()"><img id="logo" src="/img/logo.png" alt="MUM Schedule"></a>
-        <ul id="chooseLanguage">
-            <form>
-                <li>
-                    <button name="locale" value="de" style="background-image: url(/img/german.png);"></button>
-                </li>
-                <li>
-                    <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
-                </li>
-            </form>
-        </ul>
         <ul id="menu">
             #if($currentUser)
               #if($user.isAdmin())
+                <li><a href="$WebPath.getUSER()">$msg.get("MENU_USER")</a></li>
                 <li><a href="$WebPath.getENTRY()">$msg.get("MENU_ENTRY")</a></li>
-              #end
-              #if($user.isAdmin())
                 <li><a href="$WebPath.getCOURSES()">$msg.get("MENU_COURSE")</a></li>
-              #end
-              #if($user.isAdmin())
                 <li><a href="$WebPath.getALLPROFESSORS()">$msg.get("MENU_PROFESSOR")</a></li>
-              #end
-              #if($user.isAdmin())
                 <li><a href="$WebPath.getBLOCKLIST()">$msg.get("MENU_BLOCK")</a></li>
-              #end
-              #if($user.isAdmin())
                 <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>
-              #end
-              #if($user.isAdmin())
                 <li><a href="$WebPath.getSECTION()">$msg.get("MENU_SECTION")</a></li>
+                <li><a href="$WebPath.getSCHEDULE()">$msg.get("MENU_SCHEDULE")</a></li>
               #end
-
               #if($user.isStudent())
                 <li><a href="$WebPath.getPROFILE()">$msg.get("PROFILE")</a></li>
               #end
               #if($user.isStudent())
                 <li><a href="$WebPath.getPROFILE()">Register section</a></li>
               #end
-
-
               <li>
                   <form method="post" action="$WebPath.getLOGOUT()">
                       <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>

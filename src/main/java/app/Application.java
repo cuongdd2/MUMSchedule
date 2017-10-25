@@ -24,6 +24,7 @@ import app.professor.ProfController;
 import app.professor.ProfDao;
 import app.profile.ProfileController;
 import app.register.RegistrationDao;
+import app.schedule.ScheduleController;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
@@ -133,6 +134,13 @@ public class Application {
         post("/add", UserController.postAdd);
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
+      });
+
+      path("/schedule", () -> {
+        before("/*", UserController.isAdmin);
+        get("/", ScheduleController.list);
+        delete("/reset", ScheduleController.reset);
+        post("/generate", ScheduleController.generate);
       });
       path("/profile", () -> {
           get("/profile", ProfileController.profilePage);

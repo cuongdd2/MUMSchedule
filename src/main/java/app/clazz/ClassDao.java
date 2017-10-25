@@ -116,6 +116,12 @@ public class ClassDao {
                     .executeAndFetchFirst(new ClassDataTransfer());
         }
     }
+
+  public void removeAll() {
+    try(Connection conn = sql2o.open()){
+      conn.createQuery("SET foreign_key_checks = 0; TRUNCATE TABLE cs425.class;").executeUpdate();
+    }
+  }
 }
 
 class ClassDataTransfer implements ResultSetHandler<Class> {

@@ -1,6 +1,5 @@
 SET foreign_key_checks = 0;
-USE cs425;
-TRUNCATE TABLE class;
+TRUNCATE TABLE cs425.class;
 
 INSERT INTO block (name, start_date, end_date) VALUES ('October 2017', '2017-10-02', '2017-10-26');
 INSERT INTO block (name, start_date, end_date) VALUES ('November 2017', '2017-10-30', '2017-11-22');

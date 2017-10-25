@@ -15,17 +15,47 @@ import app.professor.Professor;
 import app.student.Student;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import spark.Route;
+import static app.util.JsonUtil.*;
 public class ScheduleController {
 
-  Course fppCourse;
-  Course mppCourse;
+  static Course fppCourse;
+  static Course mppCourse;
 
-  public void generateSchedule() {
+
+  public static Route generate = (request, response) -> {
+    generateSchedule();
+    return dataToJson(true);
+  };
+  public static Route reset = (request, response) -> {
+
+    classDao.removeAll();
+    return dataToJson(true);
+  };
+
+  public static Route list = (request, response) -> {
+    List<Entry> entries = entryDao.list();
+    List<Schedule> schedules = new ArrayList<>();
+    for (Entry e : entries) {
+      Schedule s = new Schedule();
+      s.setEntry(e);
+      List<Block> blocks = blockDao.getBlocksByEntry(e);
+      s.setBlocks(blocks);
+      Map<Block, List<Class>> classes = new HashMap<>();
+      for (Block b : blocks) {
+        classes.put(b, classDao.getClassByBlock(b.getId()));
+      }
+      schedules.add(s);
+    }
+    return dataToJson(schedules);
+  };
+
+  static private void generateSchedule() {
 
     List<Entry> entries = entryDao.list();
     fppCourse = courseDao.getId("CS390");
@@ -51,12 +81,12 @@ public class ScheduleController {
           createClass(block, mppCourse, Class.classByStudent(mppTrack));
         } else if (blockIndex == 2) {
           createClass(block, mppCourse, Class.classByStudent(fppTrack));
-          createPreClass(block, Class.classByStudent(mppTrack) + 1);
+          createPreClass(block, Class.classByStudent(mppTrack));
         } else if (blockIndex == 3) {
-          createPreClass(block, Class.classByStudent(fppTrack) + 1);
-          createRandomClass(block, Class.classByStudent(mppTrack) + 1);
+          createPreClass(block, Class.classByStudent(fppTrack));
+          createRandomClass(block, Class.classByStudent(mppTrack));
         } else {
-          createRandomClass(block, Class.classByStudent(fppTrack + mppTrack) + 1);
+          createRandomClass(block, Class.classByStudent(fppTrack + mppTrack));
         }
         blockIndex++;
         if (blockIndex == 6) {
@@ -70,7 +100,7 @@ public class ScheduleController {
     }
   }
 
-  private void createClass(Block b, Course c, int no) {
+  static private void createClass(Block b, Course c, int no) {
     List<Professor> profs = profDao.getProfByBlockAndCourse(b.getId(), c.getId());
     while (no-- > 0) {
       int pid = -1;// in case we run out of professor, we can hire more later to fill in where pid = -1
@@ -82,19 +112,19 @@ public class ScheduleController {
   }
 
   // offer pre-requisite course
-  private void createPreClass(Block b, int no) {
+  static private void createPreClass(Block b, int no) {
     create(courseDao.getPre(b), b, no);
   }
 
-  private void createRandomClass(Block b, int no) {
+  static private void createRandomClass(Block b, int no) {
     create(courseDao.getRandom(b), b, no);
   }
 
-  private void create500Class(Block b, int no) {
+  static private void create500Class(Block b, int no) {
     create(courseDao.get500(), b, no);
   }
 
-  private void create(List<Course> courses, Block b, int no) {
+  static private void create(List<Course> courses, Block b, int no) {
     List<Integer> profId = new ArrayList<>();
     Map<Course, List<Professor>> map = new LinkedHashMap<>();
     for (Course c : courses) {
@@ -118,7 +148,7 @@ public class ScheduleController {
     }
   }
 
-  private int rnd(List list) {
+  static private int rnd(List list) {
     return (int) (Math.random() * list.size());
   }
 }
