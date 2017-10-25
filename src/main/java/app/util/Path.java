@@ -16,7 +16,7 @@ public class Path {
         @Getter public static final String ENTRY = "/entry/";
         @Getter public static final String ENTRY_ADD = "/entry/add";
         @Getter public static final String ENTRY_DELETE = "/entry/remove";
-        @Getter public static final String ENTRY_UPDATE = "/entry/update";
+        @Getter public static final String ENTRY_UPDATE = "/entry/change";
         @Getter public static final String ENTRY_LIST = "/entry/list";
 
         @Getter public static final String REGISTER = "/register/";
