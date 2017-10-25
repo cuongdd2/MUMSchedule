@@ -15,7 +15,7 @@ public class Path {
         public static final String LOGIN = "/login/";
 
         @Getter
-        public static final String STUDENTSCHEDULE = "/api/student/schedule";
+        public static final String STUDENTSCHEDULE = "/student/schedule";
 
         @Getter
         public static final String LOGOUT = "/logout/";
@@ -23,6 +23,14 @@ public class Path {
         public static final String BOOKS = "/books/";
         @Getter
         public static final String ENTRY = "/entry/";
+        @Getter
+        public static final String ENTRY_ADD = "/entry/add";
+        @Getter
+        public static final String ENTRY_DELETE = "/entry/remove";
+        @Getter
+        public static final String ENTRY_UPDATE = "/entry/update";
+        @Getter
+        public static final String ENTRY_LIST = "/entry/list";
         @Getter
         public static final String COURSES = "/course/";
 
@@ -49,9 +57,10 @@ public class Path {
 
         @Getter
         public static final String ADDSECTION = "/section/add";
-
         @Getter
         public static final String DELETESECTION = "/section/remove";
+        @Getter
+        public static final String CHANGESECTION = "/section/change";
 
         //BLOCK
         @Getter
@@ -79,6 +88,11 @@ public class Path {
 
 
 
+        @Getter public static final String USER_LIST = "/user/";
+        @Getter public static final String USER_ADD = "/user/add";
+        @Getter public static final String USER_CHANGE = "/user/change";
+        @Getter public static final String USER_REMOVE = "/user/remove";
+        @Getter public static final String USER = "/user/";
 
     }
 

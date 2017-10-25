@@ -27,15 +27,17 @@
   </build>
   <developers>
     <developer>
+      <name>Maan Bayati</name>
+      <id>985825</id>
+    </developer>
+    <developer>
       <name>Tsoodol Tserendorj</name>
       <id>986090</id>
     </developer>
-
     <developer>
       <name>Ramy Mahmadin</name>
       <id>985998</id>
     </developer>
-
     <developer>
       <name>Duc Cuong Do</name>
       <id>986096</id>
@@ -112,6 +114,11 @@
       <artifactId>gson</artifactId>
       <version>2.3.1</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.11.0</version>
     </dependency>
   </dependencies>
 

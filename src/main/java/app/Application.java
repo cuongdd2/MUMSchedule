@@ -2,6 +2,7 @@ package app;
 
 import app.block.BlockController;
 import app.block.BlockDao;
+import app.clazz.Class;
 import app.clazz.ClassController;
 import app.clazz.ClassDao;
 import app.course.CourseController;
@@ -41,7 +42,7 @@ public class Application {
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
     port(8080);
 
-    Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425", "cs425", "mum");
+    Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425?relaxAutoCommit=true", "cs425", "mum");
     blockDao = new BlockDao(sql2o);
     courseDao = new CourseDao(sql2o);
     entryDao = new EntryDao(sql2o);
@@ -53,7 +54,7 @@ public class Application {
     staticFiles.location("/public");
     staticFiles.expireTime(600L);
 //    before("*",                  Filters.addTrailingSlashes);
-    before("*",                  Filters.handleLocaleChange);
+//    before("*",                  Filters.handleLocaleChange);
 
     get("/", IndexController.serveIndexPage);
     get("/login/", LoginController.loginPage);
@@ -85,13 +86,16 @@ public class Application {
         get("/", ClassController.list);
         post("/add", ClassController.add);
         get("/:id", ClassController.openCLass);
+        post("/remove", ClassController.remove);
+        put("/change", ClassController.change);
 
       });
       path("/entry", () -> {
-        before("/*", LoginController.ensureUserIsLoggedIn);
+//        before("/*", LoginController.ensureUserIsLoggedIn);
         get("/", EntryController.list);
         post("/add", EntryController.add);
         put("/change", EntryController.change);
+        get("/:id",EntryController.opeEntry);
         delete("/remove", EntryController.remove);
       });
       path("/professor", () -> {
@@ -112,9 +116,11 @@ public class Application {
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
-        before("/*", UserController.isAdmin);
+//        before("/*", UserController.isAdmin);
         get("/", UserController.list);
-        post("/add", UserController.add);
+        get("/:id", UserController.get);
+        get("/add", UserController.getAdd);
+        post("/add", UserController.postAdd);
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
       });
@@ -123,6 +129,6 @@ public class Application {
 
       });
     });
-    enableDebugScreen();
+//    enableDebugScreen();
   }
 }

@@ -34,7 +34,7 @@ CREATE TABLE block (
 
 CREATE TABLE student (
   id       INT AUTO_INCREMENT PRIMARY KEY,
-  name     VARCHAR(100),
+  name     VARCHAR(100) NOT NULL ,
   email    VARCHAR(100) UNIQUE,
   dob      DATE,
   entry_id INT,
@@ -43,7 +43,7 @@ CREATE TABLE student (
 
 CREATE TABLE professor (
   id    INT AUTO_INCREMENT PRIMARY KEY,
-  name  VARCHAR(100),
+  name  VARCHAR(100) NOT NULL ,
   title VARCHAR(100),
   email VARCHAR(100) UNIQUE,
   phone VARCHAR(20) UNIQUE,
@@ -82,4 +82,12 @@ CREATE TABLE user (
   email VARCHAR(100),
   password VARCHAR(100),
   role INT
+);
+
+CREATE TABLE IF NOT EXISTS registration (
+  id  INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT,
+  class_id INT,
+  FOREIGN KEY (student_id) REFERENCES student (id),
+  FOREIGN KEY (class_id) REFERENCES class (id)
 );

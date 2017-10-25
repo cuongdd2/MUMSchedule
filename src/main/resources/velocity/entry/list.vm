@@ -1,9 +1,9 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
-  #parse("/velocity/course/courseScripts.vm")
+  #parse("/velocity/entry/entryScripts.vm")
 <h4>$msg.get("ENTRY_ALL")</h4>
 <br/>
-<a href='#' onclick="addcourse()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
+<a href='#' onclick="addentry()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
   Entry </a>
 <div class="col-md-15">
   <br>
@@ -14,9 +14,7 @@
     <tr>
       <th class="td">ID</th>
       <th class="td">Entry Name</th>
-      <th class="td">Entry Code</th>
-      <th class="td">Entry PreNo</th>
-      <th class="td">Entry Level</th>
+      <th class="td">Entry startdate</th>
       <th class="td"> --</th>
     </tr>
     </thead>
@@ -27,14 +25,12 @@
         <td class="td">
           $entry.getName()
         </td>
-        <td class="td"> $entry.getCode()</td>
-        <td class="td"> $entry.getPreNo()</td>
-        <td class="td"> $entry.getLevel()</td>
+        <td class="td"> $entry.getStartDate()</td>
         <td class="td">
-          <a href="#" onclick="getcourse($entry.getId())">
+          <a href="#" onclick="getentry($entry.getId())">
             <i class="glyphicon glyphicon-edit"></i> </a>
 
-          <a href="#" onclick="deletecourse($entry.getId())">
+          <a href="#" onclick="deleteentry($entry.getId())">
             <i class="glyphicon glyphicon-remove"></i> </a>
         </td>
 
@@ -42,41 +38,6 @@
       #end
     </tbody>
   </table>
-
-  <div id="dialog" title="Add/Update Entry">
-    <form id="course">
-      <label>$msg.get("COURSE_ADD_NAME")</label>
-      <input type="text" id="name" name="name" placeholder="$msg.get("COURSE_ADD_NAME")" value=""
-             required>
-
-      <label>$msg.get("COURSE_ADD_CODE")</label>
-      <input type="text" id="code" name="code" placeholder="$msg.get("COURSE_ADD_CODE")" value=""
-             required>
-
-      <label>$msg.get("COURSE_ADD_LEVEL")</label>
-      <input type="text" id="level" name="level" placeholder="$msg.get("COURSE_ADD_LEVEL")" value=""
-             required>
-
-      <label>$msg.get("COURSE_ADD_DESC")</label>
-      <input type="text" id="desc" name="desc" placeholder="$msg.get("COURSE_ADD_DESC")" value=""
-             required>
-
-      <label>$msg.get("COURSE_ADD_preNo")</label>
-      <input type="text" id="preNo" name="noPre" placeholder="$msg.get("COURSE_ADD_preNo")" value=""
-             required>
-
-      <input type="hidden" id="id" name="id" value="N/A" required>
-      <br> <br>
-      <input type="button" id="EditB" class="btn btn-primary" value="$msg.get("COURSE_EDIT_BUTTON")"
-             onclick="update()">
-
-      <input type="button" id="AddB" class="btn btn-primary" value="$msg.get("COURSE_ADD_BUTTON")"
-             onclick="addC()">
-
-
-      <input type="button" class="btn btn-danger" value="$msg.get("CANCEL")" onclick="cancel()">
-    </form>
-  </div>
 </div>
 
   </body>

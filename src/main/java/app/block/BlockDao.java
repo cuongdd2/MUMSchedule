@@ -19,10 +19,8 @@ public class BlockDao implements Dao {
   private final static String LIST_ALL = "SELECT id, name, start_date startDate, end_date endDate FROM block";
   private final static String DELETE = "DELETE FROM block WHERE id = :id";
   private final static String UPDATE = "UPDATE block SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
-  private final static String BLOCK_BY_DATE = "SELECT * FROM block WHERE start_date > :startDate";
-  private final static String BLOCK_BY_ENTRY = "SELECT * FROM block WHERE entry_id = :entryId";
+  private final static String BLOCK_BY_DATE = "SELECT * FROM block WHERE start_date >= :startDate AND start_date < :endDate ORDER BY start_date LIMIT " + Block.MAX_BLOCK_PER_ENTRY;
   private final static String BLOCK_BY_ID = "SELECT * FROM block WHERE id = :id";
-
 
   private Sql2o sql2o;
 
@@ -69,6 +67,7 @@ public class BlockDao implements Dao {
     try (Connection conn = sql2o.beginTransaction()) {
       blocks = conn.createQuery(BLOCK_BY_DATE)
           .addParameter("startDate", e.getStartDate())
+          .addParameter("endDate", e.getStartDate().plusMonths(7))
           .executeAndFetch(new BlockDataTransfer());
     }
     return blocks;

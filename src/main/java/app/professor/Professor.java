@@ -22,9 +22,8 @@ public class Professor {
   public Professor(String name , String title , String phone , String about) {
     this.name = name;
     this.title = title;
-   // this.email = email;
     this.about = about;
     this.phone = phone;
-    this.email = Util.name2Email(name);;
+    this.email = Util.name2Email(name);
   }
 }

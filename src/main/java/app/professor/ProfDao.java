@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 public class ProfDao {
+
   private final static String INSERT = "INSERT INTO professor(name, title, email, phone, about) "
       + "VALUES (:name, :title, :email,:phone ,:about)";
     private static String SELECT_BY_BLOCK = "select * from professor p inner join prof_block b on p.id = b.prof_id where b.block_id = :blockId";
@@ -29,8 +30,8 @@ public class ProfDao {
     int id;
     try (Connection conn = sql2o.beginTransaction()) {
       id = conn.createQuery(INSERT, true)
-            .bind(prof)
-            .executeUpdate().getKey(Integer.class);
+          .bind(prof)
+          .executeUpdate().getKey(Integer.class);
       conn.commit();
     }
     return id;
@@ -44,14 +45,24 @@ public class ProfDao {
     }
   }
 
-    public Professor getProfById(int id) {
+  public Professor getProfById(int id) {
+    try (Connection conn = sql2o.open()) {
+      return conn.createQuery(SELECT_BY_ID)
+          .addParameter("Id", id)
+          .executeAndFetchFirst(Professor.class);
+    }
+  }
+
+    public List<Professor> getProfByBlockAndCourse(int blockId, int courseId) {
         try (Connection conn = sql2o.open()) {
-            return conn.createQuery(SELECT_BY_ID)
-                    .addParameter("Id", id)
-                    .executeAndFetchFirst(Professor.class);
+            return conn.createQuery("select * from professor where id in "
+                    + "(select prof_id from prof_course where course_id = :cid and prof_id in "
+                    + "(select prof_id from prof_block where block_id = :bid))")
+                    .addParameter("cid", courseId)
+                    .addParameter("bid", blockId)
+                    .executeAndFetch(Professor.class);
         }
     }
-
     public List<Professor> getAll() {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(SELECT_ALL).executeAndFetch(Professor.class);

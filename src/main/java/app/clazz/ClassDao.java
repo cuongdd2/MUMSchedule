@@ -21,25 +21,29 @@ public class ClassDao {
     private final static String INSERT = "INSERT INTO class(course_id, prof_id, block_id) VALUES(:cid, :pid, :bid)";
     private final static String INSERTW = "INSERT INTO class(course_id, prof_id, block_id,capacity) VALUES(:cid, :pid, :bid, :caps)";
 
-  private final static String BLOCK_BY_DATE = "SELECT id, name, start_date startDate, end_date enDate FROM class WHERE start_date > :startDate";
-  private final static String LIST_ALL = "SELECT * FROM class";
-  private final static String DELETE = "DELETE FROM class WHERE id = :id";
-  private final static String UPDATE = "UPDATE class SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
+    private final static String BLOCK_BY_DATE = "SELECT id, name, start_date startDate, end_date enDate FROM class WHERE start_date > :startDate";
+    private final static String LIST_ALL = "SELECT * FROM class";
+    private final static String DELETE = "DELETE FROM class WHERE id = :id";
+    private final static String UPDATE = "UPDATE class SET name = :name, start_date = :startDate, end_date = :endDate WHERE id = :id";
+    private final static String UPDATES = "UPDATE class SET course_id = :course, prof_id = :prof, block_id = :block, capacity = :capacity WHERE id = :id";
 
-  public ClassDao(Sql2o sql2o) {
-    this.sql2o = sql2o;
-  }
+      public ClassDao(Sql2o sql2o) {
+        this.sql2o = sql2o;
+      }
 
 
-  public int create(Class b) throws Sql2oException {
-    int id;
-    try (Connection conn = sql2o.beginTransaction()) {
-      id = conn.createQuery(INSERT)
-          .bind(b).executeUpdate().getKey(Integer.class);
-      conn.commit();
-    }
-    return id;
-  }
+      public int create(int cid, int pid, int bid) throws Sql2oException {
+        int id;
+        try (Connection conn = sql2o.beginTransaction()) {
+          id = conn.createQuery(INSERT)
+              .addParameter("cid", cid)
+              .addParameter("pid", pid)
+              .addParameter("bid", bid)
+              .executeUpdate().getKey(Integer.class);
+          conn.commit();
+        }
+        return id;
+      }
 
     public int createWithValues(int capacity, int course, int prof, int block) throws Sql2oException {
         int id;
@@ -56,12 +60,27 @@ public class ClassDao {
     }
 
     public int update(Class b) throws Sql2oException {
-    try (Connection conn = sql2o.beginTransaction()) {
-      int id = conn.createQuery(UPDATE).bind(b).executeUpdate().getResult();
-      conn.commit();
-      return id;
+        try (Connection conn = sql2o.beginTransaction()) {
+            int id = conn.createQuery(UPDATE).bind(b).executeUpdate().getResult();
+            conn.commit();
+            return id;
+        }
     }
-  }
+
+    public int updateWithId(int classid, int course, int prof, int block, int capacity) throws Sql2oException {
+        try (Connection conn = sql2o.beginTransaction()) {
+            int id = conn.createQuery(UPDATES)
+                    .addParameter("id", classid)
+                    .addParameter("course", course)
+                    .addParameter("prof", prof)
+                    .addParameter("block", block)
+                    .addParameter("capacity", capacity)
+                    .executeUpdate().getResult();
+            conn.commit();
+            return id;
+        }
+    }
+
 
   public List<Class> getAll() throws Sql2oException {
     List<Class> classes;

@@ -2,34 +2,23 @@
 #@mainLayout()
 <form id="loginForm" method="post">
     #if($addFailed)
-        <p class="bad notification">$msg.get("COURSE_ADD_FAILED")</p>
+        <p class="bad notification">$msg.get("ENTRY_ADD_FAILED")</p>
     #elseif($addSucceeded)
-        <p class="good notification">$msg.get("COURSE_ADD_SUCCEEDED", $currentUser)</p>
+        <p class="good notification">$msg.get("ENTRY_ADD_SUCCEEDED", $currentUser)</p>
     #elseif($loggedOut)
-        <p class="notification">$msg.get("COURSE_ADD_HEADING")</p>
+        <p class="notification">$msg.get("ENTRY_ADD_HEADING")</p>
     #end
-    <h1>$msg.get("COURSE_ADD_HEADING")</h1>
+    <h1>$msg.get("ENTRY_ADD_HEADING")</h1>
 
 
-    <label>$msg.get("COURSE_ADD_NAME")</label>
-    <input type="text" name="name" placeholder="$msg.get("COURSE_ADD_NAME")" value="" required>
+    <label>$msg.get("ENTRY_ADD_NAME")</label>
+    <input type="text" name="name" placeholder="$msg.get("ENTRY_ADD_NAME")" value="" required>
 
-    <label>$msg.get("COURSE_ADD_CODE")</label>
-    <input type="text" name="code" placeholder="$msg.get("COURSE_ADD_CODE")" value="" required>
-
-     <label>$msg.get("COURSE_ADD_LEVEL")</label>
-     <input type="text" name="level" placeholder="$msg.get("COURSE_ADD_LEVEL")" value="" required>
-
-     <label>$msg.get("COURSE_ADD_DESC")</label>
-     <input type="text" name="desc" placeholder="$msg.get("COURSE_ADD_DESC")" value="" required>
-
-     <label>$msg.get("COURSE_ADD_preNo")</label>
-     <input type="text" name="noPre" placeholder="$msg.get("COURSE_ADD_preNo")" value="" required>
 
 
     #if($loginRedirect)
         <input type="hidden" name="loginRedirect" value="$loginRedirect">
     #end
-    <input type="submit" value="$msg.get("COURSE_ADD_BUTTON")">
+    <input type="submit" value="$msg.get("ENTRY_ADD_BUTTON")">
 </form>
 #end

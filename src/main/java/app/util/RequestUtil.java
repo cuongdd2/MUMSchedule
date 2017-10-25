@@ -61,6 +61,7 @@ public class RequestUtil {
     Map<String, String> data = new HashMap<>();
     for (String s : arr) {
       String[] kv = s.split("=");
+      if (kv.length != 2) continue;
       try {
         data.put(URLDecoder.decode(kv[0], "utf-8"), URLDecoder.decode(kv[1], "utf-8"));
       } catch (UnsupportedEncodingException e) {
