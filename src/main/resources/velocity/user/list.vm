@@ -1,0 +1,41 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/user/script.vm")
+<h4>$msg.get("USER_ALL")</h4>
+<br/>
+<button class="btn btn-primary" onclick="showAdd()"><i class="glyphicon glyphicon-plus"></i> Add User</button>
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">ID</th>
+      <th class="td">Email</th>
+      <th class="td">Password</th>
+      <th class="td">Role</th>
+      <th class="td"></th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($user in $users)
+      <tr>
+        <td class="td"> $user.getId()</td>
+        <td class="td"> $user.getEmail()</td>
+        <td class="td"> $user.getPassword()</td>
+        <td class="td"> $user.getRole()</td>
+        <td class="td">
+          <button onclick="showUpdate($user.getId())"><i class="glyphicon glyphicon-edit"></i> </button>
+          <button onclick="remove($user.getId())"><i class="glyphicon glyphicon-remove"></i> </button>
+        </td>
+      </tr>
+      #end
+    </tbody>
+  </table>
+</div>
+
+</body>
+
+</html>
+
+#end

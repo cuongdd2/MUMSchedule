@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Registration {
+  private int id;
   private Student student;
   private Class clazz;
 }

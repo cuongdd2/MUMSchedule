@@ -1,0 +1,154 @@
+<script>
+
+  $(function () {
+    $("#dialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 100
+      },
+      hide: {
+        effect: "explode",
+        duration: 100
+      }
+    });
+
+  });
+
+  $(function () {
+    $("#deletedialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind"
+      },
+      hide: {
+        effect: "explode",
+        duration: 100
+      }
+    });
+
+  });
+
+  function cancel() {
+    $("#dialog").dialog("close");
+    $("#deletedialog").dialog("close");
+  }
+
+  function showAdd() {
+    $("#dialog").dialog("open");
+    $("#dialog").dialog("option", "title", "Add User");
+    $("#form")[0].reset();
+    $("#btnSubmit").prop("value", "Add");
+    $("#btnSubmit").on("click", submit);
+  }
+
+  function showUpdate(id) {
+    $("#dialog").dialog("open");
+    $("#dialog").dialog("option", "title", "Update User");
+    $("#btnSubmit").prop("value", "Update");
+    $("#btnSubmit").on("click", update);
+
+    $.get("$WebPath.getUSER()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+        $('input[name="' + index + '"]').val(value);
+      });
+    });
+  }
+
+  function submit() {
+    var form = $('#form');
+    $.ajax({
+      type: "post",
+      url: "$WebPath.getUSER_ADD()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> User added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getUSER_LIST()');", 2000);
+      }, error: function (request, status, error) {
+        $("#message").html(
+            request.ResponseText+"<div class='alert alert-danger'><p> Error in adding user </p></div>");
+      }
+    });
+    return false;
+  }
+
+  function update() {
+    var form = $('#form');
+    $.ajax({
+      type: "PUT",
+      url: "$WebPath.getUSER_CHANGE()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'><p>User updated successfully</div></p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getUSER_LIST()');", 2000);
+      }, error: function (request, status, error) {
+        $("#dialog").dialog("close");
+        $("#message").html("<div class='alert alert-danger'><p>Error in updating</p></div>");
+      }
+    });
+    return false;
+  }
+
+  function remove(id) {
+    $("#deletedialog").dialog("open");
+    $.get("$WebPath.getUSER()" + id, function (data, status) {
+      $.each(data, function (index, value) {
+        $("#delete_" + index).val(value);
+      });
+    });
+  }
+
+  function del() {
+    var form = $('#deletecourse');
+    $.ajax({
+      type: "delete",
+      url: "$WebPath.getUSER_REMOVE()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#deletedialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> User deleted successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getUSER_LIST()');", 2000);
+
+      }, error: function (request, status, error) {
+        $("#deletedialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-danger'><p> Cannot delete this user </p></div>");
+      }
+    });
+  }
+
+</script>
+
+
+<div id="dialog" title="Add User" class="col-md-15">
+  <form id="form">
+    <input class="form-control" type="text" placeholder="Email" name="email" required>
+    <br>
+    <input class="form-control" type="text" placeholder="Password" name="password" required>
+    <br>
+    <input class="form-control" type="text" placeholder="Role" name="role" required>
+    <input type="hidden" name="id" value="0">
+    <br>
+    <input type="button" id="btnSubmit" class="btn btn-primary"/>
+    <input type="button" value="Cancel" class="btn btn-danger" onclick="cancel()"/>
+  </form>
+</div>
+
+
+<div id="deletedialog" title="Delete User">
+  <form id="deletecourse">
+    <label>Do you want to delete this user?</label>
+
+    <input type="hidden" id="delete_id" name="id" value="N/A" required>
+    <br> <br>
+
+    <input type="button" class="btn btn-danger" value="Delete" onclick="del()">
+
+    <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+  </form>
+</div>
