@@ -16,8 +16,14 @@ public class Path {
         @Getter public static final String ENTRY = "/entry/";
         @Getter public static final String ENTRY_ADD = "/entry/add";
         @Getter public static final String ENTRY_DELETE = "/entry/remove";
-        @Getter public static final String ENTRY_UPDATE = "/entry/update";
+        @Getter public static final String ENTRY_UPDATE = "/entry/change";
         @Getter public static final String ENTRY_LIST = "/entry/list";
+
+        @Getter public static final String REGISTER = "/register/";
+
+        @Getter public static final String SCHEDULE = "/schedule/";
+        @Getter public static final String SCHEDULE_RESET = "/schedule/reset";
+        @Getter public static final String SCHEDULE_GENERATE = "/schedule/generate";
 
         @Getter public static final String SECTION = "/section/";
 
@@ -82,6 +88,7 @@ public class Path {
         public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
         public static final String ALL_PROFESSORS="/velocity/professor/list.vm";
+        public static final String ALL_SCHEDULES="/velocity/schedule/list.vm";
 
         public static final String ALL_SECTIONS = "/velocity/section/list.vm";
 

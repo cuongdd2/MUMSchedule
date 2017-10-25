@@ -13,11 +13,12 @@ import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.ResultSetHandler;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 public class EntryDao implements Dao {
 
   private static String INSERT = "INSERT INTO entry(name, start_date) VALUES (:name, :startDate)";
-  private static String UPDATE = "UPDATE entry SET name = :name, start_date = :startDate";
+  private static String UPDATE = "UPDATE entry SET name = :name, start_date = :startDate where id=:id";
 
   private final static String ENTRY_BY_ID = "SELECT * FROM entry WHERE id = :id";
   private final static String DELETE_BY_ID = "DELETE FROM entry WHERE id= :id";
@@ -38,16 +39,12 @@ public class EntryDao implements Dao {
     }
   }
 
-  public int update(Entry entry){
-    int result;
-    try(Connection conn=sql2o.open()){
-      result=conn.createQuery(UPDATE)
-              .addParameter("name", entry.getName())
-              .addParameter("start_date", entry.getStartDate())
-              .executeUpdate().getResult();
+  public int update(Entry e) throws Sql2oException {
+    try (Connection conn = sql2o.beginTransaction()) {
+      int id = conn.createQuery(UPDATE).bind(e).executeUpdate().getResult();
       conn.commit();
+      return id;
     }
-    return result;
   }
 
   public int delete(Entry entry){

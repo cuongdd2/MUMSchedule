@@ -97,16 +97,12 @@ public class ClassDao {
     }
   }
 
-  public List<Class> getClassByBlock(int blockid) throws Exception {
-      List<Class> classes;
-
+  public List<Class> getClassByBlock(int id) throws Exception {
       try (Connection conn = sql2o.beginTransaction()) {
-
-          classes = conn.createQuery(CLASSES_BY_BLOCK)
-                  .addParameter("blockId", blockid)
+          return conn.createQuery(CLASSES_BY_BLOCK)
+                  .addParameter("blockId", id)
                   .executeAndFetch(new ClassDataTransfer());
       }
-      return classes;
   }
 
     public Class getClazz(int id){
@@ -116,6 +112,12 @@ public class ClassDao {
                     .executeAndFetchFirst(new ClassDataTransfer());
         }
     }
+
+  public void removeAll() {
+    try(Connection conn = sql2o.open()){
+      conn.createQuery("SET foreign_key_checks = 0; TRUNCATE TABLE cs425.class;").executeUpdate();
+    }
+  }
 }
 
 class ClassDataTransfer implements ResultSetHandler<Class> {

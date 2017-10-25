@@ -25,6 +25,7 @@ import app.professor.ProfDao;
 import app.profile.ProfileController;
 import app.register.RegistrationController;
 import app.register.RegistrationDao;
+import app.schedule.ScheduleController;
 import app.student.StudentController;
 import app.student.StudentDao;
 import app.user.UserController;
@@ -78,7 +79,8 @@ public class Application {
       });
 
       path("/block", () -> {
-//        before("/*", UserController.isAdmin);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/list", BlockController.list);
         post("/add", BlockController.add);
         get("/:id",BlockController.openBlock);
@@ -86,7 +88,8 @@ public class Application {
         delete("/remove", BlockController.remove);
       });
       path("/course", () -> {
-//        before("/*", UserController.isAdmin);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/", CourseController.list);
         get("/add",CourseController.addPage);
         get("/:id",CourseController.openCourse);
@@ -95,6 +98,9 @@ public class Application {
         delete("/remove", CourseController.remove);
       });
       path("/section", () -> {
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
+
         get("/", ClassController.list);
         post("/add", ClassController.add);
         get("/:id", ClassController.openCLass);
@@ -103,7 +109,8 @@ public class Application {
 
       });
       path("/entry", () -> {
-//        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/", EntryController.list);
         post("/add", EntryController.add);
         put("/change", EntryController.change);
@@ -111,7 +118,8 @@ public class Application {
         delete("/remove", EntryController.remove);
       });
       path("/professor", () -> {
-      //  before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/list", ProfController.list);
         post("/add", ProfController.add);
         get("/:id",ProfController.openProfessor);
@@ -120,6 +128,7 @@ public class Application {
       });
       path("/student", () -> {
         before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/schedule", StudentController.schedulePage);
         get("/list", StudentController.list);
         post("/add", StudentController.add);
@@ -127,13 +136,21 @@ public class Application {
         delete("/remove", StudentController.remove);
       });
       path("/user", () -> {
-//        before("/*", UserController.isAdmin);
+        before("/*", LoginController.ensureUserIsLoggedIn);
+        before("/*", UserController.isAdmin);
         get("/", UserController.list);
         get("/:id", UserController.get);
         get("/add", UserController.getAdd);
         post("/add", UserController.postAdd);
         put("/change", UserController.change);
         delete("/remove", UserController.remove);
+      });
+
+      path("/schedule", () -> {
+//        before("/*", UserController.isAdmin);
+        get("/", ScheduleController.list);
+        delete("/reset", ScheduleController.reset);
+        post("/generate", ScheduleController.generate);
       });
       path("/profile", () -> {
           get("/profile", ProfileController.profilePage);

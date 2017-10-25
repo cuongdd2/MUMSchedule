@@ -32,8 +32,7 @@ public class ScheduleTest {
   @Test
   public void test1() {
     init();
-    ScheduleController controller = new ScheduleController();
-    controller.generateSchedule();
+    ScheduleController.generateSchedule();
     List<Class> list = classDao.getAll();
     assertTrue(list.size() > 0);
   }

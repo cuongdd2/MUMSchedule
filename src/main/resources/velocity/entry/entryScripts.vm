@@ -68,7 +68,7 @@
         $("#dialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Entry added successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 1000);
 
       }, error: function (request, status, error) {
         $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding entry </p></div>");
@@ -104,7 +104,7 @@
         $("#dialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Course updated successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY_UPDATE()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 1000);
 
       }, error: function (request, status, error) {
         $("#dialog").dialog("close");
@@ -115,11 +115,16 @@
 
   function deleteentry(id) {
     $("#deletedialog").dialog("open");
-    $.get("$WebPath.getENTRY()" + id, function (data, status) {
-      $.each(data, function (index, value) {
-        $("#delete_" + index).val(value);
+      $.get("$WebPath.getENTRY()" + id, function (data, status) {
+          $.each(data, function (index, value) {
+              if(index != 'startDate'){
+                  $("#delete_" + index).val(value);
+              }else {
+                  $("#delete_" + index).val(value.month + "-" + value.dayOfMonth + "-" + value.year);
+              }
+
+          });
       });
-    });
   }
 
   function deleteC() {
@@ -134,7 +139,7 @@
         $("#deletedialog").dialog("close");
         $("#message").html(
             "<div class='alert alert-success'> <p> Entry deleted successfully  </div> </p>");
-        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 2000);
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getENTRY()');", 1000);
 
       }, error: function (request, status, error) {
         $("#deletedialog").dialog("close");

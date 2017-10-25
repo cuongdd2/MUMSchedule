@@ -1,0 +1,28 @@
+<script>
+  function generate() {
+    $.ajax({
+      type: "POST",
+      url: "$WebPath.getSCHEDULE_GENERATE()",
+      success: function (response) {
+        $("#message").html(
+            "<div class='alert alert-success'> <p>Generate successfully</div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSCHEDULE()');", 1000);
+      }, error: function (request, status, error) {
+        $("#message").html("<div class='alert alert-danger'><p>Generate error</p></div>");
+      }
+    });
+  }
+  function reset() {
+    $.ajax({
+      type: "POST",
+      url: "$WebPath.getSCHEDULE_RESET()",
+      success: function (response) {
+        $("#message").html(
+            "<div class='alert alert-success'> <p>Reset successfully</div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSCHEDULE()');", 1000);
+      }, error: function (request, status, error) {
+        $("#message").html("<div class='alert alert-danger'><p>Reset error</p></div>");
+      }
+    });
+  }
+</script>

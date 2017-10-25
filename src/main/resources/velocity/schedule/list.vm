@@ -1,0 +1,37 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/schedule/script.vm")
+<h4>Schedule Management</h4>
+<br/>
+<a href='#' onclick="generate()" class="btn btn-info">Generate</a>
+<a href='#' onclick="reset()" class="btn btn-danger">Reset</a>
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+  #foreach($s in $schedules)
+  <label>$s.getEntry().getName()</label>
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">Block</th>
+      <th class="td">Date</th>
+      <th class="td">Courses</th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($b in $s.getBlocks())
+      <tr>
+        <td class="td"> $b.getName()</td>
+        <td class="td"> $b.getStartDate() - $b.getEndDate()</td>
+        <td class="td">
+          #foreach($c in $s.getClasses().get($b))
+            <span>$c.getCourse().getName() $c.getCourse().getCode()</span>
+          #end
+        </td>
+      </tr>
+      #end
+    </tbody>
+  </table>
+  #end
+</div>
+#end
