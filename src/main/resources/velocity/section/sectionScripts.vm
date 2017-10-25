@@ -53,6 +53,22 @@
   }
 
   function addC() {
+
+    if(document.getElementById("section").options[document.getElementById("section").selectedIndex].text == "-") {
+        alert("Please, select course!");
+        return;
+    }
+
+    if(document.getElementById("prof").options[document.getElementById("prof").selectedIndex].text == "-") {
+        alert("Please, select professor!");
+        return;
+    }
+
+    if(document.getElementById("block").options[document.getElementById("block").selectedIndex].text == "-") {
+        alert("Please, select block!");
+        return;
+    }
+
     var form = $('#course');
     $.ajax({
       type: "POST",
@@ -93,6 +109,22 @@
   }
 
   function update() {
+
+    if(document.getElementById("section").options[document.getElementById("section").selectedIndex].text == "-") {
+        alert("Please, select course!");
+        return;
+    }
+
+    if(document.getElementById("prof").options[document.getElementById("prof").selectedIndex].text == "-") {
+        alert("Please, select professor!");
+        return;
+    }
+
+    if(document.getElementById("block").options[document.getElementById("block").selectedIndex].text == "-") {
+        alert("Please, select block!");
+        return;
+    }
+
     var form = $('#course');
     $.ajax({
       type: "PUT",
