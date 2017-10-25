@@ -65,6 +65,19 @@ public class Path {
         @Getter
         public static final String DELETEBLOCK = "/block/remove";
 
+        //Professor
+        @Getter
+        public static final String ALLPROFESSORS = "/professor/list";
+        @Getter
+        public static final String ADDPROFESSORS = "/professor/add";
+        @Getter
+        public static final String UPDATEPROFESSOR = "/professor/change";
+        @Getter
+        public static final String DELETEPROFESSOR = "/professor/remove";
+        @Getter
+        public static final String PROFESSOR = "/professor/";
+
+
 
 
     }
@@ -79,6 +92,7 @@ public class Path {
         public static final String ALL_BLOCKS = "/velocity/block/list.vm";
         public static final String ALL_ENTRIES = "/velocity/entry/list.vm";
         public static final String ADD_COURSES = "/velocity/course/add.vm";
+        public static final String ALL_PROFESSORS="/velocity/professor/list.vm";
 
         public static final String ALL_SECTIONS = "/velocity/section/list.vm";
 

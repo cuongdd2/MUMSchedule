@@ -8,7 +8,7 @@
       <link rel="stylesheet" href="/css/font-awesome.min.css">
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
       <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
-      <link rel="stylesheet" href="/css/jquery-ui.css">
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
       <link rel="stylesheet" href="/css/multi-select.css">
 
 
@@ -70,8 +70,11 @@
               #if($user.isAdmin())
                 <li><a href="$WebPath.getCOURSES()">$msg.get("MENU_COURSE")</a></li>
               #end
+                #if($user.isAdmin())
+                <li><a href="$WebPath.getALLPROFESSORS()">$msg.get("MENU_PROFESSOR")</a></li>
+              #end
               #if($user.isAdmin())
-                <li><a href="$WebPath.getBLOCK()">$msg.get("MENU_BLOCK")</a></li>
+                <li><a href="$WebPath.getBLOCKLIST()">$msg.get("MENU_BLOCK")</a></li>
               #end
               #if($user.isAdmin())
                 <li><a href="$WebPath.getSTUDENT()">$msg.get("MENU_STUDENT")</a></li>

@@ -67,7 +67,7 @@
         setTimeout("window.location.replace('http://localhost:$Port$WebPath.getBLOCKLIST()');", 1000);
 
       }, error: function (request, status, error) {
-        $("#message").html(request.responseText+"<div class='alert alert-danger'><p> Error in adding block </p></div>");
+        $("#message").html("<div class='alert alert-danger'><p> Error in adding block </p></div>");
       }
     });
   }
@@ -82,7 +82,7 @@
          if(index != 'startDate' && index!='endDate'){
              $("#" + index).val(value);
          }else{
-             $("#" + index).val(value.month + "- " + value.dayOfMonth + "- " + value.year);
+             $("#" + index).val(value.year+"-" + value.monthValue +"-" +value.dayOfMonth);
          }
 
       });
@@ -114,7 +114,11 @@
     console.log("$WebPath.getBLOCK()" + id);
     $.get("$WebPath.getBLOCK()" + id, function (data, status) {
       $.each(data, function (index, value) {
-        $("#delete_" + index).val(value);
+          if(index != 'startDate' && index!='endDate'){
+              $("#delete_" + index).val(value);
+          }else{
+              $("#delete_" + index).val(value.year+"-" + value.monthValue +"-" +value.dayOfMonth);
+          }
       });
     });
   }
@@ -137,7 +141,7 @@
         $("#deletedialog").dialog("close");
         //request.responseText
         $("#message").html(
-            request.responseText+"<div class='alert alert-danger'><p> Cannot delete this block </p></div>");
+            "<div class='alert alert-danger'><p> Cannot delete this block </p></div>");
       }
     });
   }
@@ -183,12 +187,12 @@
            placeholder="$msg.get("BLOCK_ADD_NAME")" value="" required>
 
     <label>$msg.get("BLOCK_START_DATE")</label>
-    <input type="text" id="delete_start_date" disabled name="code"
+    <input type="text" id="delete_startDate" disabled name="code"
            placeholder="$msg.get("BLOCK_START_DATE")" value="" required>
 
 
       <label>$msg.get("BLOCK_END_DATE")</label>
-      <input type="text" id="delete_end_date" disabled name="code"
+      <input type="text" id="delete_endDate" disabled name="code"
              placeholder="$msg.get("BLOCK_END_DATE")" value="" required>
 
       <input type="hidden" id="delete_id" name="id" value="N/A" required>

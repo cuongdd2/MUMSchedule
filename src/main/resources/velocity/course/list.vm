@@ -16,7 +16,8 @@
       <th class="td">Course Name</th>
       <th class="td">Course Code</th>
       <th class="td">Course PreNo</th>
-      <th class="td">Course Level</th>
+      <th class="td">Pre codes</th>
+       <th class="td">Course Level</th>
       <th class="td"> --</th>
     </tr>
     </thead>
@@ -27,9 +28,12 @@
         <td class="td">
           $course.getName()
         </td>
-        <td class="td"> $course.getCode()</td>
-        <td class="td"> $course.getPreNo()</td>
-        <td class="td"> $course.getLevel()</td>
+          <td class="td">#if($course.getPreNo() !=0) <b> $course.getCode() </b> #else $course.getCode() #end </td>
+        <td class="td"> $course.getPreNo() </td>
+          <td class="td"> #foreach($preq in $course.getPrerequisite() )  $preq.getCode()  , #end
+          </td>
+
+          <td class="td"> $course.getLevel()</td>
         <td class="td">
           <a href="#" onclick="getcourse($course.getId())">
             <i class="glyphicon glyphicon-edit"></i> </a>

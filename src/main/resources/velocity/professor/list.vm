@@ -1,0 +1,54 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/professor/professorScripts.vm")
+<h4>$msg.get("PROFESSOR_HEADING_ALL")</h4>
+<br/>
+<a href='#' onclick="addprofessor()" class="btn btn-info"> <i class="glyphicon glyphicon-plus"></i> Add
+  professor </a>
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">ID</th>
+      <th class="td">professor Name</th>
+      <th class="td">professor Email</th>
+      <th class="td">professor Phone</th>
+      <th class="td">professor Title</th>
+        <th class="td">About professor</th>
+      <th class="td"> --</th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($professor in $professors)
+      <tr>
+        <td class="td"> $professor.getId()</td>
+        <td class="td">
+          $professor.getName()
+        </td>
+        <td class="td"> $professor.getEmail()</td>
+        <td class="td"> $professor.getPhone()</td>
+        <td class="td"> $professor.getTitle()</td>
+        <td class="td"> "$professor.getAbout()" </td>
+
+          <td class="td">
+          <a href="#" onclick="getprofessor($professor.getId())">
+            <i class="glyphicon glyphicon-edit"></i> </a>
+
+          <a href="#" onclick="deleteprofessor($professor.getId())">
+            <i class="glyphicon glyphicon-remove"></i> </a>
+        </td>
+
+      </tr>
+      #end
+    </tbody>
+  </table>
+
+</div>
+  </body>
+
+  </html>
+
+#end
