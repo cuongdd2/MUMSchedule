@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Student {
+  public static final float OPT_STUDENT = 0.3f;
   final private String name;
   final private int id;
   final private String email;

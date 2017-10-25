@@ -42,7 +42,7 @@ public class Application {
     exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
     port(8080);
 
-    Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425", "cs425", "mum");
+    Sql2o sql2o = new Sql2o("jdbc:mysql://104.207.139.224:3306/cs425?relaxAutoCommit=true", "cs425", "mum");
     blockDao = new BlockDao(sql2o);
     courseDao = new CourseDao(sql2o);
     entryDao = new EntryDao(sql2o);

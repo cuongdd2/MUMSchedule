@@ -45,6 +45,27 @@ public class CourseDao {
     }
   }
 
+  public List<Course> getPre() {
+    try (Connection conn = sql2o.open()) {
+      return conn.createQuery("select * from course where id in (select distinct course_pre from course_pre)")
+          .executeAndFetch(Course.class);
+    }
+  }
+  public List<Course> getRandom() {
+    try (Connection conn = sql2o.open()) {
+      return conn.createQuery("select * from course where code <> 'CS401'")
+          .executeAndFetch(Course.class);
+    }
+  }
+
+  public List<Course> get500() {
+    try (Connection conn = sql2o.open()) {
+      return conn.createQuery("select * from course where level = 'L500' and code <> 'FOR500' and code <> 'CS575'")
+          .executeAndFetch(Course.class);
+    }
+  }
+
+
   public List<Course> getCoursesByBlock(Block b) {
     try (Connection conn = sql2o.open()) {
       List<Course> courses = conn.createQuery(SELECT_BY_BLOCK)
