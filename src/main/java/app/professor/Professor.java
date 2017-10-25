@@ -21,6 +21,6 @@ public class Professor {
 
   public Professor(String name) {
     this.name = name;
-    this.email = Util.name2Email(name);;
+    this.email = Util.name2Email(name);
   }
 }

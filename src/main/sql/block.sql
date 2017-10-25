@@ -1,6 +1,6 @@
 SET foreign_key_checks = 0;
 USE cs425;
-TRUNCATE TABLE block;
+TRUNCATE TABLE class;
 
 INSERT INTO block (name, start_date, end_date) VALUES ('October 2017', '2017-10-02', '2017-10-26');
 INSERT INTO block (name, start_date, end_date) VALUES ('November 2017', '2017-10-30', '2017-11-22');
@@ -20,4 +20,8 @@ select * from course where id in (select distinct course_pre from course_pre);
 select * from course where level = 'L500';
 select * from course where level = 'L400' and code <> 'CS401';
 
-SELECT * FROM block WHERE start_date >= '2017-08-03' AND start_date < '2018-05-03' ORDER BY start_date LIMIT 7
+SELECT * FROM block WHERE start_date >= '2017-08-03' AND start_date < '2018-05-03' ORDER BY start_date LIMIT 7;
+
+select * from course where id IN (SELECT DISTINCT course_pre from course_pre WHERE course_pre IN (SELECT course_id FROM prof_course WHERE prof_id IN (SELECT prof_id from prof_block WHERE block_id = 1))) ORDER BY level;
+
+SELECT * FROM course WHERE code <> 'CS401' AND id IN (SELECT course_id FROM prof_course WHERE prof_id IN (SELECT prof_id FROM prof_block WHERE block_id = 3))

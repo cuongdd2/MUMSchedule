@@ -32,11 +32,14 @@ public class ClassDao {
       }
 
 
-      public int create(Class b) throws Sql2oException {
+      public int create(int cid, int pid, int bid) throws Sql2oException {
         int id;
         try (Connection conn = sql2o.beginTransaction()) {
           id = conn.createQuery(INSERT)
-              .bind(b).executeUpdate().getKey(Integer.class);
+              .addParameter("cid", cid)
+              .addParameter("pid", pid)
+              .addParameter("bid", bid)
+              .executeUpdate().getKey(Integer.class);
           conn.commit();
         }
         return id;

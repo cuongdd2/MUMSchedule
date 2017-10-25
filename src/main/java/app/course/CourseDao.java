@@ -20,7 +20,7 @@ public class CourseDao {
   private final static String UPDATE =
       "UPDATE course SET name = :name, code = :code, level = :level, `desc` = :desc, preNo = :preNo WHERE id = :id";
   private final static String DELETE =
-          "delete from course where id = :id";
+          "delete FROM course WHERE id = :id";
 
 
   private Sql2o sql2o;
@@ -45,22 +45,29 @@ public class CourseDao {
     }
   }
 
-  public List<Course> getPre() {
+  public List<Course> getPre(Block b) {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery("select * from course where id in (select distinct course_pre from course_pre)")
+      return conn.createQuery("SELECT * FROM course WHERE id IN " 
+          + "(SELECT DISTINCT course_pre FROM course_pre WHERE course_pre IN " 
+          + "(SELECT course_id FROM prof_course WHERE prof_id IN " 
+          + "(SELECT prof_id FROM prof_block WHERE block_id = :bid))) ORDER BY level")
+          .addParameter("bid", b.getId())
           .executeAndFetch(Course.class);
     }
   }
-  public List<Course> getRandom() {
+  public List<Course> getRandom(Block b) {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery("select * from course where code <> 'CS401'")
+      return conn.createQuery("SELECT * FROM course WHERE code <> 'CS401' AND id IN" 
+          + "(SELECT course_id FROM prof_course WHERE prof_id IN "
+          + "(SELECT prof_id FROM prof_block WHERE block_id = :bid))")
+          .addParameter("bid", b.getId())
           .executeAndFetch(Course.class);
     }
   }
 
   public List<Course> get500() {
     try (Connection conn = sql2o.open()) {
-      return conn.createQuery("select * from course where level = 'L500' and code <> 'FOR500' and code <> 'CS575'")
+      return conn.createQuery("SELECT * FROM course WHERE level = 'L500' AND code <> 'FOR500' AND code <> 'CS575'")
           .executeAndFetch(Course.class);
     }
   }

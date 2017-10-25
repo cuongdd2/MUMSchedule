@@ -74,7 +74,7 @@ public class EntryDao implements Dao {
 
   public List<Entry> list() {
     try (Connection conn = sql2o.beginTransaction()) {
-      return conn.createQuery("select * from entry").executeAndFetch(new EntryDataTransfer());
+      return conn.createQuery("select * from entry order by start_date").executeAndFetch(new EntryDataTransfer());
     }
   }
 }
