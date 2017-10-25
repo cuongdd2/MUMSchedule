@@ -52,6 +52,7 @@ public class ScheduleController {
       for (Block b : blocks) {
         classes.put(b, classDao.getClassByBlock(b.getId()));
       }
+      s.setClasses(classes);
       schedules.add(s);
     }
     res.status(200);
