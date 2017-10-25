@@ -19,8 +19,6 @@ public class Path {
         @Getter public static final String ENTRY_UPDATE = "/entry/update";
         @Getter public static final String ENTRY_LIST = "/entry/list";
 
-        @Getter public static final String REGISTER = "/register/";
-
         @Getter public static final String SECTION = "/section/";
 
         @Getter public static final String STUDENT = "/student/";
@@ -67,6 +65,10 @@ public class Path {
         // Profile
         @Getter
         public static final String PROFILE = "/profile";
+
+        @Getter public static final String REGISTER = "/register/";
+        @Getter public static final String REGISTERADD = "/register/add";
+
     }
 
     public static class Template {
@@ -82,6 +84,8 @@ public class Path {
         public static final String ALL_PROFESSORS="/velocity/professor/list.vm";
 
         public static final String ALL_SECTIONS = "/velocity/section/list.vm";
+
+        public static final String REGISTERS = "/velocity/register/list.vm";
 
         public static final String STUDENT_SCHEDULE = "/velocity/student/schedule.vm";
 

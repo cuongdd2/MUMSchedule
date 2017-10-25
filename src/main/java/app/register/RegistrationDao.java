@@ -1,20 +1,27 @@
 package app.register;
 
+import app.block.Block;
+import app.clazz.Class;
+import app.entry.Entry;
 import org.sql2o.Connection;
 import org.sql2o.ResultSetHandler;
 import org.sql2o.Sql2o;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import static app.Application.blockDao;
 import static app.Application.classDao;
 import static app.Application.studentDao;
 
 public class RegistrationDao {
 
     private static String SELECT_BY_ID = "select * from registration where student_id = :Sid";
+    private static String SELECT_BY_BLOCK = "select * from registration where student_id = :Sid";
     private final static String REGISTER = "INSERT INTO registration (student_id, class_id) VALUES(:student, :class)";
+
 
     private Sql2o sql2o;
 
@@ -40,6 +47,21 @@ public class RegistrationDao {
             conn.commit();
         }
         return id;
+    }
+
+    public List<Class> getScheduleByEntry(Entry entry) throws Exception {
+
+        List<Class> sections = new ArrayList<>();
+
+
+        for(Block b : blockDao.getBlocksByEntry(entry)) {
+
+            System.out.println(b.getId()+"  "+b.getName());
+
+            sections.addAll(classDao.getClassByBlock(b.getId()));
+
+        }
+        return sections;
     }
 
 }

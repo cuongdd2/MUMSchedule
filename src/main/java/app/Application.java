@@ -23,6 +23,7 @@ import app.login.LoginController;
 import app.professor.ProfController;
 import app.professor.ProfDao;
 import app.profile.ProfileController;
+import app.register.RegistrationController;
 import app.register.RegistrationDao;
 import app.student.StudentController;
 import app.student.StudentDao;
@@ -136,7 +137,11 @@ public class Application {
       });
       path("/profile", () -> {
           get("/profile", ProfileController.profilePage);
+      });
 
+      path("/register", () -> {
+          get("/", RegistrationController.list);
+          post("/add", RegistrationController.registerSection);
       });
     });
   }

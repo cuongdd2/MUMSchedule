@@ -1,0 +1,206 @@
+<script>
+
+  $(function () {
+    $('#select').change(function () {
+      console.log($(this).val());
+    }).multipleSelect({
+      width: '100%'
+    });
+  });
+
+  $(function () {
+    $("#dialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 100
+      },
+      hide: {
+        effect: "explode",
+        duration: 100
+      }
+    });
+
+  });
+
+  $(function () {
+    $("#deletedialog").dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind"
+      },
+      hide: {
+        effect: "explode",
+        duration: 100
+      }
+    });
+
+  });
+
+  function cancel() {
+    $("#dialog").dialog("close");
+    $("#deletedialog").dialog("close");
+  }
+
+  function addcourse() {
+    $("#dialog").dialog("open");
+    $("#course")[0].reset();
+
+    $("#EditB").hide();
+    $("#AddB").show();
+
+
+  }
+
+  function addC() {
+
+    if(document.getElementById("section").options[document.getElementById("section").selectedIndex].text == "-") {
+        alert("Please, select course!");
+        return;
+    }
+
+    if(document.getElementById("prof").options[document.getElementById("prof").selectedIndex].text == "-") {
+        alert("Please, select professor!");
+        return;
+    }
+
+    if(document.getElementById("block").options[document.getElementById("block").selectedIndex].text == "-") {
+        alert("Please, select block!");
+        return;
+    }
+
+    var form = $('#course');
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:$Port$WebPath.getADDSECTION()",
+      data: form.serialize(),
+      success: function (response) {
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Section added successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#message").html(request.ResponseText+"<div class='alert alert-danger'><p> Error in adding course </p></div>");
+      }
+    });
+  }
+
+  function getcourse(id, course, prof, block, capacity) {
+    $("#dialog").dialog("open");
+    $("#EditB").show();
+    $("#AddB").hide();
+
+    var sections = document.getElementById ( "section" );
+    sections.value = course;
+
+    var profs = document.getElementById ( "prof" );
+    profs.value = prof;
+
+    var blocks = document.getElementById ( "block" );
+    blocks.value = block;
+
+    var cap = document.getElementById ( "capacity" );
+    cap.value = capacity;
+
+    var ids = document.getElementById ( "id" );
+    ids.value = id;
+
+  }
+
+  function update() {
+
+    if(document.getElementById("section").options[document.getElementById("section").selectedIndex].text == "-") {
+        alert("Please, select course!");
+        return;
+    }
+
+    if(document.getElementById("prof").options[document.getElementById("prof").selectedIndex].text == "-") {
+        alert("Please, select professor!");
+        return;
+    }
+
+    if(document.getElementById("block").options[document.getElementById("block").selectedIndex].text == "-") {
+        alert("Please, select block!");
+        return;
+    }
+
+    var form = $('#course');
+    $.ajax({
+      type: "PUT",
+      url: "http://localhost:$Port$WebPath.getCHANGESECTION()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#dialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Section updated successfully  </div> </p>");
+        setTimeout("window.location.replace('http://localhost:$Port$WebPath.getSECTION()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#dialog").dialog("close");
+        $("#message").html("<div class='alert alert-danger'><p> Error in updating </p></div>");
+      }
+    });
+  }
+
+  function deletecourse(course, prof, block, id) {
+    $("#deletedialog").dialog("open");
+
+    $("#delete_professor").val(prof);
+    $("#delete_block").val(block);
+    $("#delete_course").val(course);
+    $("#class_id").val(id);
+  }
+
+  function deleteC() {
+    var form = $('#deletecourse');
+
+    $.ajax({
+      type: "post",
+      url: "http://localhost:$Port$WebPath.getREGISTERADD()",
+      data: form.serialize(),
+      success: function (response) {
+
+        $("#deletedialog").dialog("close");
+        $("#message").html(
+            "<div class='alert alert-success'> <p> Registered section successfully  </div> </p>");
+            setTimeout("window.location.replace('http://localhost:$Port$WebPath.getPROFILE()');", 1000);
+
+      }, error: function (request, status, error) {
+        $("#deletedialog").dialog("close");
+        //request.responseText
+        $("#message").html("<div class='alert alert-danger'><p> Cannot delete this course </p></div>");
+      }
+    });
+  }
+
+</script>
+
+
+<div id="deletedialog" title="Delete Section">
+  <form id="deletecourse">
+    <label>$msg.get("SECTION_BLOCK")</label><br />
+    <input type="text" id="delete_block" disabled name="name"
+           placeholder="$msg.get("SECTION_BLOCK")" value="" required>
+
+    <label>$msg.get("SECTION_PROF")</label><br />
+    <input type="text" id="delete_professor" disabled name="code"
+           placeholder="$msg.get("SECTION_PROF")" value="" required>
+
+    <br/>
+    <label>$msg.get("SECTION_COURSE")</label><br />
+    <input type="text" id="delete_course" disabled name="code"
+           placeholder="$msg.get("SECTION_COURSE")" value="" required>
+
+    <input type="hidden" id="class_id" name="class_id" value="N/A" required>
+
+    <br> <br>
+
+    <input type="button" class="btn btn-success" value="Register Course"
+           onclick="deleteC()">
+
+    <input type="button" class="btn btn-primary" value="$msg.get("CANCEL")" onclick="cancel()">
+
+  </form>
+</div>

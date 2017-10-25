@@ -104,7 +104,7 @@ public class ClassDao {
 
           classes = conn.createQuery(CLASSES_BY_BLOCK)
                   .addParameter("blockId", blockid)
-                  .executeAndFetch(Class.class);
+                  .executeAndFetch(new ClassDataTransfer());
       }
       return classes;
   }

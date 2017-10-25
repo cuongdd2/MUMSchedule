@@ -87,8 +87,9 @@
                 <li><a href="$WebPath.getPROFILE()">$msg.get("PROFILE")</a></li>
               #end
               #if($user.isStudent())
-                <li><a href="$WebPath.getPROFILE()">Register section</a></li>
+                <li><a href="$WebPath.getREGISTER()">$msg.get("MENU_REGISTER")</a></li>
               #end
+
 
 
               <li>

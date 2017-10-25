@@ -1,0 +1,49 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+  #parse("/velocity/register/registerScripts.vm")
+
+<h4>$msg.get("SECTION_HEADING_ALL")</h4>
+<br/>
+
+<div class="col-md-15">
+  <br>
+  <div id="message"></div>
+
+  <table id="datatable" class=" table table-hover" style="width:100%">
+    <thead>
+    <tr>
+      <th class="td">ID</th>
+      <th class="td">Course</th>
+      <th class="td">Professor</th>
+      <th class="td">Block</th>
+      <th class="td">Capacity</th>
+      <th class="td">Enrolled</th>
+      <th class="td"> --</th>
+    </tr>
+    </thead>
+    <tbody>
+      #foreach($section in $sections)
+      <tr>
+        <td class="td"> $section.getId()</td>
+        <td class="td"> $section.getCourse().getName()</td>
+        <td class="td"> $section.getProfessor().getName()</td>
+        <td class="td"> $section.getBlock().getName()</td>
+        <td class="td"> $section.getCapacity()</td>
+        <td class="td"> $section.getEnrolled()</td>
+        <td class="td">
+          <a href="#" onclick="deletecourse('$section.getCourse().getName()', '$section.getProfessor().getName()', '$section.getBlock().getName()', $section.getId() )">
+            <i class="glyphicon glyphicon-edit"></i> </a>
+        </td>
+
+      </tr>
+      #end
+    </tbody>
+  </table>
+
+</div>
+
+  </body>
+
+  </html>
+
+#end

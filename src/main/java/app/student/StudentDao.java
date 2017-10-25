@@ -15,7 +15,7 @@ import static app.Application.entryDao;
 public class StudentDao {
 
     private Sql2o sql2o;
-    private final static String STUDENT_BY_MAIL = "SELECT * FROM student WHERE email = :Email";
+    private final static String STUDENT_BY_MAIL = "SELECT s.*, e.name ename, e.start_date sdate FROM student s inner join entry e on s.entry_id = e.id WHERE email = :Email";
     private final static String STUDENT_BY_ENTRY = "SELECT * FROM student WHERE entry_id = :entryId";
     private final static String STUDENT_BY_ID = "SELECT entry_id FROM student WHERE id = :id";
     private final static String STUDENT_ID = "SELECT * FROM student WHERE id = :id";
@@ -83,7 +83,7 @@ public class StudentDao {
       student = conn.createQuery(STUDENT_BY_MAIL)
           .addParameter("Email", email)
           .throwOnMappingFailure(false)
-          .executeAndFetchFirst(Student.class);
+          .executeAndFetchFirst(new StudentEntryTransfer());
     }
     return student;
   }
@@ -138,4 +138,21 @@ class StudentTransfer implements ResultSetHandler<Student> {
     s.setTrack(rs.getString("track"));
     return s;
   }
+
+}
+
+class StudentEntryTransfer implements ResultSetHandler<Student> {
+
+    @Override
+    public Student handle(ResultSet rs) throws SQLException {
+        LocalDate dob = rs.getDate("dob") != null ? rs.getDate("dob").toLocalDate() : null;
+
+        Entry e = new Entry(rs.getString("ename"), rs.getDate("sdate").toLocalDate());
+
+        Student s = new Student(rs.getString("name"), dob, e);
+        s.setId(rs.getInt("id"));
+        s.setEmail(rs.getString("email"));
+        s.setTrack(rs.getString("track"));
+        return s;
+    }
 }
